@@ -6,9 +6,11 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
-public class DailyNote {
+@Table(name = "DAILY_NOTE", schema = "PUBLIC")
+public class DailyNote implements Serializable {
 
     @Id
     @Column(name = "ID", length = 36)

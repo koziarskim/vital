@@ -1,12 +1,12 @@
 package com.vital.web.service;
 
 import com.vital.web.domain.DailyNote;
-import com.vital.web.domain.User;
 import com.vital.web.repository.DailyNoteRepository;
-import com.vital.web.repository.UserRepository;
 import com.vital.web.service.exception.UserAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +29,10 @@ public class DailyNoteServiceImpl implements DailyNoteService {
         this.repository = repository;
     }
 
+    @Inject
+    @Qualifier("primaryJdbcTemplate")
+    protected JdbcTemplate jdbc;
+
     @Transactional(readOnly = false)
     public DailyNote create(@NotNull @Valid final DailyNote note) {
         LOGGER.debug("Creating {}", note);
@@ -45,7 +49,8 @@ public class DailyNoteServiceImpl implements DailyNoteService {
         return repository.findAll();
     }
 
-    public DailyNote getById(String id){
+    public DailyNote getById(String id) {
+        jdbc.queryForList("SELECT * FROM PUBLIC.DAILY_NOTE WHERE id=?",id);
         return repository.findOne(id);
     }
 
