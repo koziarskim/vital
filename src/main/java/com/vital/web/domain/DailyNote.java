@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "DAILY_NOTE", schema = "PUBLIC")
+@Table(name = "DAILY_NOTE")
 public class DailyNote implements Serializable {
 
     @Id
