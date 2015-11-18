@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vital Rehabilitation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body>
+
+<div>
+    <div class="container">
+        <div class="row">
+            <h2> Patient Search </h2>
+            <br/>
+            <label for="searchInput">Search: </label>
+            <input id="searchInput" type="text" ng-model="name"/>
+            <br/>
+            <ul>
+                <li ng-repeat="student in students | filter:name">{{student.name}} , {{student.city}}</li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+
+            </div>
+            <div class="col-sm-6">
+                <a href="#/note">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
