@@ -43,12 +43,13 @@ mainApp.controller('LoginController', function ($scope, $location) {
     }
 });
 
-mainApp.controller('PatientController', function ($scope) {
+mainApp.controller('PatientController', function ($scope, PatientService) {
     $scope.students = [
         {name: 'Mark Waugh', city: 'New York'},
         {name: 'Steve Jonathan', city: 'London'},
         {name: 'John Marcus', city: 'Paris'}
     ];
+    $scope.patients = PatientService.getAllPatients();
 });
 
 mainApp.controller('NoteController', function ($scope) {
@@ -73,5 +74,24 @@ mainApp.controller('NoteController', function ($scope) {
             alert('Under Construction...')
         }
 
+    }
+});
+
+mainApp.service('PatientService', function () {
+    var patients = [
+        {
+            id: 0,
+            name: 'Viral',
+            email: 'hello@gmail.com',
+            phone: '123-2343-44'
+        },
+        {
+            id: 1,
+            name: 'Viral1',
+            email: 'hello1@gmail.com',
+            phone: '123-2143-44'
+        }];
+    this.getAllPatients = function () {
+        return patients;
     }
 });

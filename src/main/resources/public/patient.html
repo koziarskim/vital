@@ -24,6 +24,29 @@
             </ul>
         </div>
         <div class="row">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="patient in patients">
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.email }}</td>
+                    <td>{{ patient.phone }}</td>
+                    <td> <a href="javascript:void(0)" ng-click="edit(patient.id)">edit</a> | <a href="javascript:void(0)" ng-click="delete(patient.id)">delete</a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row">
             <div class="col-sm-6">
 
             </div>
