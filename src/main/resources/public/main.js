@@ -6,13 +6,17 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'login.html',
             controller: 'LoginController'
         })
-        .when('/patient', {
-            templateUrl: 'patient.html',
-            controller: 'PatientController'
+        .when('/search-patient', {
+            templateUrl: 'search-patient.html',
+            controller: 'SearchPatientController'
         })
         .when('/note', {
             templateUrl: 'note.html',
             controller: 'NoteController'
+        })
+        .when('/new-patient', {
+            templateUrl: 'new-patient.html',
+            controller: 'NewPatientController'
         })
         .otherwise({
             redirectTo: '/login'
@@ -38,18 +42,23 @@ mainApp.controller('LoginController', function ($scope, $location) {
         if ($scope.login.userName == null || $scope.login.password == null) {
             alert("invalid username or password");
         } else {
-            $location.path("/patient");
+            $location.path("/search-patient");
         }
     }
 });
 
-mainApp.controller('PatientController', function ($scope, PatientService) {
-    $scope.students = [
-        {name: 'Mark Waugh', city: 'New York'},
-        {name: 'Steve Jonathan', city: 'London'},
-        {name: 'John Marcus', city: 'Paris'}
-    ];
+mainApp.controller('SearchPatientController', function ($scope, $location, PatientService) {
     $scope.patients = PatientService.getAllPatients();
+    $scope.addNewPatient = function () {
+        $location.path("/new-patient");
+    };
+
+});
+
+mainApp.controller('NewPatientController', function ($scope, $location, PatientService) {
+    $scope.savePatient = function () {
+        $location.path("/search-patient");
+    };
 });
 
 mainApp.controller('NoteController', function ($scope) {

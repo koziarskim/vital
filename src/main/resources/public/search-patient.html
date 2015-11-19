@@ -16,14 +16,10 @@
         <div class="row">
             <h2> Patient Search </h2>
             <br/>
-            <label for="searchInput">Search: </label>
-            <input id="searchInput" type="text" ng-model="name"/>
-            <br/>
-            <ul>
-                <li ng-repeat="student in students | filter:name">{{student.name}} , {{student.city}}</li>
-            </ul>
         </div>
         <div class="row">
+            <label for="searchPatientInput">Search: </label>
+            <input id="searchPatientInput" type="text" ng-model="patient"/><br/><br/>
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
@@ -34,25 +30,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="patient in patients">
+                <tr ng-repeat="patient in patients | filter:patient">
                     <td>{{ patient.name }}</td>
                     <td>{{ patient.email }}</td>
                     <td>{{ patient.phone }}</td>
-                    <td> <a href="javascript:void(0)" ng-click="edit(patient.id)">edit</a> | <a href="javascript:void(0)" ng-click="delete(patient.id)">delete</a>
-
+                    <td><a href="javascript:void(0)" ng-click="edit(patient.id)">edit</a> | <a href="javascript:void(0)"
                     </td>
                 </tr>
                 </tbody>
             </table>
-
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-
-            </div>
-            <div class="col-sm-6">
-                <a href="#/note">Next</a>
-            </div>
+            <button type="button" class="btn btn-default" value="Add New" ng-click="addNewPatient()">New Patient</button>
         </div>
     </div>
 </div>
