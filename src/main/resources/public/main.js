@@ -14,7 +14,7 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })
-        .when('/new-patient', {
+        .when('/new-patient/:id?', {
             templateUrl: 'new-patient.html',
             controller: 'NewPatientController'
         })
@@ -50,13 +50,29 @@ mainApp.controller('LoginController', function ($scope, $location) {
 mainApp.controller('SearchPatientController', function ($scope, $location, PatientService) {
     $scope.patients = PatientService.getAllPatients();
     $scope.addNewPatient = function () {
-        $location.path("/new-patient");
+        $location.path("/new-patient/0");
     };
+    $scope.editPatient = function (id) {
+        $location.path("/new-patient/"+id);
+    }
+    $scope.deletePatient = function (id) {
+        PatientService.deletePatient(id);
+    }
+    $scope.addNote = function (id) {
+        alert("add note");
+        //patients.remove(patient);
+    }
 
 });
 
-mainApp.controller('NewPatientController', function ($scope, $location, PatientService) {
+mainApp.controller('NewPatientController', function ($scope, $location, $routeParams, PatientService) {
+    $scope.patientId = $routeParams.id;
+    $scope.patient = null;
+    if($scope.patientId){
+        $scope.patient = PatientService.getPatient($scope.patientId);
+    }
     $scope.savePatient = function () {
+        PatientService.addNewPatient($scope.patient);
         $location.path("/search-patient");
     };
 });
@@ -89,18 +105,56 @@ mainApp.controller('NoteController', function ($scope) {
 mainApp.service('PatientService', function () {
     var patients = [
         {
-            id: 0,
-            name: 'Viral',
-            email: 'hello@gmail.com',
-            phone: '123-2343-44'
+            id: 1,
+            firstName: 'Tom',
+            lastName: 'Kokocinski',
+            dob: '2015-04-20',
+            gender:'male'
         },
         {
-            id: 1,
-            name: 'Viral1',
-            email: 'hello1@gmail.com',
-            phone: '123-2143-44'
-        }];
+            id: 2,
+            firstName: 'Marcin',
+            lastName: 'Koziarski',
+            dob: '1977-04-03',
+            gender:"male"
+        }
+        ];
     this.getAllPatients = function () {
         return patients;
+    }
+    this.addNewPatient = function (patient) {
+        if(patient!=null){
+            if(patient.id==null) {
+                patient.id = patients.length + 1;
+                patients.push(patient);
+            }else{
+                patients.forEach(function(it, index) {
+                    if(it.id == patient.id) {
+                        patients[index] = it;
+                    }
+                });
+            }
+
+        }
+    }
+    this.deletePatient = function (id) {
+        patients.forEach(function(result, index) {
+            if(result['id'] == id) {
+                patients.splice(index, 1);
+            }
+        });
+    }
+    this.getPatient = function (id) {
+        var patient = null;
+        patients.forEach(function(it, index) {
+            if(it.id == id) {
+                patient = it;
+            }
+        });
+        return patient;
+    }
+    this.addNote = function (id) {
+        alert("add note");
+        //patients.remove(patient);
     }
 });

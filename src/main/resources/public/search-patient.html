@@ -23,18 +23,20 @@
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Action</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>DOB</th>
+                    <th>Patient</th>
+                    <th>Note</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="patient in patients | filter:patient">
-                    <td>{{ patient.name }}</td>
-                    <td>{{ patient.email }}</td>
-                    <td>{{ patient.phone }}</td>
-                    <td><a href="javascript:void(0)" ng-click="edit(patient.id)">edit</a> | <a href="javascript:void(0)"
+                    <td>{{ patient.firstName }}</td>
+                    <td>{{ patient.lastName }}</td>
+                    <td>{{ patient.dob }}</td>
+                    <td><button ng-click="editPatient(patient.id)" class="btn btn-default">edit</button> <button class="btn btn-default" ng-click="deletePatient(patient.id)">delete</button>
+                    <td><button ng-click="addNote(patient.id)" class="btn btn-default">add</button>
                     </td>
                 </tr>
                 </tbody>

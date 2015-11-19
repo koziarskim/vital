@@ -23,29 +23,27 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="firstName">First Name:</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control" id="firstName" placeholder="Enter First Name">
+                    <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" ng-model="patient.firstName">
                 </div>
             </div>
             <br/><br/>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="lastName">Last Name:</label>
-
                 <div class="col-sm-7">
-                    <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name">
+                    <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name"  ng-model="patient.lastName">
                 </div>
             </div><br/><br/>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="dob">DOB:</label>
-
                 <div class="col-sm-2">
-                    <input type="date" class="form-control" id="dob" placeholder="Enter Date of Birth">
+                    <input type="date" class="form-control" id="dob" placeholder="Enter Date of Birth"  ng-model="patient.dob">
                 </div>
             </div><br/><br/>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="gender">Gender:</label>
 
                 <div class="col-sm-2">
-                    <select id="gender" class="form-control" ng-model="gender">
+                    <select id="gender" class="form-control" ng-model="patient.gender">
                         <option></option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
