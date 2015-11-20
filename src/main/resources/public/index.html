@@ -6,9 +6,24 @@
 
 </head>
 <body>
-<div class="container">
-    <!--<div>Vital Rehabilitation</div>-->
-    <div ng-app="mainApp">
+<div ng-app="mainApp" ng-controller="IndexController" class="container">
+    <div ng-if="data.firstName">
+        <div class="row">
+            <div class="col-sm-2">
+                <br/>
+                <div class="list-inline">
+                    <button ng-click="goHome()">HOME</button>
+                    <button ng-click="logOut()">LOGOUT</button>
+                </div>
+            </div>
+            <div class="col-sm-4 col-sm-offset-10">
+                <div><h4>Vital Rehabilitation</h4></div>
+                <div>User: {{data.firstName}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div>
         <ng-view></ng-view>
     </div>
     <br/>
