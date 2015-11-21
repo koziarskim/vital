@@ -106,6 +106,26 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
 mainApp.controller('NotesController', function ($scope, $location, NoteService) {
     $scope.notes = NoteService.getAllNotes();
+    $scope.dateRange = {
+        from:null,
+        to:null
+    }
+    $scope.filterDate = function () {
+        //TODO: Fix comparator
+        var d1 = $scope.dateRange.from.split("-");
+        var d2 = $scope.dateRange.to.split("-");
+        var from = new Date(d1[2], d1[1]-1, d1[0]);
+        var to   = new Date(d2[2], d2[1]-1, d2[0]);
+        for(var i=0;i<$scope.notes.length;i++){
+            var c = $scope.notes[i].date.split("-");
+            var check = new Date(c[2], c[1]-1, c[0]);
+            if ((check >= from) && (check <= to)) {
+                //$scope.notes.splice(i, 1);
+            }else {
+                $scope.notes.splice(i, 1);
+            }
+        }
+    };
     $scope.addNewNote = function () {
         $location.path("/notes/0");
     };
@@ -121,18 +141,22 @@ mainApp.service('NoteService', function () {
     var notes = [
         {
             id: 1,
-            firstName: 'Tom',
-            lastName: 'Kokocinski',
-            dob: '2015-04-20',
-            gender:'male'
+            number: 1,
+            date: '2015-10-03',
         },
         {
             id: 2,
-            firstName: 'Marcin',
-            lastName: 'Koziarski',
-            dob: '1977-04-03',
-            gender:"male"
-        }
+            number: 2,
+            date: '2015-10-06',
+        },        {
+            id: 3,
+            number: 3,
+            date: '2015-11-03',
+        },        {
+            id: 4,
+            number: 4,
+            date: '2015-12-19',
+        },
     ];
     this.getAllNotes = function () {
         return notes;
