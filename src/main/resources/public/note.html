@@ -13,78 +13,106 @@
 
 <div class="container">
 
-    <div class="container">
-        <br/>
+    <div class="container"><br/>
 
         <h2>Note Details</h2>
+
+        <div class="row">
+            <div class="col-sm-12"><h4>Patient was seen for following skilled therapy</h4></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12"><span>Choose modalities or procedures for treatment plan:</span></div>
+        </div>
         <br/>
 
-        <div>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="firstName">First Name:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" ng-model="note.firstName">
-                </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <label class="control-label">Modalities: </label>
             </div>
-            <br/><br/>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="lastName">Last Name:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name"  ng-model="note.lastName">
-                </div>
-            </div><br/><br/>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="dob">DOB:</label>
-                <div class="col-sm-2">
-                    <input type="date" class="form-control" id="dob" placeholder="Enter Date of Birth"  ng-model="note.dob">
-                </div>
-            </div><br/><br/>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="gender">Gender:</label>
-
-                <div class="col-sm-2">
-                    <select id="gender" class="form-control" ng-model="note.gender">
-                        <option></option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
-            </div><br/><br/>
-            <div><h4>Insurance Information</h4></div><br/><br/>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="insName">Insurance Name:</label>
-
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="insName" placeholder="Enter Insurance Provider Name">
-                </div>
-            </div><br/><br/>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="authVisits">Authorized Visits:</label>
-                <div class="col-sm-1">
-                    <input type="number" min="0" class="form-control" id="authVisits">
-                </div>
-            </div><br/><br/>
-            <!--<div class="form-group" style="padding-left:180px">-->
-                <!--<div class="col-sm-5">-->
-                    <!--<label class="control-label col-sm-4" for="authVisits">Auth Visits:</label>-->
-                    <!--<div class="col-sm-3">-->
-                        <!--<input type="number" class="form-control" id="authVisits">-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-sm-5">-->
-                    <!--<label class="control-label col-sm-4" for="authVisits">Visits Left:</label>-->
-                    <!--<div class="col-sm-3">-->
-                        <!--<input type="number" class="form-control" id="visitsLeft">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div><br/><br/>-->
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
-                </div>
+            <div class="col-sm-11">
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">US
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">EL. Stim
+                    v
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">HP/CP v
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Ionto v
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Mech.Tx
+                    v
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Infrared
+                    v
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Com.
+                    Pump
+                </button>
             </div>
         </div>
+        <br/>
 
+        <div class="row">
+            <div class="col-sm-1">
+                <label class="control-label">Procedures: </label>
+            </div>
+            <div class="col-sm-11">
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <label class="control-label"></label>
+            </div>
+            <div class="col-sm-11">
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+                <button type="submit" class="btn btn-default" style="width:100px" ng-click="savePatient()">Save
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12"><h4>Treatment</h4></div>
+        </div>
+        <hr>
+        <div class="row" ng-repeat="modality in modalities">
+            <div class="col-sm-1">
+                <label class="control-label">{{modality.name}}</label>
+            </div>
+            <div class="col-sm-1">
+                <input type="number" class="form-control" id="number" ng-model="modality.time">
+            </div>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" ng-model="modality.comments" list="commentsList">
+                <datalist id="commentsList">
+                    <option ng-repeat="comment in comments" value="{{comment}}">
+                </datalist>
+            </div>
+            <br/><br/>
+        </div>
     </div>
 </div>
 </body>

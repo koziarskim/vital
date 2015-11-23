@@ -95,21 +95,37 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
+    $scope.comments = [ "Do what's needed" , "Repeat every monday" , "Stretch" , "Continue your tasks" , "Do nothing.." ];
     if($scope.noteId){
         $scope.note = NoteService.getNote($scope.noteId);
+    }
+    $scope.selectedModality = {
+        name:null,
+        time:null,
+        comments:null
+    }
+    $scope.modalities = [{
+        name:"d",
+        time:12,
+        comments:"Stretch"
+    },{
+        name:"e",
+        time:4,
+        comments:"Repeat every monday"
+    }]
+    $scope.dateRange = {
+        from:null,
+        to:null
     }
     $scope.saveNote = function () {
         NoteService.addNewNote($scope.note);
         $location.path("patients/"+$scope.patientId+"/notes");
     };
+
 });
 
 mainApp.controller('NotesController', function ($scope, $location, NoteService) {
     $scope.notes = NoteService.getAllNotes();
-    $scope.dateRange = {
-        from:null,
-        to:null
-    }
     $scope.filterDate = function () {
         //TODO: Fix comparator
         var d1 = $scope.dateRange.from.split("-");
