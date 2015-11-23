@@ -33,12 +33,12 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
         $location.path("/patients");
     }
     $scope.logOut = function () {
-        UserContextService.data.firstName=null;
+        UserContextService.data.firstName = null;
         $location.path("/");
     }
 });
 
-mainApp.service('UserContextService', function(){
+mainApp.service('UserContextService', function () {
     this.data = {
         firstName: '',
         lastName: ''
@@ -52,7 +52,7 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
     };
     $scope.loginAction = function () {
         if ($scope.login.userName == null || $scope.login.password == null ||
-            $scope.login.userName !="tom" || $scope.login.password!="tom") {
+            $scope.login.userName != "tom" || $scope.login.password != "tom") {
 
             alert("invalid username or password");
         } else {
@@ -68,13 +68,13 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
         $location.path("/patients/0");
     };
     $scope.editPatient = function (patientId) {
-        $location.path("/patients/"+patientId);
+        $location.path("/patients/" + patientId);
     }
     $scope.deletePatient = function (patientId) {
         PatientService.deletePatient(patientId);
     }
     $scope.showNotes = function (patientId) {
-        $location.path("patients/"+patientId+"/notes");
+        $location.path("patients/" + patientId + "/notes");
     }
 
 });
@@ -82,7 +82,7 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
     $scope.patientId = $routeParams.patientId;
     $scope.patient = null;
-    if($scope.patientId){
+    if ($scope.patientId) {
         $scope.patient = PatientService.getPatient($scope.patientId);
     }
     $scope.savePatient = function () {
@@ -95,33 +95,60 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
-    $scope.comments = [ "Do what's needed" , "Repeat every monday" , "Stretch" , "Continue your tasks" , "Do nothing.." ];
-    if($scope.noteId){
+    $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
+    if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.noteId);
     }
     $scope.selectedModality = {
-        name:null,
-        time:null,
-        comments:null
+        id:null,
+        name: null,
+        time: null,
+        comments: null
     }
+
     $scope.modalities = [{
-        name:"d",
-        time:12,
-        comments:"Stretch"
-    },{
-        name:"e",
-        time:4,
-        comments:"Repeat every monday"
+        id:"A",
+        name: "d",
+        time: 12,
+        comments: "Stretch"
+    }, {
+        id:"B",
+        name: "e",
+        time: 4,
+        comments: "Repeat every monday"
     }]
     $scope.dateRange = {
-        from:null,
-        to:null
+        from: null,
+        to: null
     }
-    $scope.saveNote = function () {
-        NoteService.addNewNote($scope.note);
-        $location.path("patients/"+$scope.patientId+"/notes");
+    $scope.addModality = function (modality) {
+        $scope.modalities.push(modality);
     };
 
+    //Available modalities
+    $scope.availableModalities = [
+        {id: "A", name: "US", time: 1, comments: "Stretch"},
+        {id: "B", name: "EL. Stim v", time: 3, comments: "Repeat every monday"},
+        {id: "C", name: "HP/CP v", time: 2, comments: "Do what's needed"},
+        {id: "D", name: "Ionto v", time: 6, comments: "Stretch"},
+        {id: "E", name: "Mech. Tx v", time: 9, comments: "Do nothing.."},
+        {id: "F", name: "Infrared v", time: 40, comments: "Stretch"},
+        {id: "G", name: "Com. Pump", time: 1, comments: "Stretch"},
+        {id: "H", name: "Man. Tx", time: 1, comments: "Stretch"},
+        {id: "I", name: "TX. Ex", time: 1, comments: "Stretch"},
+        {id: "J", name: "NM-RE", time: 1, comments: "Stretch"},
+        {id: "K", name: "Gait", time: 1, comments: "Stretch"},
+        {id: "L", name: "Func. Act", time: 1, comments: "Stretch"},
+        {id: "M", name: "Aquatic", time: 1, comments: "Stretch"},
+        {id: "N", name: "ROM/MMT", time: 1, comments: "Stretch"},
+        {id: "P", name: "Init. Ev", time: 1, comments: "Stretch"},
+        {id: "Q", name: "Re-ev", time: 1, comments: "Stretch"},
+        {id: "R", name: "FCE", time: 1, comments: "Stretch"},
+        {id: "S", name: "WC-2hrs", time: 1, comments: "Stretch"},
+        {id: "T", name: "WC-addl", time: 1, comments: "Stretch"},
+        {id: "U", name: "Man. Tests", time: 1, comments: "Stretch"},
+        {id: "V", name: "Funct. Tests", time: 1, comments: "Stretch"},
+    ]
 });
 
 mainApp.controller('NotesController', function ($scope, $location, NoteService) {
@@ -130,14 +157,14 @@ mainApp.controller('NotesController', function ($scope, $location, NoteService) 
         //TODO: Fix comparator
         var d1 = $scope.dateRange.from.split("-");
         var d2 = $scope.dateRange.to.split("-");
-        var from = new Date(d1[2], d1[1]-1, d1[0]);
-        var to   = new Date(d2[2], d2[1]-1, d2[0]);
-        for(var i=0;i<$scope.notes.length;i++){
+        var from = new Date(d1[2], d1[1] - 1, d1[0]);
+        var to = new Date(d2[2], d2[1] - 1, d2[0]);
+        for (var i = 0; i < $scope.notes.length; i++) {
             var c = $scope.notes[i].date.split("-");
-            var check = new Date(c[2], c[1]-1, c[0]);
+            var check = new Date(c[2], c[1] - 1, c[0]);
             if ((check >= from) && (check <= to)) {
                 //$scope.notes.splice(i, 1);
-            }else {
+            } else {
                 $scope.notes.splice(i, 1);
             }
         }
@@ -146,7 +173,7 @@ mainApp.controller('NotesController', function ($scope, $location, NoteService) 
         $location.path("/notes/0");
     };
     $scope.editNote = function (noteId) {
-        $location.path("/notes/"+noteId);
+        $location.path("/notes/" + noteId);
     }
     $scope.deleteNote = function (noteId) {
         NoteService.deleteNote(noteId);
@@ -164,11 +191,11 @@ mainApp.service('NoteService', function () {
             id: 2,
             number: 2,
             date: '2015-10-06',
-        },        {
+        }, {
             id: 3,
             number: 3,
             date: '2015-11-03',
-        },        {
+        }, {
             id: 4,
             number: 4,
             date: '2015-12-19',
@@ -178,13 +205,13 @@ mainApp.service('NoteService', function () {
         return notes;
     }
     this.addNewNote = function (note) {
-        if(note!=null){
-            if(note.id==null) {
+        if (note != null) {
+            if (note.id == null) {
                 note.id = notes.length + 1;
                 notes.push(note);
-            }else{
-                notes.forEach(function(it, index) {
-                    if(it.id == note.id) {
+            } else {
+                notes.forEach(function (it, index) {
+                    if (it.id == note.id) {
                         notes[index] = it;
                     }
                 });
@@ -193,16 +220,16 @@ mainApp.service('NoteService', function () {
         }
     }
     this.deleteNote = function (id) {
-        notes.forEach(function(result, index) {
-            if(result['id'] == id) {
+        notes.forEach(function (result, index) {
+            if (result['id'] == id) {
                 notes.splice(index, 1);
             }
         });
     }
     this.getNote = function (id) {
         var note = null;
-        notes.forEach(function(it, index) {
-            if(it.id == id) {
+        notes.forEach(function (it, index) {
+            if (it.id == id) {
                 note = it;
             }
         });
@@ -217,27 +244,27 @@ mainApp.service('PatientService', function () {
             firstName: 'Tom',
             lastName: 'Kokocinski',
             dob: '2015-04-20',
-            gender:'male'
+            gender: 'male'
         },
         {
             id: 2,
             firstName: 'Marcin',
             lastName: 'Koziarski',
             dob: '1977-04-03',
-            gender:"male"
+            gender: "male"
         }
-        ];
+    ];
     this.getAllPatients = function () {
         return patients;
     }
     this.addNewPatient = function (patient) {
-        if(patient!=null){
-            if(patient.id==null) {
+        if (patient != null) {
+            if (patient.id == null) {
                 patient.id = patients.length + 1;
                 patients.push(patient);
-            }else{
-                patients.forEach(function(it, index) {
-                    if(it.id == patient.id) {
+            } else {
+                patients.forEach(function (it, index) {
+                    if (it.id == patient.id) {
                         patients[index] = it;
                     }
                 });
@@ -246,16 +273,16 @@ mainApp.service('PatientService', function () {
         }
     }
     this.deletePatient = function (id) {
-        patients.forEach(function(result, index) {
-            if(result['id'] == id) {
+        patients.forEach(function (result, index) {
+            if (result['id'] == id) {
                 patients.splice(index, 1);
             }
         });
     }
     this.getPatient = function (id) {
         var patient = null;
-        patients.forEach(function(it, index) {
-            if(it.id == id) {
+        patients.forEach(function (it, index) {
+            if (it.id == id) {
                 patient = it;
             }
         });
