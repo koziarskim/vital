@@ -69,10 +69,10 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
 mainApp.controller('PatientsController', function ($scope, $location, PatientService) {
     $scope.patients = PatientService.getAllPatients();
     $scope.filterInput = null;
-    $scope.filterOnPatient = function(patient) {
-        if($scope.filterInput){
+    $scope.filterOnPatient = function (patient) {
+        if ($scope.filterInput) {
             return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterInput.toLowerCase()) >= 0;
-        }else {
+        } else {
             return true;
         }
     };
@@ -111,12 +111,12 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.noteId);
     }
-    if ($scope.note==null){
-        $scope.note={
-            id:null,
-            number:null,
-            date:new Date(),
-            modalities:[]
+    if ($scope.note == null) {
+        $scope.note = {
+            id: null,
+            number: null,
+            date: new Date(),
+            modalities: []
         }
     }
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
@@ -142,13 +142,15 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.copyNote = function () {
         var today = new Date();
         var confirmed = true;
-        if($scope.note.date.getYear()!=today.getYear() || $scope.note.date.getMonth()!=today.getMonth() || $scope.note.date.getDate()!=today.getDate()){
+        if ($scope.note.date.getYear() != today.getYear() || $scope.note.date.getMonth() != today.getMonth() || $scope.note.date.getDate() != today.getDate()) {
             confirmed = confirm("Date is not current, are you sure you want to copy?");
         }
-        if(!confirmed){return;}
+        if (!confirmed) {
+            return;
+        }
         var newNote = angular.copy($scope.note);
-        newNote.id=null;
-        newNote.number=null;
+        newNote.id = null;
+        newNote.number = null;
         NoteService.addNote(newNote);
         $location.path("/patients/" + $scope.patientId + "/notes");
     };
@@ -182,20 +184,15 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 mainApp.controller('NotesController', function ($scope, $location, $routeParams, NoteService) {
     $scope.patientId = $routeParams.patientId;
     $scope.notes = NoteService.getAllNotes($scope.patientId);
-    $scope.filterDate = function () {
-        //TODO: Fix comparator
-        var d1 = $scope.dateRange.from.split("-");
-        var d2 = $scope.dateRange.to.split("-");
-        var from = new Date(d1[2], d1[1] - 1, d1[0]);
-        var to = new Date(d2[2], d2[1] - 1, d2[0]);
-        for (var i = 0; i < $scope.notes.length; i++) {
-            var c = $scope.notes[i].date.split("-");
-            var check = new Date(c[2], c[1] - 1, c[0]);
-            if ((check >= from) && (check <= to)) {
-                //$scope.notes.splice(i, 1);
-            } else {
-                $scope.notes.splice(i, 1);
-            }
+    $scope.dateRange = {
+        from: null,
+        to: null
+    }
+    $scope.filterDate = function (note) {
+        if ((note.date > $scope.dateRange.from || $scope.dateRange.from==null) && (note.date < $scope.dateRange.to || $scope.dateRange.to==null)) {
+            return true;
+        } else {
+            return false;
         }
     };
     $scope.addNewNote = function () {
@@ -246,12 +243,12 @@ mainApp.service('NoteService', function () {
             id: 3,
             number: 3,
             date: new Date('2015-10-03'),
-            modalities:[]
+            modalities: []
         }, {
             id: 4,
             number: 4,
             date: new Date('2015-10-03'),
-            modalities:[]
+            modalities: []
         },
     ];
     this.getAllNotes = function (patientId) {

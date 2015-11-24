@@ -20,12 +20,12 @@
         <div class="row">
             <div class="col-sm-2">
                 <label class="control-label">From: </label>
-                <input class="form-control" style="width:180px" ng-model="dateRange.from" type="date" placeholder=""/>
+                <input class="form-control" style="width:180px" ng-model="dateRange.from"
+                       type="date"/>
             </div>
             <div class="col-sm-2">
                 <label class="control-label">To: </label>
-                <input class="form-control" ng-model="dateRange.to" type="date" placeholder=""
-                       ng-change="filterDate()"/>
+                <input class="form-control" ng-model="dateRange.to" type="date"/>
             </div>
         </div>
         <br/>
@@ -38,7 +38,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="note in notes">
+            <tr ng-repeat="note in notes | filter:filterDate">
                 <td>{{ note.number }}</td>
                 <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
                 <td>
