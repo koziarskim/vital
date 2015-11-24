@@ -13,27 +13,29 @@
 </head>
 <body>
 <div ng-app="mainApp" ng-controller="IndexController" class="container">
+    <br/>
+
     <div ng-if="data.firstName">
         <div class="row">
-            <div class="col-sm-2">
-                <br/>
-
-                <div class="list-inline">
-                    <button ng-click="goHome()" class="btn btn-default">HOME</button>
-                    <button ng-click="logOut()" class="btn btn-default">LOGOUT</button>
-                </div>
+            <div class="col-sm-1">
+                <button ng-click="goHome()" class="btn btn-default">HOME</button>
             </div>
-            <div class="col-sm-4 col-sm-offset-10">
+            <div class="col-sm-1">
+                <button ng-click="logOut()" class="btn btn-default">LOGOUT</button>
+            </div>
+            <div class="pull-right">
                 <div><h4>Vital Rehabilitation</h4></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pull-right">
                 <div>User: {{data.firstName}}</div>
             </div>
         </div>
     </div>
-
     <div>
         <ng-view></ng-view>
     </div>
-    <br/>
 </div>
 </body>
 </html>

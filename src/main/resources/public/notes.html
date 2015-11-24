@@ -11,45 +11,43 @@
 </head>
 <body>
 
-<div>
-    <div class="container">
-        <div class="row">
-            <h2> Patient Notes </h2>
-            <br/>
-        </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <label class="control-label">From: </label>
-                <input class="form-control" style="width:180px" ng-model="dateRange.from"
-                       type="date"/>
-            </div>
-            <div class="col-sm-2">
-                <label class="control-label">To: </label>
-                <input class="form-control" ng-model="dateRange.to" type="date"/>
-            </div>
-        </div>
+<div class="container">
+    <div class="row">
+        <h2> Patient Notes </h2>
         <br/>
-        <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th>Note #</th>
-                <th>Note Date</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="note in notes | filter:filterDate">
-                <td>{{ note.number }}</td>
-                <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
-                <td>
-                    <button ng-click="editNote(note.id)" class="btn btn-default">edit</button>
-                    <!--<button class="btn btn-default" ng-click="deleteNote(note.id)">delete</button>-->
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-default" value="Add New" ng-click="addNewNote(patientId)">New Note</button>
     </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label">From: </label>
+            <input class="form-control" style="width:180px" ng-model="dateRange.from"
+                   type="date"/>
+        </div>
+        <div class="col-sm-2">
+            <label class="control-label">To: </label>
+            <input class="form-control" ng-model="dateRange.to" type="date"/>
+        </div>
+    </div>
+    <br/>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Note #</th>
+            <th>Note Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="note in notes | filter:filterDate">
+            <td>{{ note.number }}</td>
+            <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
+            <td>
+                <button ng-click="editNote(note.id)" class="btn btn-default">edit</button>
+                <!--<button class="btn btn-default" ng-click="deleteNote(note.id)">delete</button>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-default" value="Add New" ng-click="addNewNote(patientId)">New Note</button>
 </div>
 </div>
 </body>
