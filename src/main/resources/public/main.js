@@ -70,8 +70,8 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
     $scope.patients = PatientService.getAllPatients();
     $scope.filterInput = null;
     $scope.filterOnPatient = function(patient) {
-        if($scope.searchInput){
-            return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.searchInput.toLowerCase()) >= 0;
+        if($scope.filterInput){
+            return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterInput.toLowerCase()) >= 0;
         }else {
             return true;
         }
