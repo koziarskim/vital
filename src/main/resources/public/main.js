@@ -107,8 +107,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
+    $scope.prevNote = null;
     if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.noteId);
+        $scope.prevNote = NoteService.getNote($scope.noteId-1);
     }
     if ($scope.note == null) {
         $scope.note = {
@@ -118,6 +120,14 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             modalities: []
         }
     }
+    $scope.painChange = function () {
+        var prevScale = $scope.prevNote==null?0:$scope.prevNote.pain.scale;
+        if($scope.note !=null) {
+            return $scope.note.pain.scale-prevScale;
+        }else{
+            return 0;
+        }
+    };
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
     $scope.selectedModality = {
         id: null,
