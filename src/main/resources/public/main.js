@@ -213,6 +213,7 @@ mainApp.service('NoteService', function () {
             id: 1,
             number: 1,
             date: new Date('2015-10-03'),
+            pain: {area:"Back", scale: 2},
             modalities: [{
                 id: "A",
                 name: "d",
@@ -229,6 +230,7 @@ mainApp.service('NoteService', function () {
             id: 2,
             number: 2,
             date: new Date('2015-10-03'),
+            pain: {area:"Front", scale: 1},
             modalities: [{
                 id: "A",
                 name: "d",
@@ -244,11 +246,13 @@ mainApp.service('NoteService', function () {
             id: 3,
             number: 3,
             date: new Date('2015-10-03'),
+            pain: {area:"Back", scale: 0},
             modalities: []
         }, {
             id: 4,
             number: 4,
             date: new Date('2015-10-03'),
+            pain: {area:"Upper", scale: 10},
             modalities: []
         },
     ];
