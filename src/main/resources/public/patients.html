@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <label for="searchPatientInput">Search: </label>
-            <input id="searchPatientInput" type="text" ng-model="patient"/><br/><br/>
+            <input id="searchPatientInput" type="text" ng-model="filterInput"/><br/><br/>
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
@@ -31,7 +31,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="patient in patients | filter:patient:strict">
+                <tr ng-repeat="patient in patients | filter:filterOnPatient">
                     <td>{{ patient.firstName }}</td>
                     <td>{{ patient.lastName }}</td>
                     <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
