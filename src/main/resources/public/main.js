@@ -104,7 +104,6 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
 });
 
 mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService) {
-
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
@@ -154,6 +153,8 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         NoteService.addNote(newNote);
         $location.path("/patients/" + $scope.patientId + "/notes");
     };
+
+    $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
 
     //Available modalities
     $scope.availableModalities = [

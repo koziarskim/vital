@@ -19,13 +19,32 @@
 
         <div class="row">
             <div class="form-group">
-                <label class="control-label col-sm-1" for="noteDate">Date:</label>
                 <div class="col-sm-2">
-                    <input type="date" class="form-control" id="noteDate"
-                           ng-model="note.date">
+                    <label class="control-label" for="noteDate">Date</label>
+                    <input type="date" class="form-control" id="noteDate" ng-model="note.date">
+                </div>
+                <div class="col-sm-offset-2 col-sm-1" style="padding-top: 30px;">
+                    <label class="control-label" for="noteDate">Pain: </label>
+                </div>
+                <div class="col-sm-5" style="border: 1px solid #ccc; padding-bottom: 20px;">
+                    <div class="col-sm-6">
+                        <label class="control-label">Area</label>
+                        <input type="text" class="form-control" id="painArea" ng-model="note.pain.area" list="painAreaList">
+                        <datalist id="painAreaList">
+                            <option ng-repeat="painArea in availablePainAreas" value="{{painArea}}">
+                        </datalist>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="control-label">Scale</label>
+                        <input type="number" min="1" max="10" class="form-control" id="painScale" ng-model="note.pain.scale">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="control-label">Change</label>
+                        <label type="number" class="form-control" id="painChange" ng-model="painChange" readonly>
+                    </div>
                 </div>
             </div>
-            <br/><br/>
+            <br/><br/><br/>
         </div>
         <div class="row">
             <div class="col-sm-12"><h4>Patient was seen for following skilled therapy</h4></div>
@@ -73,7 +92,8 @@
         <div class="row">
             <div class="col-sm-12"><h4>Treatment</h4></div>
         </div>
-        <hr>
+        <div class="row"><hr width="80%;" style="padding-left:30%"></div>
+
         <div class="row" ng-repeat="modality in note.modalities track by $index">
             <div class="col-sm-1">
                 <label class="control-label">{{modality.name}}</label>
@@ -89,10 +109,12 @@
             </div>
             <br/><br/>
         </div>
-        <div class="form-group">
+        <div class="row">
             <div class="col-sm-offset-8 col-sm-1">
-                <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
                 <button type="submit" class="btn btn-default" ng-click="copyNote()">Copy</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
             </div>
         </div>
     </div>
