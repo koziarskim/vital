@@ -131,6 +131,20 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         $location.path("/patients/" + $scope.patientId + "/notes");
     };
 
+    $scope.copyNote = function () {
+        var today = new Date();
+        var confirmed = true;
+        if($scope.note.date.getYear()!=today.getYear() || $scope.note.date.getMonth()!=today.getMonth() || $scope.note.date.getDate()!=today.getDate()){
+            confirmed = confirm("Date is not current, are you sure you want to copy?");
+        }
+        if(!confirmed){return;}
+        var newNote = angular.copy($scope.note);
+        newNote.id=null;
+        newNote.number=null;
+        NoteService.addNote(newNote);
+        $location.path("/patients/" + $scope.patientId + "/notes");
+    };
+
     //Available modalities
     $scope.availableModalities = [
         {id: "A", name: "US", time: 1, comments: "Stretch"},
