@@ -95,7 +95,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     };
 });
 
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, TimeService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService) {
 
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
@@ -103,12 +103,12 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.noteId);
     }
-    if ($scope.note == null) {
-        $scope.note = {
-            id: null,
-            number: null,
-            date: new Date(),
-            modalities: []
+    if ($scope.note==null){
+        $scope.note={
+            id:null,
+            number:null,
+            date:new Date(),
+            modalities:[]
         }
     }
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
@@ -224,12 +224,12 @@ mainApp.service('NoteService', function () {
             id: 3,
             number: 3,
             date: new Date('2015-10-03'),
-            modalities: []
+            modalities:[]
         }, {
             id: 4,
             number: 4,
             date: new Date('2015-10-03'),
-            modalities: []
+            modalities:[]
         },
     ];
     this.getAllNotes = function (patientId) {
