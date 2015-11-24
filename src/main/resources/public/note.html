@@ -18,6 +18,16 @@
         <h2>Note Details</h2>
 
         <div class="row">
+            <div class="form-group">
+                <label class="control-label col-sm-1" for="noteDate">Date:</label>
+                <div class="col-sm-2">
+                    <input type="date" class="form-control" id="noteDate"
+                           ng-model="note.date">
+                </div>
+            </div>
+            <br/><br/>
+        </div>
+        <div class="row">
             <div class="col-sm-12"><h4>Patient was seen for following skilled therapy</h4></div>
         </div>
         <div class="row">
@@ -64,7 +74,7 @@
             <div class="col-sm-12"><h4>Treatment</h4></div>
         </div>
         <hr>
-        <div class="row" ng-repeat="modality in modalities track by $index">
+        <div class="row" ng-repeat="modality in note.modalities track by $index">
             <div class="col-sm-1">
                 <label class="control-label">{{modality.name}}</label>
             </div>
@@ -78,6 +88,11 @@
                 </datalist>
             </div>
             <br/><br/>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-8 col-sm-1">
+                <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
+            </div>
         </div>
     </div>
 </div>

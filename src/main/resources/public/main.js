@@ -14,6 +14,10 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })
+        .when('/patients/:patientId?/notes/:noteId', {
+            templateUrl: 'note.html',
+            controller: 'NoteController'
+        })
         .when('/patients/:patientId?/notes', {
             templateUrl: 'notes.html',
             controller: 'NotesController'
@@ -91,38 +95,40 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     };
 });
 
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, TimeService) {
+
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
-    $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
     if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.noteId);
     }
+    if ($scope.note == null) {
+        $scope.note = {
+            id: null,
+            number: null,
+            date: new Date(),
+            modalities: []
+        }
+    }
+    $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
     $scope.selectedModality = {
-        id:null,
+        id: null,
         name: null,
         time: null,
         comments: null
     }
-
-    $scope.modalities = [{
-        id:"A",
-        name: "d",
-        time: 12,
-        comments: "Stretch"
-    }, {
-        id:"B",
-        name: "e",
-        time: 4,
-        comments: "Repeat every monday"
-    }]
     $scope.dateRange = {
         from: null,
         to: null
     }
     $scope.addModality = function (modality) {
-        $scope.modalities.push(modality);
+        $scope.note.modalities.push(modality);
+    };
+
+    $scope.saveNote = function () {
+        NoteService.addNote($scope.note);
+        $location.path("/patients/" + $scope.patientId + "/notes");
     };
 
     //Available modalities
@@ -151,8 +157,9 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     ]
 });
 
-mainApp.controller('NotesController', function ($scope, $location, NoteService) {
-    $scope.notes = NoteService.getAllNotes();
+mainApp.controller('NotesController', function ($scope, $location, $routeParams, NoteService) {
+    $scope.patientId = $routeParams.patientId;
+    $scope.notes = NoteService.getAllNotes($scope.patientId);
     $scope.filterDate = function () {
         //TODO: Fix comparator
         var d1 = $scope.dateRange.from.split("-");
@@ -170,7 +177,7 @@ mainApp.controller('NotesController', function ($scope, $location, NoteService) 
         }
     };
     $scope.addNewNote = function () {
-        $location.path("/notes/0");
+        $location.path("/patients/" + $scope.patientId + "/notes/0");
     };
     $scope.editNote = function (noteId) {
         $location.path("/notes/" + noteId);
@@ -185,29 +192,54 @@ mainApp.service('NoteService', function () {
         {
             id: 1,
             number: 1,
-            date: '2015-10-03',
+            date: new Date('2015-10-03'),
+            modalities: [{
+                id: "A",
+                name: "d",
+                time: 12,
+                comments: "Stretch"
+            }, {
+                id: "B",
+                name: "e",
+                time: 4,
+                comments: "Repeat every monday"
+            }]
         },
         {
             id: 2,
             number: 2,
-            date: '2015-10-06',
+            date: new Date('2015-10-03'),
+            modalities: [{
+                id: "A",
+                name: "d",
+                time: 12,
+                comments: "Stretch"
+            }, {
+                id: "B",
+                name: "e",
+                time: 4,
+                comments: "Repeat every monday"
+            }]
         }, {
             id: 3,
             number: 3,
-            date: '2015-11-03',
+            date: new Date('2015-10-03'),
+            modalities: []
         }, {
             id: 4,
             number: 4,
-            date: '2015-12-19',
+            date: new Date('2015-10-03'),
+            modalities: []
         },
     ];
-    this.getAllNotes = function () {
+    this.getAllNotes = function (patientId) {
         return notes;
     }
-    this.addNewNote = function (note) {
+    this.addNote = function (note) {
         if (note != null) {
             if (note.id == null) {
                 note.id = notes.length + 1;
+                note.number = notes.length + 1;
                 notes.push(note);
             } else {
                 notes.forEach(function (it, index) {
@@ -243,14 +275,14 @@ mainApp.service('PatientService', function () {
             id: 1,
             firstName: 'Tom',
             lastName: 'Kokocinski',
-            dob: '2015-04-20',
+            dob: new Date('2015-11-03T06:00:00.000Z'),
             gender: 'male'
         },
         {
             id: 2,
             firstName: 'Marcin',
             lastName: 'Koziarski',
-            dob: '1977-04-03',
+            dob: new Date('2015-11-03'),
             gender: "male"
         }
     ];

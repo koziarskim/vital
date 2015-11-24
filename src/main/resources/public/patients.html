@@ -31,11 +31,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="patient in patients | filter:patient">
+                <tr ng-repeat="patient in patients | filter:patient:strict">
                     <td>{{ patient.firstName }}</td>
                     <td>{{ patient.lastName }}</td>
-                    <td>{{ patient.dob }}</td>
-                    <td><button ng-click="editPatient(patient.id)" class="btn btn-default">edit</button> <button class="btn btn-default" ng-click="deletePatient(patient.id)">delete</button>
+                    <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
+                    <td><button ng-click="editPatient(patient.id)" class="btn btn-default">edit</button>
+                        <!--<button class="btn btn-default" ng-click="deletePatient(patient.id)">delete</button>-->
                     <td><button ng-click="showNotes(patient.id)" class="btn btn-default">notes</button>
                     </td>
                 </tr>

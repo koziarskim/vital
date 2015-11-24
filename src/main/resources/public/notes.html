@@ -40,15 +40,15 @@
             <tbody>
             <tr ng-repeat="note in notes">
                 <td>{{ note.number }}</td>
-                <td>{{ note.date }}</td>
+                <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
                 <td>
                     <button ng-click="editNote(note.id)" class="btn btn-default">edit</button>
-                    <button class="btn btn-default" ng-click="deleteNote(note.id)">delete</button>
+                    <!--<button class="btn btn-default" ng-click="deleteNote(note.id)">delete</button>-->
                 </td>
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-default" value="Add New" ng-click="addNewNote()">New Note</button>
+        <button type="button" class="btn btn-default" value="Add New" ng-click="addNewNote(patientId)">New Note</button>
     </div>
 </div>
 </div>
