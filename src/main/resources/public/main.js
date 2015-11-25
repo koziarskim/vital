@@ -26,6 +26,10 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'patient.html',
             controller: 'PatientController'
         })
+        .when('/dashboard', {
+            templateUrl: 'dashboard.html',
+            controller: 'DashboardController'
+        })
         .otherwise({
             redirectTo: '/login'
         });
@@ -33,7 +37,13 @@ mainApp.config(function ($routeProvider) {
 
 mainApp.controller('IndexController', function ($scope, $location, UserContextService) {
     $scope.data = UserContextService.data;
-    $scope.goHome = function () {
+    $scope.goDashboard = function () {
+        $location.path("/dashboard");
+    }
+    $scope.goPatient = function () {
+        if(UserContextService.data.office==null){
+            return;
+        }
         $location.path("/patients");
     }
     $scope.logOut = function () {
@@ -44,8 +54,9 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
 
 mainApp.service('UserContextService', function () {
     this.data = {
-        firstName: '',
-        lastName: ''
+        firstName: null,
+        lastName: null,
+        office: null
     }
 });
 
@@ -61,12 +72,25 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
             alert("invalid username or password");
         } else {
             UserContextService.data.firstName = $scope.login.userName;
-            $location.path("/patients");
+            $location.path("/dashboard");
         }
     }
 });
 
-mainApp.controller('PatientsController', function ($scope, $location, PatientService) {
+mainApp.controller('DashboardController', function ($scope, $location, UserContextService) {
+    $scope.availableLocations = ["Chicago-Portage Park","Chicago Pediatrics","Park Ridge","Schaumburg","Chicago/Thorek Hospital"];
+    $scope.selectedLocation = UserContextService.data.location;
+    $scope.locationAction = function () {
+        UserContextService.data.office = $scope.selectedLocation;
+        $location.path("/patients");
+    };
+});
+
+mainApp.controller('PatientsController', function ($scope, $location, PatientService, UserContextService) {
+    if(UserContextService.data.office==null){
+        alert("Please select location of your office");
+        return;
+    }
     $scope.patients = PatientService.getAllPatients();
     $scope.filterInput = null;
     $scope.filterOnPatient = function (patient) {
@@ -222,7 +246,7 @@ mainApp.service('NoteService', function () {
         {
             id: 1,
             number: 1,
-            date: new Date('2015-10-03'),
+            date: new Date('2010-10-03'),
             pain: {area:"Back", scale: 2},
             modalities: [{
                 id: "A",
@@ -239,7 +263,7 @@ mainApp.service('NoteService', function () {
         {
             id: 2,
             number: 2,
-            date: new Date('2015-10-03'),
+            date: new Date('2014-10-03'),
             pain: {area:"Front", scale: 1},
             modalities: [{
                 id: "A",
@@ -261,7 +285,7 @@ mainApp.service('NoteService', function () {
         }, {
             id: 4,
             number: 4,
-            date: new Date('2015-10-03'),
+            date: new Date('2015-11-03'),
             pain: {area:"Upper", scale: 10},
             modalities: []
         },
@@ -318,6 +342,13 @@ mainApp.service('PatientService', function () {
             lastName: 'Koziarski',
             dob: new Date('2015-11-03'),
             gender: "male"
+        },
+        {
+            id: 2,
+            firstName: 'Joe',
+            lastName: 'Smith',
+            dob: new Date('2005-11-03'),
+            gender: "female"
         }
     ];
     this.getAllPatients = function () {

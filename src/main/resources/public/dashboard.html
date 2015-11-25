@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vital Rehabilitation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <h2> Dashboard </h2>
+        <br/>
+    </div>
+    <div class="row">
+        <div class="col-sm-1">
+            <label class="control-label">Location: </label>
+        </div>
+        <div class="col-sm-4">
+            <input class="form-control" type="text" ng-model="selectedLocation" list="availableLocations" placeholder="Please select location" ng-change="locationAction()">
+            <datalist id="availableLocations">
+                <option ng-repeat="location in availableLocations" value="{{location}}">
+            </datalist>
+        </div>
+    </div>
+</div>
+</body>
+</html>

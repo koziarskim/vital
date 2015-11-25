@@ -17,10 +17,13 @@
 
     <div ng-if="data.firstName">
         <div class="row">
-            <div class="col-sm-1">
-                <button ng-click="goHome()" class="btn btn-default">HOME</button>
+            <div class="col-sm-2">
+                <button ng-click="goDashboard()" class="btn btn-default">DASHBOARD</button>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
+                <button ng-click="goPatient()" class="btn btn-default">PATIENT</button>
+            </div>
+            <div class="col-sm-2">
                 <button ng-click="logOut()" class="btn btn-default">LOGOUT</button>
             </div>
             <div class="pull-right">
@@ -29,7 +32,7 @@
         </div>
         <div class="row">
             <div class="pull-right">
-                <div>User: {{data.firstName}}</div>
+                <div>{{data.firstName}}{{data.office==null?'':"@"+data.office}}</div>
             </div>
         </div>
     </div>
