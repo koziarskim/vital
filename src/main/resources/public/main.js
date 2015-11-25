@@ -146,12 +146,13 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     }
     $scope.painChange = function () {
         var prevScale = $scope.prevNote==null?0:$scope.prevNote.pain.scale;
+        var scale = 0;
         if($scope.note !=null) {
-            return $scope.note.pain.scale-prevScale;
-        }else{
-            return 0;
+            scale = $scope.note.pain.scale-prevScale;
         }
-    };
+        return scale;
+    }
+
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
     $scope.selectedModality = {
         id: null,
