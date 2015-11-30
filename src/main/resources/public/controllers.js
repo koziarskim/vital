@@ -1,0 +1,187 @@
+mainApp.controller('IndexController', function ($scope, $location, UserContextService) {
+    $scope.data = UserContextService.data;
+    $scope.goDashboard = function () {
+        $location.path("/dashboard");
+    }
+    $scope.goPatient = function () {
+        if(UserContextService.data.office==null){
+            return;
+        }
+        $location.path("/patients");
+    }
+    $scope.logOut = function () {
+        UserContextService.data.firstName = null;
+        $location.path("/");
+    }
+});
+
+mainApp.controller('LoginController', function ($scope, $location, UserContextService) {
+    $scope.login = {
+        userName: null,
+        password: null
+    };
+    $scope.loginAction = function () {
+        if ($scope.login.userName == null || $scope.login.password == null ||
+            $scope.login.userName != "tom" || $scope.login.password != "tom") {
+
+            alert("invalid username or password");
+        } else {
+            UserContextService.data.firstName = $scope.login.userName;
+            $location.path("/dashboard");
+        }
+    }
+});
+
+mainApp.controller('DashboardController', function ($scope, $location, UserContextService) {
+    $scope.availableLocations = ["Chicago-Portage Park","Chicago Pediatrics","Park Ridge","Schaumburg","Chicago/Thorek Hospital"];
+    $scope.selectedLocation = UserContextService.data.office;
+    $scope.locationAction = function () {
+        UserContextService.data.office = $scope.selectedLocation;
+        $location.path("/patients");
+    };
+});
+
+mainApp.controller('PatientsController', function ($scope, $location, PatientService, UserContextService) {
+    if(UserContextService.data.office==null){
+        alert("Please select location of your office");
+        return;
+    }
+    $scope.patients = PatientService.getAllPatients();
+    $scope.filterInput = null;
+    $scope.filterOnPatient = function (patient) {
+        if ($scope.filterInput) {
+            return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterInput.toLowerCase()) >= 0;
+        } else {
+            return true;
+        }
+    };
+    $scope.addNewPatient = function () {
+        $location.path("/patients/0");
+    };
+    $scope.editPatient = function (patientId) {
+        $location.path("/patients/" + patientId);
+    }
+    $scope.deletePatient = function (patientId) {
+        PatientService.deletePatient(patientId);
+    }
+    $scope.showInitNote = function (patientId) {
+        var note = PatientService.getInitNote(patientId);
+        $location.path("patients/" + patientId + "/notes/"+note.id);
+    }
+    $scope.showAllNotes = function (patientId) {
+        $location.path("patients/" + patientId + "/notes");
+    }
+    $scope.createTodayNote = function (patientId) {
+        $location.path("patients/" + patientId + "/notes/new");
+    }
+
+});
+
+mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
+    $scope.patientId = $routeParams.patientId;
+    $scope.patient = null;
+    if ($scope.patientId) {
+        $scope.patient = PatientService.getPatient($scope.patientId);
+    }
+    $scope.savePatient = function () {
+        PatientService.addNewPatient($scope.patient);
+        $location.path("/patients");
+    };
+});
+
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService) {
+    $scope.patientId = $routeParams.patientId;
+    $scope.noteId = $routeParams.noteId;
+    $scope.note = null;
+    $scope.prevNote = null;
+    if($scope.noteId=="new"){
+        var lastNote = PatientService.getLastNote($scope.patientId);
+        $scope.note = angular.copy(lastNote);
+        $scope.note.id=null;
+        $scope.note.number=null;
+        $scope.note.date= new Date();
+    }else if ($scope.noteId) {
+        $scope.note = NoteService.getNote($scope.noteId);
+        $scope.prevNote = NoteService.getNote($scope.noteId-1);
+    }
+    $scope.painChange = function () {
+        var prevScale = $scope.prevNote==null?0:$scope.prevNote.pain.scale;
+        var scale = 0;
+        if($scope.note !=null) {
+            scale = $scope.note.pain.scale-prevScale;
+        }
+        return scale;
+    }
+
+    $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
+    $scope.selectedModality = {
+        id: null,
+        name: null,
+        time: null,
+        comments: null
+    }
+    $scope.dateRange = {
+        from: null,
+        to: null
+    }
+    $scope.addModality = function (modality) {
+        $scope.note.modalities.push(modality);
+    };
+
+    $scope.saveNote = function () {
+        NoteService.addNote($scope.note);
+        $location.path("/patients/" + $scope.patientId + "/notes");
+    };
+
+    $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
+
+    //Available modalities
+    $scope.availableModalities = [
+        {id: "A", name: "US", time: 1, comments: "Stretch"},
+        {id: "B", name: "EL. Stim v", time: 3, comments: "Repeat every monday"},
+        {id: "C", name: "HP/CP v", time: 2, comments: "Do what's needed"},
+        {id: "D", name: "Ionto v", time: 6, comments: "Stretch"},
+        {id: "E", name: "Mech. Tx v", time: 9, comments: "Do nothing.."},
+        {id: "F", name: "Infrared v", time: 40, comments: "Stretch"},
+        {id: "G", name: "Com. Pump", time: 1, comments: "Stretch"},
+        {id: "H", name: "Man. Tx", time: 1, comments: "Stretch"},
+        {id: "I", name: "TX. Ex", time: 1, comments: "Stretch"},
+        {id: "J", name: "NM-RE", time: 1, comments: "Stretch"},
+        {id: "K", name: "Gait", time: 1, comments: "Stretch"},
+        {id: "L", name: "Func. Act", time: 1, comments: "Stretch"},
+        {id: "M", name: "Aquatic", time: 1, comments: "Stretch"},
+        {id: "N", name: "ROM/MMT", time: 1, comments: "Stretch"},
+        {id: "P", name: "Init. Ev", time: 1, comments: "Stretch"},
+        {id: "Q", name: "Re-ev", time: 1, comments: "Stretch"},
+        {id: "R", name: "FCE", time: 1, comments: "Stretch"},
+        {id: "S", name: "WC-2hrs", time: 1, comments: "Stretch"},
+        {id: "T", name: "WC-addl", time: 1, comments: "Stretch"},
+        {id: "U", name: "Man. Tests", time: 1, comments: "Stretch"},
+        {id: "V", name: "Funct. Tests", time: 1, comments: "Stretch"},
+    ]
+});
+
+mainApp.controller('NotesController', function ($scope, $location, $routeParams, NoteService) {
+    $scope.patientId = $routeParams.patientId;
+    $scope.notes = NoteService.getAllNotes($scope.patientId);
+    $scope.dateRange = {
+        from: null,
+        to: null
+    }
+    $scope.filterDate = function (note) {
+        if ((note.date > $scope.dateRange.from || $scope.dateRange.from==null) && (note.date < $scope.dateRange.to || $scope.dateRange.to==null)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    $scope.addNewNote = function () {
+        $location.path("/patients/" + $scope.patientId + "/notes/0");
+    };
+    $scope.editNote = function (noteId) {
+        $location.path("/notes/" + noteId);
+    }
+    $scope.deleteNote = function (noteId) {
+        NoteService.deleteNote(noteId);
+    }
+});
