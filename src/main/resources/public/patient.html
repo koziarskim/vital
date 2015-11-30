@@ -4,36 +4,34 @@
         <br/>
     </div>
     <div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="firstName">First Name:</label>
-
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" for="firstName">First Name:</label>
+            </div>
             <div class="col-sm-7">
                 <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" ng-model="patient.firstName">
             </div>
         </div>
-        <br/><br/>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="lastName">Last Name:</label>
-
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" for="lastName">Last Name:</label>
+            </div>
             <div class="col-sm-7">
                 <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" ng-model="patient.lastName">
             </div>
         </div>
-        <br/><br/>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="dob">DOB:</label>
-
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" for="dob">DOB:</label>
+            </div>
             <div class="col-sm-2">
                 <input type="date" class="form-control" id="dob" placeholder="Enter Date of Birth" ng-model="patient.dob">
             </div>
         </div>
-        <br/><br/>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="gender">Gender:</label>
-
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" for="gender">Gender:</label>
+            </div>
             <div class="col-sm-2">
                 <select id="gender" class="form-control" ng-model="patient.gender">
                     <option></option>
@@ -45,27 +43,32 @@
         <br/><br/>
 
         <div><h4>Insurance Information</h4></div>
-        <br/><br/>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="insName">Insurance Name:</label>
-
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" for="insName">Insurance Name:</label>
+            </div>
             <div class="col-sm-7">
-                <input type="text" class="form-control" id="insName" placeholder="Enter Insurance Provider Name">
+                <input type="text" class="form-control" id="insName" ng-model="patient.insuranceName" placeholder="Enter Insurance Provider Name">
             </div>
         </div>
-        <br/><br/>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="authVisits">Authorized Visits:</label>
-
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" for="authVisits">Authorized Visits:</label>
+            </div>
             <div class="col-sm-1">
-                <input type="number" min="0" class="form-control" id="authVisits">
+                <input type="number" min="0" class="form-control" ng-model="patient.authVisits" id="authVisits">
+            </div>
+            <div class="col-sm-2">
+                <label class="control-label">Visit Range:</label>
+            </div>
+            <div class="col-sm-2">
+                <input type="date" min="0" class="form-control" ng-model="patient.visitFrom" id="visitFrom">
+            </div>
+            <div class="col-sm-2">
+                <input type="date" min="0" class="form-control" ng-model="patient.visitTo" id="fisitTo">
             </div>
         </div>
-        <br/><br/>
-
-        <div class="form-group">
+        <div class="row">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default" ng-click="savePatient()">Save</button>
             </div>

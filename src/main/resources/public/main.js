@@ -79,7 +79,7 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
 
 mainApp.controller('DashboardController', function ($scope, $location, UserContextService) {
     $scope.availableLocations = ["Chicago-Portage Park","Chicago Pediatrics","Park Ridge","Schaumburg","Chicago/Thorek Hospital"];
-    $scope.selectedLocation = UserContextService.data.location;
+    $scope.selectedLocation = UserContextService.data.office;
     $scope.locationAction = function () {
         UserContextService.data.office = $scope.selectedLocation;
         $location.path("/patients");
@@ -335,21 +335,33 @@ mainApp.service('PatientService', function () {
             firstName: 'Tom',
             lastName: 'Kokocinski',
             dob: new Date('2015-11-03T06:00:00.000Z'),
-            gender: 'male'
+            gender: 'male',
+            insuranceName: 'BCBS',
+            authVisits: 1,
+            visitFrom: null,
+            visitTo: null
         },
         {
             id: 2,
             firstName: 'Marcin',
             lastName: 'Koziarski',
             dob: new Date('2015-11-03'),
-            gender: "male"
+            gender: "male",
+            insuranceName: 'BCBS',
+            authVisits: 1,
+            visitFrom: null,
+            visitTo: null
         },
         {
             id: 2,
             firstName: 'Joe',
             lastName: 'Smith',
             dob: new Date('2005-11-03'),
-            gender: "female"
+            gender: "female",
+            insuranceName: 'BCBS',
+            authVisits: 1,
+            visitFrom: null,
+            visitTo: null
         }
     ];
     this.getAllPatients = function () {
