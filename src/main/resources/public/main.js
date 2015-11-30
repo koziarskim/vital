@@ -109,8 +109,15 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
     $scope.deletePatient = function (patientId) {
         PatientService.deletePatient(patientId);
     }
-    $scope.showNotes = function (patientId) {
+    $scope.showInitNote = function (patientId) {
+        var note = PatientService.getInitNote(patientId);
+        $location.path("patients/" + patientId + "/notes/"+note.id);
+    }
+    $scope.showAllNotes = function (patientId) {
         $location.path("patients/" + patientId + "/notes");
+    }
+    $scope.createTodayNote = function (patientId) {
+        $location.path("patients/" + patientId + "/notes/new");
     }
 
 });
@@ -127,22 +134,20 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     };
 });
 
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService) {
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
     $scope.prevNote = null;
-    if ($scope.noteId) {
+    if($scope.noteId=="new"){
+        var lastNote = PatientService.getLastNote($scope.patientId);
+        $scope.note = angular.copy(lastNote);
+        $scope.note.id=null;
+        $scope.note.number=null;
+        $scope.note.date= new Date();
+    }else if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.noteId);
         $scope.prevNote = NoteService.getNote($scope.noteId-1);
-    }
-    if ($scope.note == null) {
-        $scope.note = {
-            id: null,
-            number: null,
-            date: new Date(),
-            modalities: []
-        }
     }
     $scope.painChange = function () {
         var prevScale = $scope.prevNote==null?0:$scope.prevNote.pain.scale;
@@ -170,22 +175,6 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     $scope.saveNote = function () {
         NoteService.addNote($scope.note);
-        $location.path("/patients/" + $scope.patientId + "/notes");
-    };
-
-    $scope.copyNote = function () {
-        var today = new Date();
-        var confirmed = true;
-        if ($scope.note.date.getYear() != today.getYear() || $scope.note.date.getMonth() != today.getMonth() || $scope.note.date.getDate() != today.getDate()) {
-            confirmed = confirm("Date is not current, are you sure you want to copy?");
-        }
-        if (!confirmed) {
-            return;
-        }
-        var newNote = angular.copy($scope.note);
-        newNote.id = null;
-        newNote.number = null;
-        NoteService.addNote(newNote);
         $location.path("/patients/" + $scope.patientId + "/notes");
     };
 
@@ -328,7 +317,7 @@ mainApp.service('NoteService', function () {
     }
 });
 
-mainApp.service('PatientService', function () {
+mainApp.service('PatientService', function (NoteService) {
     var patients = [
         {
             id: 1,
@@ -397,5 +386,16 @@ mainApp.service('PatientService', function () {
             }
         });
         return patient;
+    }
+    this.getInitNote = function(patientId){
+        var notes = NoteService.getAllNotes(patientId);
+        var note = notes[0];
+        return note;
+    }
+
+    this.getLastNote = function(patientId){
+        var notes = NoteService.getAllNotes(patientId);
+        var note = notes[notes.length-1];
+        return note;
     }
 });

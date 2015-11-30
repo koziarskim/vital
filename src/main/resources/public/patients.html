@@ -25,7 +25,9 @@
                     <button ng-click="editPatient(patient.id)" class="btn btn-default">edit</button>
                     <!--<button class="btn btn-default" ng-click="deletePatient(patient.id)">delete</button>-->
                 <td>
-                    <button ng-click="showNotes(patient.id)" class="btn btn-default">notes</button>
+                <button ng-click="showInitNote(note.id)" class="btn btn-default">Initial Note</button>
+                <button ng-click="showAllNotes(note.id)" class="btn btn-default">All Notes</button>
+                <button ng-click="createTodayNote(note.id)" class="btn btn-default">Today's Note</button>
                 </td>
             </tr>
             </tbody>
