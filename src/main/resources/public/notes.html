@@ -24,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="note in notes | filter:filterDate">
+        <tr ng-repeat="note in notes | filter:filterDate | orderBy : '-number'">
             <td>{{ note.number }}</td>
             <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
             <td>
