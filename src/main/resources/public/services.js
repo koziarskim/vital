@@ -16,12 +16,12 @@ mainApp.service('NoteService', function () {
             pain: {area:"Back", scale: 2},
             modalities: [{
                 id: "USA",
-                name: "d",
+                name: "US",
                 time: 12,
                 comments: "Stretch"
             }, {
                 id: "ELS",
-                name: "e",
+                name: "EL. Stim v",
                 time: 4,
                 comments: "Repeat every monday"
             }]
@@ -33,12 +33,12 @@ mainApp.service('NoteService', function () {
             pain: {area:"Front", scale: 1},
             modalities: [{
                 id: "USA",
-                name: "d",
+                name: "US",
                 time: 12,
                 comments: "Stretch"
             }, {
                 id: "ELS",
-                name: "e",
+                name: "EL. Stim v",
                 time: 4,
                 comments: "Repeat every monday"
             }]
