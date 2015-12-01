@@ -15,12 +15,12 @@ mainApp.service('NoteService', function () {
             date: new Date('2010-10-03'),
             pain: {area:"Back", scale: 2},
             modalities: [{
-                id: "A",
+                id: "USA",
                 name: "d",
                 time: 12,
                 comments: "Stretch"
             }, {
-                id: "B",
+                id: "ELS",
                 name: "e",
                 time: 4,
                 comments: "Repeat every monday"
@@ -32,12 +32,12 @@ mainApp.service('NoteService', function () {
             date: new Date('2014-10-03'),
             pain: {area:"Front", scale: 1},
             modalities: [{
-                id: "A",
+                id: "USA",
                 name: "d",
                 time: 12,
                 comments: "Stretch"
             }, {
-                id: "B",
+                id: "ELS",
                 name: "e",
                 time: 4,
                 comments: "Repeat every monday"

@@ -142,7 +142,8 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         to: null
     }
     $scope.addModality = function (modality) {
-        $scope.note.modalities.push(modality);
+        var mod = angular.copy(modality);
+        $scope.note.modalities.push(mod);
     };
 
     $scope.saveNote = function () {
@@ -154,27 +155,29 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     //Available modalities
     $scope.availableModalities = [
-        {id: "A", name: "US", time: 1, comments: "Stretch"},
-        {id: "B", name: "EL. Stim v", time: 3, comments: "Repeat every monday"},
-        {id: "C", name: "HP/CP v", time: 2, comments: "Do what's needed"},
-        {id: "D", name: "Ionto v", time: 6, comments: "Stretch"},
-        {id: "E", name: "Mech. Tx v", time: 9, comments: "Do nothing.."},
-        {id: "F", name: "Infrared v", time: 40, comments: "Stretch"},
-        {id: "G", name: "Com. Pump", time: 1, comments: "Stretch"},
-        {id: "H", name: "Man. Tx", time: 1, comments: "Stretch"},
-        {id: "I", name: "TX. Ex", time: 1, comments: "Stretch"},
-        {id: "J", name: "NM-RE", time: 1, comments: "Stretch"},
-        {id: "K", name: "Gait", time: 1, comments: "Stretch"},
-        {id: "L", name: "Func. Act", time: 1, comments: "Stretch"},
-        {id: "M", name: "Aquatic", time: 1, comments: "Stretch"},
-        {id: "N", name: "ROM/MMT", time: 1, comments: "Stretch"},
-        {id: "P", name: "Init. Ev", time: 1, comments: "Stretch"},
-        {id: "Q", name: "Re-ev", time: 1, comments: "Stretch"},
-        {id: "R", name: "FCE", time: 1, comments: "Stretch"},
-        {id: "S", name: "WC-2hrs", time: 1, comments: "Stretch"},
-        {id: "T", name: "WC-addl", time: 1, comments: "Stretch"},
-        {id: "U", name: "Man. Tests", time: 1, comments: "Stretch"},
-        {id: "V", name: "Funct. Tests", time: 1, comments: "Stretch"},
+        {id: "USA", name: "US", time: null, comments: null},
+        {id: "ELS", name: "EL. Stim v", time: null, comments: null},
+        {id: "HPC", name: "HP/CP v", time: null, comments: null},
+        {id: "ION", name: "Ionto v", time: null, comments: null},
+        {id: "MEC", name: "Mech. Tx v", time: null, comments: null},
+        {id: "INF", name: "Infrared v", time: null, comments: null},
+        {id: "COP", name: "Com. Pump", time: null, comments: null},
+        {id: "OTM", name: "Other", time: null, comments: null},
+        {id: "MAT", name: "Man. Tx", time: null, comments: null},
+        {id: "TXE", name: "TX. Ex", time: null, comments: null},
+        {id: "NMR", name: "NM-RE", time: null, comments: null},
+        {id: "GAI", name: "Gait", time: null, comments: null},
+        {id: "FUA", name: "Func. Act", time: null, comments: null},
+        {id: "AQU", name: "Aquatic", time: null, comments: null},
+        {id: "RMT", name: "ROM/MMT", time: null, comments: null},
+        {id: "IEV", name: "Init. Ev", time: null, comments: null},
+        {id: "REV", name: "Re-ev", time: null, comments: null},
+        {id: "FCE", name: "FCE", time: null, comments: null},
+        {id: "WC2", name: "WC-2hrs", time: null, comments: null},
+        {id: "WCA", name: "WC-addl", time: null, comments: null},
+        {id: "MTE", name: "Man. Tests", time: null, comments: null},
+        {id: "FTE", name: "Funct. Tests", time: null, comments: null},
+        {id: "OTP", name: "Other", time: null, comments: null}
     ]
 });
 
