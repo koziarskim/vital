@@ -86,13 +86,29 @@
     <div class="row">
         <hr width="80%;" style="padding-left:30%">
     </div>
-
+    <div class="row">
+        <div class="col-sm-1">
+            <label class="control-label">Exercise</label>
+        </div>
+        <div class="col-sm-1">
+            <label class="control-label">Minutes</label>
+        </div>
+        <div class="col-sm-1">
+            <label class="control-label">Unit(s)</label>
+        </div>
+        <div class="col-sm-8">
+            <label class="control-label">Comments</label>
+        </div>
+    </div>
     <div class="row" ng-repeat="modality in note.modalities track by $index">
         <div class="col-sm-1">
             <label class="control-label">{{modality.name}}</label>
         </div>
         <div class="col-sm-1">
-            <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time">
+            <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time" ng-change="updateUnits(modality)">
+        </div>
+        <div class="col-sm-1">
+            <input type="number" class="form-control" id="units" ng-value="getUnits(modality)" readonly>
         </div>
         <div class="col-sm-8">
             <input class="form-control" type="text" ng-model="modality.comments" list="commentsList">

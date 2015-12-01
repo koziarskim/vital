@@ -122,12 +122,19 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         scale = ((curScale - prevScale) / prevScale) * 100;
         return scale;
     }
-    $scope.calcDiff = function (oldFigure, newFigure) {
-        var percentChange = 0;
-        if ((oldFigure != 0) && (newFigure != 0)) {
-            percentChange = (1 - oldFigure / newFigure) * 100;
+
+    $scope.getUnits = function (modality) {
+        var units = 0;
+        if(modality!=null){
+            if(modality.time>0 && modality.time<=8){units = 1;}
+            if(modality.time>8 && modality.time<=23){units = 2;}
+            if(modality.time>23 && modality.time<=38){units = 3;}
+            if(modality.time>38 && modality.time<=53){units = 4;}
+            if(modality.time>53 && modality.time<=68){units = 5;}
+            if(modality.time>68 && modality.time<=83){units = 6;}
+            if(modality.time>83 && modality.time<=98){units = 7;}
         }
-        return percentChange;
+        return units;
     }
 
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
@@ -162,7 +169,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         {id: "MEC", name: "Mech. Tx v", time: null, comments: null},
         {id: "INF", name: "Infrared v", time: null, comments: null},
         {id: "COP", name: "Com. Pump", time: null, comments: null},
-        {id: "OTM", name: "Other", time: null, comments: null},
+        {id: "OTM", name: "Other Mod.", time: null, comments: null},
         {id: "MAT", name: "Man. Tx", time: null, comments: null},
         {id: "TXE", name: "TX. Ex", time: null, comments: null},
         {id: "NMR", name: "NM-RE", time: null, comments: null},
@@ -177,7 +184,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         {id: "WCA", name: "WC-addl", time: null, comments: null},
         {id: "MTE", name: "Man. Tests", time: null, comments: null},
         {id: "FTE", name: "Funct. Tests", time: null, comments: null},
-        {id: "OTP", name: "Other", time: null, comments: null}
+        {id: "OTP", name: "Other Proc.", time: null, comments: null}
     ]
 });
 
