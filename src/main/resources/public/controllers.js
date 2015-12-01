@@ -4,7 +4,7 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
         $location.path("/dashboard");
     }
     $scope.goPatient = function () {
-        if(UserContextService.data.office==null){
+        if (UserContextService.data.office == null) {
             return;
         }
         $location.path("/patients");
@@ -33,7 +33,7 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
 });
 
 mainApp.controller('DashboardController', function ($scope, $location, UserContextService) {
-    $scope.availableLocations = ["Chicago-Portage Park","Chicago Pediatrics","Park Ridge","Schaumburg","Chicago/Thorek Hospital"];
+    $scope.availableLocations = ["Chicago-Portage Park", "Chicago Pediatrics", "Park Ridge", "Schaumburg", "Chicago/Thorek Hospital"];
     $scope.selectedLocation = UserContextService.data.office;
     $scope.locationAction = function () {
         UserContextService.data.office = $scope.selectedLocation;
@@ -42,7 +42,7 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
 });
 
 mainApp.controller('PatientsController', function ($scope, $location, PatientService, UserContextService) {
-    if(UserContextService.data.office==null){
+    if (UserContextService.data.office == null) {
         alert("Please select location of your office");
         return;
     }
@@ -66,7 +66,7 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
     }
     $scope.showInitNote = function (patientId) {
         var note = PatientService.getInitNote(patientId);
-        $location.path("patients/" + patientId + "/notes/"+note.id);
+        $location.path("patients/" + patientId + "/notes/" + note.id);
     }
     $scope.showAllNotes = function (patientId) {
         $location.path("patients/" + patientId + "/notes");
@@ -93,24 +93,41 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
-    $scope.prevNote = null;
-    if($scope.noteId=="new"){
+    $scope.initNote = null;
+    if ($scope.noteId == "new") {
         var lastNote = PatientService.getLastNote($scope.patientId);
         $scope.note = angular.copy(lastNote);
-        $scope.note.id=null;
-        $scope.note.number=null;
-        $scope.note.date= new Date();
-    }else if ($scope.noteId) {
+        $scope.note.id = null;
+        $scope.note.number = null;
+        $scope.note.date = new Date();
+    } else if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.noteId);
-        $scope.prevNote = NoteService.getNote($scope.noteId-1);
     }
     $scope.painChange = function () {
-        var prevScale = $scope.prevNote==null?0:$scope.prevNote.pain.scale;
-        var scale = 0;
-        if($scope.note !=null) {
-            scale = $scope.note.pain.scale-prevScale;
+        var prevScale = 0;
+        var initNote = PatientService.getInitNote($scope.patientId);
+        if (initNote != null && initNote.pain != null && initNote.pain.scale != null) {
+            prevScale = initNote.pain.scale;
         }
+        var curScale = ($scope.note.pain == null || $scope.note.pain.scale == null) ? 0 : $scope.note.pain.scale;
+        var scale = 0;
+        if (prevScale == 0) {
+            scale = curScale * 10;
+            return scale;
+        }
+        if (prevScale == curScale) {
+            scale = 0;
+            return scale;
+        }
+        scale = ((curScale - prevScale) / prevScale) * 100;
         return scale;
+    }
+    $scope.calcDiff = function (oldFigure, newFigure) {
+        var percentChange = 0;
+        if ((oldFigure != 0) && (newFigure != 0)) {
+            percentChange = (1 - oldFigure / newFigure) * 100;
+        }
+        return percentChange;
     }
 
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
@@ -169,7 +186,7 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
         to: null
     }
     $scope.filterDate = function (note) {
-        if ((note.date > $scope.dateRange.from || $scope.dateRange.from==null) && (note.date < $scope.dateRange.to || $scope.dateRange.to==null)) {
+        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
             return true;
         } else {
             return false;
