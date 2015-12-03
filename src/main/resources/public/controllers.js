@@ -1,4 +1,9 @@
 mainApp.controller('IndexController', function ($scope, $location, UserContextService) {
+    $scope.$on('$viewContentLoaded', function(){
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    });
     $scope.data = UserContextService.data;
     $scope.goDashboard = function () {
         $location.path("/dashboard");
