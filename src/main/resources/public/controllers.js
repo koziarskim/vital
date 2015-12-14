@@ -60,7 +60,7 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
             return true;
         }
     };
-    $scope.addNewPatient = function () {
+    $scope.savePatient = function () {
         $location.path("/patients/0");
     };
     $scope.editPatient = function (patientId) {
@@ -70,19 +70,19 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
         PatientService.deletePatient(patientId);
     }
     $scope.showInitNote = function (patientId) {
-        var note = PatientService.getInitNote(patientId);
+        var note = NoteService.getInitNote(patientId);
         $location.path("patients/" + patientId + "/notes/" + note.id);
     }
     $scope.showAllNotes = function (patientId) {
         $location.path("patients/" + patientId + "/notes");
     }
     $scope.createTodayNote = function (patientId) {
-        var lastNote = PatientService.getLastNote(patientId);
+        var lastNote = NoteService.getLastNote(patientId);
         var note = angular.copy(lastNote);
         note.id = null;
         note.number = null;
         note.date = new Date();
-        var newNote = NoteService.saveNote(note);
+        var newNote = NoteService.saveNote(patientId, note);
         $location.path("patients/" + patientId + "/notes/" + newNote.id);
     }
 
@@ -95,7 +95,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
         $scope.patient = PatientService.getPatient($scope.patientId);
     }
     $scope.savePatient = function () {
-        PatientService.addNewPatient($scope.patient);
+        PatientService.savePatient($scope.patient);
         $location.path("/patients");
     };
 });
@@ -111,10 +111,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.noteId = $routeParams.noteId;
     $scope.note = null;
     $scope.initNote = null;
-    $scope.note = NoteService.getNote($scope.noteId);
+    $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
     $scope.painChange = function () {
         var prevScale = 0;
-        var initNote = PatientService.getInitNote($scope.patientId);
+        var initNote = NoteService.getInitNote($scope.patientId);
         if (initNote != null && initNote.pain != null && initNote.pain.scale != null) {
             prevScale = initNote.pain.scale;
         }
@@ -182,17 +182,17 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         console.log(val);
     }
 
-    $scope.addModality = function (modality) {
+    $scope.saveModality = function (modality) {
         if ($scope.selectedTxArea == null) {
             alert("Please choose TX Area!");
             return;
         }
         var mod = angular.copy(modality);
-        NoteService.addModality($scope.note.id, $scope.selectedTxArea, mod);
+        NoteService.saveModality($scope.patientId, $scope.note.id, $scope.selectedTxArea, mod);
     };
 
     $scope.saveNote = function () {
-        NoteService.saveNote($scope.note);
+        NoteService.saveNote($scope.patientId, $scope.note);
         $location.path("/patients/" + $scope.patientId + "/notes");
     };
 
@@ -244,9 +244,6 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
         $location.path("/patients/" + $scope.patientId + "/notes/0");
     };
     $scope.editNote = function (noteId) {
-        $location.path("/notes/" + noteId);
-    }
-    $scope.deleteNote = function (noteId) {
-        NoteService.deleteNote(noteId);
+        $location.path("patients/"+$scope.patientId+"/notes/" + noteId);
     }
 });

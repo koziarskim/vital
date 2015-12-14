@@ -6,111 +6,22 @@ mainApp.service('UserContextService', function () {
     }
 });
 
-mainApp.service('NoteService', function () {
-    var notes = [
-        {
-            id: 1,
-            number: 1,
-            date: new Date('2010-10-03'),
-            pain: {area: "Back", scale: 2},
-            txAreas: [
-                {
-                    name: "Back",
-                    modalities: [{
-                        id: "001",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }, {
-                        id: "002",
-                        code: "ELS",
-                        name: "EL. Stim v",
-                        time: 4,
-                        comments: "Repeat every monday"
-                    }]
-                },
-                {
-                    name: "Up",
-                    modalities: [{
-                        id: "003",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }, {
-                        id: "004",
-                        code: "ELS",
-                        name: "EL. Stim v",
-                        time: 4,
-                        comments: "Repeat every monday"
-                    }]
-                }
-            ]
-        },
-        {
-            id: 2,
-            number: 2,
-            date: new Date('2015-10-03'),
-            pain: {area: "Back", scale: 0},
-            txAreas: [
-                {
-                    name: "Leg",
-                    modalities: [{
-                        id: "005",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }, {
-                        id: "006",
-                        code: "ELS",
-                        name: "EL. Stim v",
-                        time: 4,
-                        comments: "Repeat every monday"
-                    }]
-                }
-            ]
-        },
-        {
-            id: 3,
-            number: 3,
-            date: new Date('2015-10-03'),
-            pain: {area: "Back", scale: 0},
-            txAreas: []
-        },
-        {
-            id: 4,
-            number: 4,
-            date: new Date('2015-11-03'),
-            pain: {area: "Upper", scale: 10},
-            txAreas: [
-                {
-                    name: "Leg",
-                    modalities: [{
-                        id: "005",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }]
-                }
-            ]
-        }
-    ];
+mainApp.service('NoteService', function (PatientService) {
     this.getAllNotes = function (patientId) {
-        return notes;
+        var patient = PatientService.getPatient(patientId);
+        return patient.notes;
     }
-    this.saveNote = function (note) {
+    this.saveNote = function (patientId, note) {
+        var patient = PatientService.getPatient(patientId);
         if (note != null) {
             if (note.id == null) {
-                note.id = notes.length + 1;
-                note.number = notes.length + 1;
-                notes.push(note);
+                note.id = patient.notes.length + 1;
+                note.number = patient.notes.length + 1;
+                patient.notes.push(note);
             } else {
-                notes.forEach(function (it, index) {
+                patient.notes.forEach(function (it, index) {
                     if (it.id == note.id) {
-                        notes[index] = it;
+                        patient.notes[index] = it;
                     }
                 });
             }
@@ -118,26 +29,28 @@ mainApp.service('NoteService', function () {
         }
         return note;
     }
-    this.deleteNote = function (id) {
-        notes.forEach(function (result, index) {
+    this.deleteNote = function (patientId, id) {
+        var patient = PatientService.getPatient(patientId);
+        patient.notes.forEach(function (result, index) {
             if (result['id'] == id) {
-                notes.splice(index, 1);
+                patient.notes.splice(index, 1);
             }
         });
     }
-    this.getNote = function (id) {
+    this.getNote = function (patientId, id) {
+        var patient = PatientService.getPatient(patientId);
         var note = null;
-        notes.forEach(function (it, index) {
+        patient.notes.forEach(function (it, index) {
             if (it.id == id) {
                 note = it;
             }
         });
         return note;
     }
-    this.addModality = function (noteId, txAreaName, modality) {
-        var txArea = this.getTxArea(noteId, txAreaName);
+    this.saveModality = function (patientId, noteId, txAreaName, modality) {
+        var txArea = this.getTxArea(patientId, noteId, txAreaName);
         if (txArea == null) {
-            txArea = this.addTxArea(noteId, txAreaName);
+            txArea = this.saveTxArea(patientId, noteId, txAreaName);
         }
         if (modality.id == null) {
             modality.id = txArea.modalities.length + 1;
@@ -145,14 +58,14 @@ mainApp.service('NoteService', function () {
         }
     }
 
-    this.addTxArea = function (noteId, txAreaName){
-        var txArea = this.getTxArea(noteId, txAreaName);
+    this.saveTxArea = function (patientId, noteId, txAreaName){
+        var txArea = this.getTxArea(patientId, noteId, txAreaName);
         if(txArea!=null){
             console.log("TxArea already exist");
             return;
         }
         txArea = {name: txAreaName, modalities: []};
-        var note = this.getNote(noteId);
+        var note = this.getNote(patientId, noteId);
         if(note==null){
             console.log("Note not found");
             return;
@@ -161,9 +74,9 @@ mainApp.service('NoteService', function () {
         return txArea;
     }
 
-    this.getTxArea = function (noteId, txAreaName) {
+    this.getTxArea = function (patientId, noteId, txAreaName) {
         var foundTxArea = null;
-        var note = this.getNote(noteId);
+        var note = this.getNote(patientId, noteId);
         note.txAreas.forEach(function (txArea, index) {
             if (txArea.name == txAreaName) {
                 foundTxArea = txArea;
@@ -171,9 +84,20 @@ mainApp.service('NoteService', function () {
         });
         return foundTxArea;
     }
+    this.getInitNote = function (patientId) {
+        var notes = this.getAllNotes(patientId);
+        var note = notes[0];
+        return note;
+    }
+
+    this.getLastNote = function (patientId) {
+        var notes = this.getAllNotes(patientId);
+        var note = notes[notes.length - 1];
+        return note;
+    }
 });
 
-mainApp.service('PatientService', function (NoteService) {
+mainApp.service('PatientService', function () {
     var patients = [
         {
             id: 1,
@@ -184,7 +108,98 @@ mainApp.service('PatientService', function (NoteService) {
             insuranceName: 'BCBS',
             authVisits: 1,
             visitFrom: null,
-            visitTo: null
+            visitTo: null,
+            notes: [
+                {
+                    id: 1,
+                    number: 1,
+                    date: new Date('2010-10-03'),
+                    pain: {area: "Back", scale: 2},
+                    txAreas: [
+                        {
+                            name: "Back",
+                            modalities: [{
+                                id: "001",
+                                code: "USA",
+                                name: "US",
+                                time: 12,
+                                comments: "Stretch"
+                            }, {
+                                id: "002",
+                                code: "ELS",
+                                name: "EL. Stim v",
+                                time: 4,
+                                comments: "Repeat every monday"
+                            }]
+                        },
+                        {
+                            name: "Up",
+                            modalities: [{
+                                id: "003",
+                                code: "USA",
+                                name: "US",
+                                time: 12,
+                                comments: "Stretch"
+                            }, {
+                                id: "004",
+                                code: "ELS",
+                                name: "EL. Stim v",
+                                time: 4,
+                                comments: "Repeat every monday"
+                            }]
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    number: 2,
+                    date: new Date('2015-10-03'),
+                    pain: {area: "Back", scale: 0},
+                    txAreas: [
+                        {
+                            name: "Leg",
+                            modalities: [{
+                                id: "005",
+                                code: "USA",
+                                name: "US",
+                                time: 12,
+                                comments: "Stretch"
+                            }, {
+                                id: "006",
+                                code: "ELS",
+                                name: "EL. Stim v",
+                                time: 4,
+                                comments: "Repeat every monday"
+                            }]
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    number: 3,
+                    date: new Date('2015-10-03'),
+                    pain: {area: "Back", scale: 0},
+                    txAreas: []
+                },
+                {
+                    id: 4,
+                    number: 4,
+                    date: new Date('2015-11-03'),
+                    pain: {area: "Upper", scale: 10},
+                    txAreas: [
+                        {
+                            name: "Leg",
+                            modalities: [{
+                                id: "005",
+                                code: "USA",
+                                name: "US",
+                                time: 12,
+                                comments: "Stretch"
+                            }]
+                        }
+                    ]
+                }
+            ]
         },
         {
             id: 2,
@@ -195,10 +210,76 @@ mainApp.service('PatientService', function (NoteService) {
             insuranceName: 'BCBS',
             authVisits: 1,
             visitFrom: null,
-            visitTo: null
+            visitTo: null,
+            notes: [
+                {
+                    id: 1,
+                    number: 1,
+                    date: new Date('2010-10-03'),
+                    pain: {area: "Back", scale: 2},
+                    txAreas: [
+                        {
+                            name: "Back",
+                            modalities: [{
+                                id: "001",
+                                code: "USA",
+                                name: "US",
+                                time: 12,
+                                comments: "Stretch"
+                            }, {
+                                id: "002",
+                                code: "ELS",
+                                name: "EL. Stim v",
+                                time: 4,
+                                comments: "Repeat every monday"
+                            }]
+                        },
+                        {
+                            name: "Up",
+                            modalities: [{
+                                id: "003",
+                                code: "USA",
+                                name: "US",
+                                time: 12,
+                                comments: "Stretch"
+                            }, {
+                                id: "004",
+                                code: "ELS",
+                                name: "EL. Stim v",
+                                time: 4,
+                                comments: "Repeat every monday"
+                            }]
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    number: 2,
+                    date: new Date('2015-10-03'),
+                    pain: {area: "Back", scale: 0},
+                    txAreas: [
+                        {
+                            name: "Leg",
+                            modalities: [{
+                                id: "005",
+                                code: "USA",
+                                name: "US",
+                                time: 12,
+                                comments: "Stretch"
+                            }, {
+                                id: "006",
+                                code: "ELS",
+                                name: "EL. Stim v",
+                                time: 4,
+                                comments: "Repeat every monday"
+                            }]
+                        }
+                    ]
+                }
+            ]
         },
         {
-            id: 2,
+            id: 3,
             firstName: 'Joe',
             lastName: 'Smith',
             dob: new Date('2005-11-03'),
@@ -206,13 +287,14 @@ mainApp.service('PatientService', function (NoteService) {
             insuranceName: 'BCBS',
             authVisits: 1,
             visitFrom: null,
-            visitTo: null
+            visitTo: null,
+            notes: []
         }
     ];
     this.getAllPatients = function () {
         return patients;
     }
-    this.addNewPatient = function (patient) {
+    this.savePatient = function (patient) {
         if (patient != null) {
             if (patient.id == null) {
                 patient.id = patients.length + 1;
@@ -243,15 +325,5 @@ mainApp.service('PatientService', function (NoteService) {
         });
         return patient;
     }
-    this.getInitNote = function (patientId) {
-        var notes = NoteService.getAllNotes(patientId);
-        var note = notes[0];
-        return note;
-    }
 
-    this.getLastNote = function (patientId) {
-        var notes = NoteService.getAllNotes(patientId);
-        var note = notes[notes.length - 1];
-        return note;
-    }
 });
