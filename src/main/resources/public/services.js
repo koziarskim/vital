@@ -1,4 +1,3 @@
-
 mainApp.service('UserContextService', function () {
     this.data = {
         firstName: null,
@@ -13,53 +12,96 @@ mainApp.service('NoteService', function () {
             id: 1,
             number: 1,
             date: new Date('2010-10-03'),
-            pain: {area:"Back", scale: 2},
-            modalities: [{
-                id: "USA",
-                name: "US",
-                time: 12,
-                comments: "Stretch"
-            }, {
-                id: "ELS",
-                name: "EL. Stim v",
-                time: 4,
-                comments: "Repeat every monday"
-            }]
+            pain: {area: "Back", scale: 2},
+            txAreas: [
+                {
+                    name: "Back",
+                    modalities: [{
+                        id: "001",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "002",
+                        code: "ELS",
+                        name: "EL. Stim v",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }]
+                },
+                {
+                    name: "Up",
+                    modalities: [{
+                        id: "003",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "004",
+                        code: "ELS",
+                        name: "EL. Stim v",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }]
+                }
+            ]
         },
         {
             id: 2,
             number: 2,
-            date: new Date('2014-10-03'),
-            pain: {area:"Front", scale: 1},
-            modalities: [{
-                id: "USA",
-                name: "US",
-                time: 12,
-                comments: "Stretch"
-            }, {
-                id: "ELS",
-                name: "EL. Stim v",
-                time: 4,
-                comments: "Repeat every monday"
-            }]
-        }, {
+            date: new Date('2015-10-03'),
+            pain: {area: "Back", scale: 0},
+            txAreas: [
+                {
+                    name: "Leg",
+                    modalities: [{
+                        id: "005",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "006",
+                        code: "ELS",
+                        name: "EL. Stim v",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }]
+                }
+            ]
+        },
+        {
             id: 3,
             number: 3,
             date: new Date('2015-10-03'),
-            pain: {area:"Back", scale: 0},
-            modalities: []
-        }, {
+            pain: {area: "Back", scale: 0},
+            txAreas: []
+        },
+        {
             id: 4,
             number: 4,
             date: new Date('2015-11-03'),
-            pain: {area:"Upper", scale: 10},
-            modalities: []
-        },
+            pain: {area: "Upper", scale: 10},
+            txAreas: [
+                {
+                    name: "Leg",
+                    modalities: [{
+                        id: "005",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }]
+                }
+            ]
+        }
     ];
     this.getAllNotes = function (patientId) {
         return notes;
     }
-    this.addNote = function (note) {
+    this.saveNote = function (note) {
         if (note != null) {
             if (note.id == null) {
                 note.id = notes.length + 1;
@@ -74,6 +116,7 @@ mainApp.service('NoteService', function () {
             }
 
         }
+        return note;
     }
     this.deleteNote = function (id) {
         notes.forEach(function (result, index) {
@@ -90,6 +133,43 @@ mainApp.service('NoteService', function () {
             }
         });
         return note;
+    }
+    this.addModality = function (noteId, txAreaName, modality) {
+        var txArea = this.getTxArea(noteId, txAreaName);
+        if (txArea == null) {
+            txArea = this.addTxArea(noteId, txAreaName);
+        }
+        if (modality.id == null) {
+            modality.id = txArea.modalities.length + 1;
+            txArea.modalities.push(modality);
+        }
+    }
+
+    this.addTxArea = function (noteId, txAreaName){
+        var txArea = this.getTxArea(noteId, txAreaName);
+        if(txArea!=null){
+            console.log("TxArea already exist");
+            return;
+        }
+        txArea = {name: txAreaName, modalities: []};
+        var note = this.getNote(noteId);
+        if(note==null){
+            console.log("Note not found");
+            return;
+        }
+        note.txAreas.push(txArea);
+        return txArea;
+    }
+
+    this.getTxArea = function (noteId, txAreaName) {
+        var foundTxArea = null;
+        var note = this.getNote(noteId);
+        note.txAreas.forEach(function (txArea, index) {
+            if (txArea.name == txAreaName) {
+                foundTxArea = txArea;
+            }
+        });
+        return foundTxArea;
     }
 });
 
@@ -163,15 +243,15 @@ mainApp.service('PatientService', function (NoteService) {
         });
         return patient;
     }
-    this.getInitNote = function(patientId){
+    this.getInitNote = function (patientId) {
         var notes = NoteService.getAllNotes(patientId);
         var note = notes[0];
         return note;
     }
 
-    this.getLastNote = function(patientId){
+    this.getLastNote = function (patientId) {
         var notes = NoteService.getAllNotes(patientId);
-        var note = notes[notes.length-1];
+        var note = notes[notes.length - 1];
         return note;
     }
 });
