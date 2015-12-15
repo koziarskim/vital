@@ -174,21 +174,32 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         from: null,
         to: null
     }
-    $scope.setTextArea = function (textArea) {
-        $scope.selectedTxArea = textArea;
-    }
 
-    $scope.selectedItem = function (val) {
-        console.log(val);
-    }
-
-    $scope.saveModality = function (modality) {
+    $scope.saveModality = function (modalityCode) {
         if ($scope.selectedTxArea == null) {
             alert("Please choose TX Area!");
             return;
         }
-        var mod = angular.copy(modality);
-        NoteService.saveModality($scope.patientId, $scope.note.id, $scope.selectedTxArea, mod);
+        var modality = angular.copy($scope.getAvailableExercises(modalityCode));
+        NoteService.saveModality($scope.patientId, $scope.note.id, $scope.selectedTxArea, modality);
+    };
+
+    $scope.saveProcedure = function (procedureCode) {
+        if ($scope.selectedTxArea == null) {
+            alert("Please choose TX Area!");
+            return;
+        }
+        var procedure = angular.copy($scope.getAvailableExercises(procedureCode));
+        NoteService.saveProcedure($scope.patientId, $scope.note.id, $scope.selectedTxArea, procedure);
+    };
+
+    $scope.saveMotion = function (motionCode) {
+        if ($scope.selectedTxArea == null) {
+            alert("Please choose TX Area!");
+            return;
+        }
+        var motion = angular.copy($scope.getAvailableExercises(motionCode));
+        NoteService.saveMotion($scope.patientId, $scope.note.id, $scope.selectedTxArea, motion);
     };
 
     $scope.saveNote = function () {
@@ -198,31 +209,40 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
 
-    //Available modalities
-    $scope.availableModalities = [
-        {code: "USA", name: "US", time: null, comments: null},
-        {code: "ELS", name: "EL. Stim v", time: null, comments: null},
-        {code: "HPC", name: "HP/CP v", time: null, comments: null},
-        {code: "ION", name: "Ionto v", time: null, comments: null},
-        {code: "MEC", name: "Mech. Tx v", time: null, comments: null},
-        {code: "INF", name: "Infrared v", time: null, comments: null},
-        {code: "COP", name: "Com. Pump", time: null, comments: null},
-        {code: "OTM", name: "Other Mod.", time: null, comments: null},
-        {code: "MAT", name: "Man. Tx", time: null, comments: null},
-        {code: "TXE", name: "TX. Ex", time: null, comments: null},
-        {code: "NMR", name: "NM-RE", time: null, comments: null},
-        {code: "GAI", name: "Gait", time: null, comments: null},
-        {code: "FUA", name: "Func. Act", time: null, comments: null},
-        {code: "AQU", name: "Aquatic", time: null, comments: null},
-        {code: "RMT", name: "ROM/MMT", time: null, comments: null},
-        {code: "IEV", name: "Init. Ev", time: null, comments: null},
-        {code: "REV", name: "Re-ev", time: null, comments: null},
-        {code: "FCE", name: "FCE", time: null, comments: null},
-        {code: "WC2", name: "WC-2hrs", time: null, comments: null},
-        {code: "WCA", name: "WC-addl", time: null, comments: null},
-        {code: "MTE", name: "Man. Tests", time: null, comments: null},
-        {code: "FTE", name: "Funct. Tests", time: null, comments: null},
-        {code: "OTP", name: "Other Proc.", time: null, comments: null}
+    $scope.getAvailableExercises = function(modalityCode){
+        var modality = null;
+        $scope.availableExercises.forEach(function (mod, index) {
+            if (mod.code == modalityCode) {
+                modality = mod;
+            }
+        });
+        return modality;
+    }
+
+    $scope.availableExercises = [
+        {code: "USA", name: "US"},
+        {code: "ELS", name: "EL. Stim v"},
+        {code: "HPC", name: "HP/CP v"},
+        {code: "ION", name: "Ionto v"},
+        {code: "MEC", name: "Mech. Tx v"},
+        {code: "INF", name: "Infrared v"},
+        {code: "COP", name: "Com. Pump"},
+        {code: "OTM", name: "Other Mod."},
+        {code: "MAT", name: "Man. Tx"},
+        {code: "NMR", name: "NM-RE"},
+        {code: "GAI", name: "Gait"},
+        {code: "FUA", name: "Func. Act"},
+        {code: "AQU", name: "Aquatic"},
+        {code: "IEV", name: "Init. Ev"},
+        {code: "REV", name: "Re-ev"},
+        {code: "FCE", name: "FCE"},
+        {code: "MTE", name: "Man. Tests"},
+        {code: "FTE", name: "Funct. Tests"},
+        {code: "OTP", name: "Other Proc."},
+        {code: "TXE", name: null},
+        {code: "WC2", name: null},
+        {code: "WCA", name: null},
+        {code: "RMT", name: null}
     ]
 });
 

@@ -57,16 +57,36 @@ mainApp.service('NoteService', function (PatientService) {
             txArea.modalities.push(modality);
         }
     }
-
-    this.saveTxArea = function (patientId, noteId, txAreaName){
+    this.saveProcedure = function (patientId, noteId, txAreaName, procedure) {
         var txArea = this.getTxArea(patientId, noteId, txAreaName);
-        if(txArea!=null){
+        if (txArea == null) {
+            txArea = this.saveTxArea(patientId, noteId, txAreaName);
+        }
+        if (procedure.id == null) {
+            procedure.id = txArea.procedures.length + 1;
+            txArea.procedures.push(procedure);
+        }
+    }
+    this.saveMotion = function (patientId, noteId, txAreaName, motion) {
+        var txArea = this.getTxArea(patientId, noteId, txAreaName);
+        if (txArea == null) {
+            txArea = this.saveTxArea(patientId, noteId, txAreaName);
+        }
+        if (motion.id == null) {
+            motion.id = txArea.motions.length + 1;
+            txArea.motions.push(motion);
+        }
+    }
+
+    this.saveTxArea = function (patientId, noteId, txAreaName) {
+        var txArea = this.getTxArea(patientId, noteId, txAreaName);
+        if (txArea != null) {
             console.log("TxArea already exist");
             return;
         }
-        txArea = {name: txAreaName, modalities: []};
+        txArea = {name: txAreaName, modalities: [], procedures:[], motions:[]};
         var note = this.getNote(patientId, noteId);
-        if(note==null){
+        if (note == null) {
             console.log("Note not found");
             return;
         }
@@ -130,6 +150,54 @@ mainApp.service('PatientService', function () {
                                 name: "EL. Stim v",
                                 time: 4,
                                 comments: "Repeat every monday"
+                            }],
+                            procedures: [{
+                                id: "001",
+                                code: "TXE",
+                                name: "Stat. bike",
+                                sets: 12,
+                                reps: 2,
+                                time: 15,
+                                weight: 150,
+                                comments: "Stretch"
+                            }, {
+                                id: "002",
+                                code: "WC2",
+                                name: "Knee Extens.",
+                                sets: 12,
+                                reps: 2,
+                                time: 15,
+                                weight: 150,
+                                comments: "Stretch"
+                            },
+                            {
+                                id: "003",
+                                code: "WCA",
+                                name: "SLR",
+                                sets: 12,
+                                reps: 2,
+                                time: 15,
+                                weight: 150,
+                                comments: "Stretch"
+                            }],
+                            motions: [{
+                                id: "001",
+                                code: "RMT",
+                                name: "Flexion",
+                                arom: "text here...",
+                                prom: "text here...",
+                                mmt: "text here...",
+                                promn: "text here...",
+                                aromn: "text here..."
+                            }, {
+                                id: "002",
+                                code: "Extension",
+                                name: "EL. Stim v",
+                                arom: "text here...",
+                                prom: "text here...",
+                                mmt: "text here...",
+                                promn: "text here...",
+                                aromn: "text here..."
                             }]
                         },
                         {
@@ -146,7 +214,9 @@ mainApp.service('PatientService', function () {
                                 name: "EL. Stim v",
                                 time: 4,
                                 comments: "Repeat every monday"
-                            }]
+                            }],
+                            procedures: [],
+                            motions: []
                         }
                     ]
                 },
@@ -170,7 +240,9 @@ mainApp.service('PatientService', function () {
                                 name: "EL. Stim v",
                                 time: 4,
                                 comments: "Repeat every monday"
-                            }]
+                            }],
+                            procedures: [],
+                            motions: []
                         }
                     ]
                 },
@@ -195,7 +267,9 @@ mainApp.service('PatientService', function () {
                                 name: "US",
                                 time: 12,
                                 comments: "Stretch"
-                            }]
+                            }],
+                            procedures: [],
+                            motions: []
                         }
                     ]
                 }
@@ -232,7 +306,9 @@ mainApp.service('PatientService', function () {
                                 name: "EL. Stim v",
                                 time: 4,
                                 comments: "Repeat every monday"
-                            }]
+                            }],
+                            procedures: [],
+                            motions: []
                         },
                         {
                             name: "Up",
@@ -248,7 +324,9 @@ mainApp.service('PatientService', function () {
                                 name: "EL. Stim v",
                                 time: 4,
                                 comments: "Repeat every monday"
-                            }]
+                            }],
+                            procedures: [],
+                            motions: []
                         }
                     ]
                 },
@@ -272,7 +350,9 @@ mainApp.service('PatientService', function () {
                                 name: "EL. Stim v",
                                 time: 4,
                                 comments: "Repeat every monday"
-                            }]
+                            }],
+                            procedures: [],
+                            motions: []
                         }
                     ]
                 }
