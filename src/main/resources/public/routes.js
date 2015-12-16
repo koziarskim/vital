@@ -24,6 +24,10 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'patient.html',
             controller: 'PatientController'
         })
+        .when('/profiles/:uid?', {
+            templateUrl: 'profile.html',
+            controller: 'ProfileController'
+        })
         .when('/dashboard', {
             templateUrl: 'dashboard.html',
             controller: 'DashboardController'

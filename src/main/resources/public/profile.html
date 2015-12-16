@@ -1,0 +1,53 @@
+<div class="container">
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="control-label">User Name: </label>
+            <input type="text" class="form-control" ng-model="profile.uid">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="control-label">First Name: </label>
+            <input type="text" class="form-control" ng-model="profile.firstName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="control-label">Last Name: </label>
+            <input type="text" class="form-control" ng-model="profile.lastName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="control-label">Credentials: </label>
+            <input type="text" class="form-control" ng-model="profile.credentials">
+        </div>
+    </div>
+    <br/>
+    <div><a href="" ng-click="changePassword?changePassword=false:changePassword=true">{{changePassword==true?"Cancel":"Change Password"}}</a></div>
+    <br/>
+    <div ng-show="changePassword">
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="control-label">Password: </label>
+                <input type="password" class="form-control" ng-model="profile.password">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="control-label">Verify Password: </label>
+                <input type="password" class="form-control" ng-model="verifyPassword">
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-2">
+            <button type="submit" class="btn btn-default" ng-click="saveProfile(profile)">Save</button>
+        </div>
+    </div>
+</div>
+</div>

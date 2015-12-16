@@ -10,37 +10,44 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     }
     $scope.goNote = function () {
         if (UserContextService.data.patientId == null || UserContextService.data.noteId == null) {
-            alert("Please select patient or note");
+            alert("Please select note");
             return;
         }
         $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId);
     }
     $scope.goAssessment = function () {
         if (UserContextService.data.patientId == null || UserContextService.data.noteId == null) {
-            alert("Please select patient or note");
+            alert("Please select note");
             return;
         }
         $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId + "/assessment");
     }
     $scope.logOut = function () {
-        UserContextService.data.firstName = null;
+        UserContextService.clearData();
         $location.path("/");
+    }
+    $scope.editProfile = function (uid) {
+        $location.path("profiles/"+uid);
     }
 });
 
-mainApp.controller('LoginController', function ($scope, $location, UserContextService) {
+mainApp.controller('LoginController', function ($scope, $location, UserContextService, ProfileService) {
     $scope.login = {
         userName: null,
         password: null
     };
     $scope.loginAction = function () {
-        if ($scope.login.userName == null || $scope.login.password == null ||
-            $scope.login.userName != "tom" || $scope.login.password != "tom") {
-
-            alert("invalid username or password");
-        } else {
-            UserContextService.data.firstName = $scope.login.userName;
+        if ($scope.login.userName == null || $scope.login.password == null) {
+            alert("Please enter username and password");
+            return;
+        }
+        var authenticated = ProfileService.validateUser($scope.login.userName, $scope.login.password);
+        if(authenticated){
+            UserContextService.data.uid = $scope.login.userName;
             $location.path("/dashboard");
+        }else{
+            alert("Invalid username and/or password");
+            $location.path("/login");
         }
     }
 });
@@ -66,7 +73,7 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     };
     $scope.savePatient = function (patient) {
         var savedPatient = PatientService.savePatient(patient);
-        $location.path("/patients/"+savedPatient.id);
+        $location.path("/patients/" + savedPatient.id);
     };
     $scope.createNewPatient = function () {
         $location.path("/patients/new");
@@ -110,7 +117,7 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
 
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
     $scope.patientId = $routeParams.patientId;
-    if($scope.patientId=="new"){
+    if ($scope.patientId == "new") {
         $scope.patientId = null;
     }
     $scope.patient = null;
@@ -314,6 +321,24 @@ mainApp.controller('AssessmentController', function ($scope, $location, $routePa
     $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
     $scope.saveAssessment = function () {
         NoteService.saveNote($scope.patientId, $scope.note)
+        $location.path("dashboard/");
+    }
+});
+
+mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService, UserContextService) {
+    $scope.uid = $routeParams.uid;
+    $scope.changePassword = false;
+    $scope.verifyPassword = null;
+    $scope.profile = ProfileService.getProfile($scope.uid);
+    $scope.saveProfile = function (profile) {
+        if($scope.changePassword){
+            if(profile.password!=$scope.verifyPassword){
+                alert("Password and Verify Password don't match");
+                return;
+            }
+        }
+        ProfileService.saveProfile(profile);
+        UserContextService.data.uid = profile.uid;
         $location.path("dashboard/");
     }
 });

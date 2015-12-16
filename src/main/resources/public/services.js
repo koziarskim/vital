@@ -1,5 +1,6 @@
 mainApp.service('UserContextService', function () {
     this.data = {
+        uid: null,
         firstName: null,
         lastName: null,
         office: null,
@@ -7,6 +8,16 @@ mainApp.service('UserContextService', function () {
         noteDate: null,
         patientId: null,
         noteId: null
+    }
+    this.clearData = function () {
+        this.data.uid = null;
+        this.data.firstName = null;
+        this.data.lastName = null;
+        this.data.office = null;
+        this.data.patientName = null;
+        this.data.noteDate = null;
+        this.data.patientId = null;
+        this.data.noteId = null;
     }
 });
 
@@ -19,14 +30,14 @@ mainApp.service('NoteService', function (PatientService) {
         var patient = PatientService.getPatient(patientId);
         if (note != null) {
             if (note.id == null) {
-                if(patient.notes==null){
+                if (patient.notes == null) {
                     patient.notes = [];
                 }
-                if(patient.notes.length>0) {
+                if (patient.notes.length > 0) {
                     note.id = patient.notes.length + 1;
                     note.number = patient.notes.length + 1;
-                }else{
-                    note.id=001;
+                } else {
+                    note.id = 001;
                     note.number = 1;
                 }
                 patient.notes.push(note);
@@ -96,7 +107,7 @@ mainApp.service('NoteService', function (PatientService) {
             console.log("TxArea already exist");
             return;
         }
-        txArea = {name: txAreaName, modalities: [], procedures:[], motions:[]};
+        txArea = {name: txAreaName, modalities: [], procedures: [], motions: []};
         var note = this.getNote(patientId, noteId);
         if (note == null) {
             console.log("Note not found");
@@ -119,7 +130,7 @@ mainApp.service('NoteService', function (PatientService) {
     this.getInitNote = function (patientId) {
         var note = null;
         var notes = this.getAllNotes(patientId);
-        if(notes!=null && notes.length>0){
+        if (notes != null && notes.length > 0) {
             note = notes[0];
         }
         return note;
@@ -194,16 +205,16 @@ mainApp.service('PatientService', function () {
                                 weight: 150,
                                 comments: "Stretch"
                             },
-                            {
-                                id: "003",
-                                code: "WCA",
-                                name: "SLR",
-                                sets: 12,
-                                reps: 2,
-                                time: 15,
-                                weight: 150,
-                                comments: "Stretch"
-                            }],
+                                {
+                                    id: "003",
+                                    code: "WCA",
+                                    name: "SLR",
+                                    sets: 12,
+                                    reps: 2,
+                                    time: 15,
+                                    weight: 150,
+                                    comments: "Stretch"
+                                }],
                             motions: [{
                                 id: "001",
                                 code: "RMT",
@@ -468,3 +479,58 @@ mainApp.service('PatientService', function () {
     }
 
 });
+
+mainApp.service('ProfileService', function () {
+    var profiles = [
+        {
+            firstName: "Tom",
+            lastName: "Kokocinski",
+            uid: "tom",
+            credentials: "PTA",
+            password: "1234"
+        },
+        {
+            firstName: "Marcin",
+            lastName: "Koziarski",
+            uid: "marcin",
+            credentials: "Developer",
+            password: "1234"
+        }
+    ]
+    this.saveProfile = function (profile) {
+        if (profile == null) {
+            return;
+        }
+        var newProfile = true;
+        profiles.forEach(function (it, index) {
+            if (it.uid == profile.uid) {
+                profiles[index] = profile;
+                newProfile = false;
+            }
+        });
+        if (newProfile) {
+            profiles.push(profile);
+        }
+        return profile;
+    }
+    this.getProfile = function (uid) {
+        var profile = null;
+        profiles.forEach(function (it, index) {
+            if (it.uid == uid) {
+                profile = it;
+            }
+        });
+        return profile;
+    }
+    this.validateUser = function (uid, password) {
+        var profile = this.getProfile(uid);
+        if (profile == null) {
+            return false;
+        }
+        //TODO: Need to call server to validate password;
+        if (password == "1234") {
+            return true;
+        }
+    }
+})
+;
