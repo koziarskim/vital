@@ -2,7 +2,9 @@ mainApp.service('UserContextService', function () {
     this.data = {
         firstName: null,
         lastName: null,
-        office: null
+        office: null,
+        patientName: null,
+        noteDate: null
     }
 });
 
@@ -121,8 +123,8 @@ mainApp.service('PatientService', function () {
     var patients = [
         {
             id: 1,
-            firstName: 'Tom',
-            lastName: 'Kokocinski',
+            firstName: 'Andrzej',
+            lastName: 'Duda',
             dob: new Date('2015-11-03T06:00:00.000Z'),
             gender: 'male',
             insuranceName: 'BCBS',
@@ -277,8 +279,8 @@ mainApp.service('PatientService', function () {
         },
         {
             id: 2,
-            firstName: 'Marcin',
-            lastName: 'Koziarski',
+            firstName: 'Beata',
+            lastName: 'Szydlo',
             dob: new Date('2015-11-03'),
             gender: "male",
             insuranceName: 'BCBS',
