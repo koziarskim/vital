@@ -19,8 +19,16 @@ mainApp.service('NoteService', function (PatientService) {
         var patient = PatientService.getPatient(patientId);
         if (note != null) {
             if (note.id == null) {
-                note.id = patient.notes.length + 1;
-                note.number = patient.notes.length + 1;
+                if(patient.notes==null){
+                    patient.notes = [];
+                }
+                if(patient.notes.length>0) {
+                    note.id = patient.notes.length + 1;
+                    note.number = patient.notes.length + 1;
+                }else{
+                    note.id=001;
+                    note.number = 1;
+                }
                 patient.notes.push(note);
             } else {
                 patient.notes.forEach(function (it, index) {
@@ -109,8 +117,11 @@ mainApp.service('NoteService', function (PatientService) {
         return foundTxArea;
     }
     this.getInitNote = function (patientId) {
+        var note = null;
         var notes = this.getAllNotes(patientId);
-        var note = notes[0];
+        if(notes!=null && notes.length>0){
+            note = notes[0];
+        }
         return note;
     }
 
@@ -139,6 +150,15 @@ mainApp.service('PatientService', function () {
                     number: 1,
                     date: new Date('2010-10-03'),
                     pain: {area: "Back", scale: 2},
+                    assessment: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two...",
+                        commentsThree: "comments three..."
+                    },
+                    plan: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two..."
+                    },
                     txAreas: [
                         {
                             name: "Back",
@@ -229,6 +249,15 @@ mainApp.service('PatientService', function () {
                     number: 2,
                     date: new Date('2015-10-03'),
                     pain: {area: "Back", scale: 0},
+                    assessment: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two...",
+                        commentsThree: "comments three..."
+                    },
+                    plan: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two..."
+                    },
                     txAreas: [
                         {
                             name: "Leg",
@@ -262,6 +291,15 @@ mainApp.service('PatientService', function () {
                     number: 4,
                     date: new Date('2015-11-03'),
                     pain: {area: "Upper", scale: 10},
+                    assessment: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two...",
+                        commentsThree: "comments three..."
+                    },
+                    plan: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two..."
+                    },
                     txAreas: [
                         {
                             name: "Leg",
@@ -295,6 +333,15 @@ mainApp.service('PatientService', function () {
                     number: 1,
                     date: new Date('2010-10-03'),
                     pain: {area: "Back", scale: 2},
+                    assessment: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two...",
+                        commentsThree: "comments three..."
+                    },
+                    plan: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two..."
+                    },
                     txAreas: [
                         {
                             name: "Back",
@@ -339,6 +386,15 @@ mainApp.service('PatientService', function () {
                     number: 2,
                     date: new Date('2015-10-03'),
                     pain: {area: "Back", scale: 0},
+                    assessment: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two...",
+                        commentsThree: "comments three..."
+                    },
+                    plan: {
+                        commentsOne: "comments one...",
+                        commentsTwo: "comments two..."
+                    },
                     txAreas: [
                         {
                             name: "Leg",
@@ -392,6 +448,7 @@ mainApp.service('PatientService', function () {
             }
 
         }
+        return patient;
     }
     this.deletePatient = function (id) {
         patients.forEach(function (result, index) {

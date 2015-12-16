@@ -4,18 +4,12 @@
     <meta charset="utf-8">
     <title>AngularJS Routing</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>-->
-
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-route.min.js"></script>
 
-    <!--<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>-->
-
-
-    <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">-->
+    <link rel="stylesheet" href="styles.css">
     <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript" src="routes.js"></script>
     <script type="text/javascript" src="controllers.js"></script>
@@ -30,11 +24,11 @@
         <div class="row">
             <div class="col-sm-6">
                 <button ng-click="goDashboard()" class="btn btn-default">DASHBOARD</button>
-                <button ng-click="goNote()" class="btn btn-default">NOTE</button>
-                <button ng-click="goAssessment()" class="btn btn-default">ASSESSMENT/PLAN</button>
+                <button ng-click="goNote()" class="btn btn-default">SUBJ/OBJ</button>
+                <button ng-click="goAssessment()" class="btn btn-default">ASSESMT/PLAN</button>
                 <button ng-click="logOut()" class="btn btn-default">LOGOUT</button>
             </div>
-            <div class="col-sm-offset-1 col-sm-2" style="padding-top: 15px">
+            <div class="col-sm-2" style="padding-top: 15px">
                 <div>Patient: {{data.patientName}}</div>
             </div>
             <div class="col-sm-3">
@@ -42,7 +36,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-offset-7 col-sm-2">
+            <div class="col-sm-offset-6 col-sm-2">
                 <div>Note: {{data.noteDate | date: "MM-dd-yyyy"}}</div>
             </div>
             <div class="col-sm-3">

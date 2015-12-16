@@ -1,8 +1,6 @@
 <div class="container">
-    <div class="row">
-        <h2> Dashboard </h2>
-        <br/>
-    </div>
+    <br/>
+
     <div class="row">
         <div class="col-sm-1">
             <label class="control-label">Location: </label>
@@ -19,7 +17,7 @@
     <div ng-show="selectedLocation!=null">
         <div class="row">
             <div class="col-sm-1">
-                <label class="control-label" for="searchPatientInput">Search: </label>
+                <label class="control-label" for="searchPatientInput">Patient: </label>
             </div>
             <div class="col-sm-4">
                 <input class="form-control" id="searchPatientInput" type="text" ng-model="filterInput"/><br/><br/>
@@ -52,7 +50,7 @@
                 </tr>
                 </tbody>
             </table>
-            <button type="button" class="btn btn-default" value="Add New" ng-click="addNewPatient()">New Patient</button>
+            <button type="button" class="btn btn-default" value="Add New" ng-click="createNewPatient()">New Patient</button>
         </div>
     </div>
 </div>

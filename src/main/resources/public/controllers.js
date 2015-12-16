@@ -9,18 +9,18 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
         $location.path("/dashboard");
     }
     $scope.goNote = function () {
-        if(UserContextService.data.patientId==null || UserContextService.data.noteId==null){
+        if (UserContextService.data.patientId == null || UserContextService.data.noteId == null) {
             alert("Please select patient or note");
             return;
         }
         $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId);
     }
     $scope.goAssessment = function () {
-        if(UserContextService.data.patientId==null || UserContextService.data.noteId==null){
+        if (UserContextService.data.patientId == null || UserContextService.data.noteId == null) {
             alert("Please select patient or note");
             return;
         }
-        $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId+"/assessment");
+        $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId + "/assessment");
     }
     $scope.logOut = function () {
         UserContextService.data.firstName = null;
@@ -64,9 +64,13 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
             return true;
         }
     };
-    $scope.savePatient = function () {
-        $location.path("/patients/0");
+    $scope.savePatient = function (patient) {
+        var savedPatient = PatientService.savePatient(patient);
+        $location.path("/patients/"+savedPatient.id);
     };
+    $scope.createNewPatient = function () {
+        $location.path("/patients/new");
+    }
     $scope.editPatient = function (patientId) {
         $location.path("/patients/" + patientId);
     }
@@ -106,13 +110,16 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
 
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
     $scope.patientId = $routeParams.patientId;
+    if($scope.patientId=="new"){
+        $scope.patientId = null;
+    }
     $scope.patient = null;
     if ($scope.patientId) {
         $scope.patient = PatientService.getPatient($scope.patientId);
     }
     $scope.savePatient = function () {
         PatientService.savePatient($scope.patient);
-        $location.path("/patients");
+        $location.path("/dashboard");
     };
 });
 
@@ -237,7 +244,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     $scope.saveNote = function () {
         NoteService.saveNote($scope.patientId, $scope.note);
-        $location.path("/patients/" + $scope.patientId + "/notes/"+$scope.noteId+"/assessment");
+        $location.path("/patients/" + $scope.patientId + "/notes/" + $scope.noteId + "/assessment");
     };
 
     $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
@@ -304,7 +311,9 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
 mainApp.controller('AssessmentController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
+    $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
     $scope.saveAssessment = function () {
+        NoteService.saveNote($scope.patientId, $scope.note)
         $location.path("dashboard/");
     }
 });
