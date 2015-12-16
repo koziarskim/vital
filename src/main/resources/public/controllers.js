@@ -101,6 +101,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
 });
 
 mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService) {
+
     if ($routeParams.patientId == null) {
         console.log("PatientId is null");
     }
@@ -112,6 +113,15 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.note = null;
     $scope.initNote = null;
     $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
+    $scope.visibleTxAreaName = null;
+
+    $scope.toggleTxArea = function(txAreaName){
+        if($scope.visibleTxAreaName==txAreaName){
+            $scope.visibleTxAreaName=null;
+        }else {
+            $scope.visibleTxAreaName = txAreaName;
+        }
+    }
     $scope.painChange = function () {
         var prevScale = 0;
         var initNote = NoteService.getInitNote($scope.patientId);
@@ -168,6 +178,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         time: null,
         comments: null
     }
+    //TODO: Need to add custom txArea from service.
     $scope.availableTxAreas = ["Back", "Up", "Front", "Leg"];
     $scope.selectedTxArea = null;
     $scope.dateRange = {
@@ -182,6 +193,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         var modality = angular.copy($scope.getAvailableExercises(modalityCode));
         NoteService.saveModality($scope.patientId, $scope.note.id, $scope.selectedTxArea, modality);
+        $scope.visibleTxAreaName = $scope.selectedTxArea;
     };
 
     $scope.saveProcedure = function (procedureCode) {
@@ -191,6 +203,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         var procedure = angular.copy($scope.getAvailableExercises(procedureCode));
         NoteService.saveProcedure($scope.patientId, $scope.note.id, $scope.selectedTxArea, procedure);
+        $scope.visibleTxAreaName = $scope.selectedTxArea;
     };
 
     $scope.saveMotion = function (motionCode) {
@@ -200,6 +213,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         var motion = angular.copy($scope.getAvailableExercises(motionCode));
         NoteService.saveMotion($scope.patientId, $scope.note.id, $scope.selectedTxArea, motion);
+        $scope.visibleTxAreaName = $scope.selectedTxArea;
     };
 
     $scope.saveNote = function () {
