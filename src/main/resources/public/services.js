@@ -138,6 +138,17 @@ mainApp.service('NoteService', function (PatientService) {
 
     this.getLastNote = function (patientId) {
         var notes = this.getAllNotes(patientId);
+        if (notes == null) {
+            var newNote = {
+                id: null,
+                number: 1,
+                date: new Date(),
+                pain: null,
+                txAreas: []
+            }
+            this.saveNote(patientId, newNote);
+        }
+        notes = this.getAllNotes(patientId);
         var note = notes[notes.length - 1];
         return note;
     }
@@ -486,7 +497,7 @@ mainApp.service('ProfileService', function () {
             firstName: "Tom",
             lastName: "Kokocinski",
             uid: "tom",
-            credentials: "PTA",
+            credentials: "PT, DPT, CFCE",
             password: "1234"
         },
         {
@@ -495,8 +506,18 @@ mainApp.service('ProfileService', function () {
             uid: "marcin",
             credentials: "Developer",
             password: "1234"
+        },
+        {
+            firstName: "Joe",
+            lastName: "Smith",
+            uid: "joe",
+            credentials: "PT",
+            password: "1234"
         }
     ]
+    this.getAllProfiles = function () {
+        return profiles;
+    }
     this.saveProfile = function (profile) {
         if (profile == null) {
             return;

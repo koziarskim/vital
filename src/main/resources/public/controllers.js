@@ -315,14 +315,28 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
     }
 });
 
-mainApp.controller('AssessmentController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
+mainApp.controller('AssessmentController', function ($scope, $location, $routeParams, NoteService, ProfileService) {
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
+    $scope.signDate = new Date();
+    $scope.coSignDate = new Date();
+    $scope.inputProfile = null;
+    $scope.inputCoProfile = null;
     $scope.saveAssessment = function () {
         NoteService.saveNote($scope.patientId, $scope.note)
         $location.path("dashboard/");
     }
+    $scope.filterOnProfile = function (profile) {
+        if ($scope.inputProfile) {
+            var match = (profile.firstName + profile.lastName).toLowerCase().indexOf($scope.inputProfile.toLowerCase()) >= 0;
+            return match;
+        } else {
+            return true;
+        }
+    };
+    $scope.availableTherapists = ProfileService.getAllProfiles();
+    $scope.availableCoTherapists = ProfileService.getAllProfiles();
 });
 
 mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService, UserContextService) {
