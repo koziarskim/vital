@@ -8,8 +8,19 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     $scope.goDashboard = function () {
         $location.path("/dashboard");
     }
-    $scope.goPatient = function () {
-        $location.path("/patients");
+    $scope.goNote = function () {
+        if(UserContextService.data.patientId==null || UserContextService.data.noteId==null){
+            alert("Please select patient or note");
+            return;
+        }
+        $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId);
+    }
+    $scope.goAssessment = function () {
+        if(UserContextService.data.patientId==null || UserContextService.data.noteId==null){
+            alert("Please select patient or note");
+            return;
+        }
+        $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId+"/assessment");
     }
     $scope.logOut = function () {
         UserContextService.data.firstName = null;
@@ -34,24 +45,16 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
     }
 });
 
-mainApp.controller('DashboardController', function ($scope, $location, UserContextService) {
+mainApp.controller('DashboardController', function ($scope, $location, UserContextService, PatientService, NoteService) {
     $scope.availableLocations = ["Chicago-Portage Park", "Chicago Pediatrics", "Park Ridge", "Schaumburg", "Chicago/Thorek Hospital"];
     $scope.selectedLocation = UserContextService.data.office;
     UserContextService.data.patientName = null;
     UserContextService.data.noteDate = null;
+    UserContextService.data.patientId = null;
+    UserContextService.data.noteId = null;
     $scope.locationAction = function () {
         UserContextService.data.office = $scope.selectedLocation;
-        $location.path("/patients");
     };
-});
-
-mainApp.controller('PatientsController', function ($scope, $location, PatientService, UserContextService, NoteService) {
-    if (UserContextService.data.office == null) {
-        alert("Please select location of your office");
-        return;
-    }
-    UserContextService.data.patientName = null;
-    UserContextService.data.noteDate = null;
     $scope.patients = PatientService.getAllPatients();
     $scope.filterInput = null;
     $scope.filterOnPatient = function (patient) {
@@ -98,6 +101,7 @@ mainApp.controller('PatientsController', function ($scope, $location, PatientSer
         $location.path("patients/" + patientId + "/notes/" + newNote.id);
     }
 
+
 });
 
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
@@ -126,6 +130,8 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
     $scope.visibleTxAreaName = null;
     $scope.patient = PatientService.getPatient($scope.patientId);
+    UserContextService.data.patientId = $scope.patient.id;
+    UserContextService.data.noteId = $scope.note.id;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
     UserContextService.data.noteDate = $scope.note.date;
     $scope.toggleTxArea = function (txAreaName) {
@@ -231,7 +237,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     $scope.saveNote = function () {
         NoteService.saveNote($scope.patientId, $scope.note);
-        $location.path("/patients/" + $scope.patientId + "/notes");
+        $location.path("/patients/" + $scope.patientId + "/notes/"+$scope.noteId+"/assessment");
     };
 
     $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
@@ -277,6 +283,7 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
     $scope.patientId = $routeParams.patientId;
     $scope.notes = NoteService.getAllNotes($scope.patientId);
     var patient = PatientService.getPatient($scope.patientId);
+    UserContextService.data.patientId = $scope.patientId;
     UserContextService.data.patientName = patient.firstName + " " + patient.lastName;
     $scope.dateRange = {
         from: null,
@@ -291,5 +298,13 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
     };
     $scope.editNote = function (noteId) {
         $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
+    }
+});
+
+mainApp.controller('AssessmentController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
+    $scope.patientId = $routeParams.patientId;
+    $scope.noteId = $routeParams.noteId;
+    $scope.saveAssessment = function () {
+        $location.path("dashboard/");
     }
 });

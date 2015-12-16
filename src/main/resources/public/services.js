@@ -4,7 +4,9 @@ mainApp.service('UserContextService', function () {
         lastName: null,
         office: null,
         patientName: null,
-        noteDate: null
+        noteDate: null,
+        patientId: null,
+        noteId: null
     }
 });
 

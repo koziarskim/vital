@@ -4,10 +4,6 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'login.html',
             controller: 'LoginController'
         })
-        .when('/patients', {
-            templateUrl: 'patients.html',
-            controller: 'PatientsController'
-        })
         .when('/notes/:noteId?', {
             templateUrl: 'note.html',
             controller: 'NoteController'
@@ -15,6 +11,10 @@ mainApp.config(function ($routeProvider) {
         .when('/patients/:patientId?/notes/:noteId', {
             templateUrl: 'note.html',
             controller: 'NoteController'
+        })
+        .when('/patients/:patientId?/notes/:noteId/assessment', {
+            templateUrl: 'assessment.html',
+            controller: 'AssessmentController'
         })
         .when('/patients/:patientId?/notes', {
             templateUrl: 'notes.html',
