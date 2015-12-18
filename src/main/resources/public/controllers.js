@@ -130,7 +130,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     };
 });
 
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService, ProfileService) {
     if ($routeParams.patientId == null) {
         console.log("PatientId is null");
     }
@@ -251,7 +251,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     $scope.saveNote = function () {
         NoteService.saveNote($scope.patientId, $scope.note);
-        $location.path("/patients/" + $scope.patientId + "/notes/" + $scope.noteId + "/assessment");
+        $location.path("/dashboard");
     };
 
     $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
@@ -291,6 +291,21 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         {code: "WCA", name: null},
         {code: "RMT", name: null}
     ]
+
+    $scope.signDate = new Date();
+    $scope.coSignDate = new Date();
+    $scope.inputProfile = null;
+    $scope.inputCoProfile = null;
+    $scope.filterOnProfile = function (profile) {
+        if ($scope.inputProfile) {
+            var match = (profile.firstName + profile.lastName).toLowerCase().indexOf($scope.inputProfile.toLowerCase()) >= 0;
+            return match;
+        } else {
+            return true;
+        }
+    };
+    $scope.availableTherapists = ProfileService.getAllProfiles();
+    $scope.availableCoTherapists = ProfileService.getAllProfiles();
 });
 
 mainApp.controller('NotesController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
@@ -313,30 +328,6 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
     $scope.editNote = function (noteId) {
         $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
     }
-});
-
-mainApp.controller('AssessmentController', function ($scope, $location, $routeParams, NoteService, ProfileService) {
-    $scope.patientId = $routeParams.patientId;
-    $scope.noteId = $routeParams.noteId;
-    $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
-    $scope.signDate = new Date();
-    $scope.coSignDate = new Date();
-    $scope.inputProfile = null;
-    $scope.inputCoProfile = null;
-    $scope.saveAssessment = function () {
-        NoteService.saveNote($scope.patientId, $scope.note)
-        $location.path("dashboard/");
-    }
-    $scope.filterOnProfile = function (profile) {
-        if ($scope.inputProfile) {
-            var match = (profile.firstName + profile.lastName).toLowerCase().indexOf($scope.inputProfile.toLowerCase()) >= 0;
-            return match;
-        } else {
-            return true;
-        }
-    };
-    $scope.availableTherapists = ProfileService.getAllProfiles();
-    $scope.availableCoTherapists = ProfileService.getAllProfiles();
 });
 
 mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService, UserContextService) {

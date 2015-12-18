@@ -234,6 +234,58 @@
             </div>
         </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Assessment/Functional Progress</div>
+        <div class="panel-body">
+            <input type="text" class="form-control" ng-model="note.assessment.commentsOne" placeholder="Type here...">
+            <input type="text" class="form-control" ng-model="note.assessment.commentsTwo" placeholder="Type here...">
+            <input type="text" class="form-control" ng-model="note.assessment.commentsThree" placeholder="Type here...">
+        </div>
+    </div>
+    <br/>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Plan</div>
+        <div class="panel-body">
+            <input type="text" class="form-control" ng-model="note.plan.commentsOne" placeholder="Type here...">
+            <input type="text" class="form-control" ng-model="note.plan.commentsTwo" placeholder="Type here...">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label">Therapist Name:</label>
+        </div>
+        <div class="col-sm-4">
+            <input class="form-control" type="text" ng-model="inputProfile" list="terapistList">
+            <datalist id="terapistList">
+                <option ng-repeat="profile in availableTherapists | filter:filterOnProfile" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
+            </datalist>
+        </div>
+        <div class="col-sm-1">
+            <label class="control-label">Date</label>
+        </div>
+        <div class="col-sm-2">
+            <input type="date" class="form-control" ng-model="signDate">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label">Co. Tx Therapist:</label>
+        </div>
+        <div class="col-sm-4">
+            <input class="form-control" type="text" ng-model="inputCoProfile" list="coTerapistList">
+            <datalist id="coTerapistList">
+                <option ng-repeat="profile in availableCoTherapists" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
+            </datalist>
+        </div>
+        <div class="col-sm-1">
+            <label class="control-label">Date</label>
+        </div>
+        <div class="col-sm-2">
+            <input type="date" class="form-control" ng-model="coSignDate">
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-sm-offset-11 col-sm-1">
             <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
