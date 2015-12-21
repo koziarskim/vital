@@ -51,19 +51,23 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <label class="control-label" for="authVisits">Authorized Visits:</label>
+                <label class="control-label">Authorized Visits:</label>
             </div>
-            <div class="col-sm-1">
-                <input type="number" min="0" class="form-control" ng-model="patient.authVisits" id="authVisits">
+            <div class="form-inline col-sm-10">
+                <div class="form-group">
+                    <input type="number" min="0" class="form-control" ng-model="patient.authVisits">
+                    <label class="control-label">Visit Range:</label>
+                    <input type="date" min="0" class="form-control" ng-model="patient.visitFrom">
+                    <input type="date" min="0" class="form-control" ng-model="patient.visitTo">
+                </div>
             </div>
-            <div class="col-sm-2">
-                <label class="control-label">Visit Range:</label>
-            </div>
-            <div class="col-sm-2">
-                <input type="date" min="0" class="form-control" ng-model="patient.visitFrom" id="visitFrom">
-            </div>
-            <div class="col-sm-2">
-                <input type="date" min="0" class="form-control" ng-model="patient.visitTo" id="fisitTo">
+            <div class="row">
+                <div class="form-inline col-sm-offset-2 col-sm-3">
+                    <div class="form-group" style="padding-left: 10px;">
+                        <label class="control-label">Requires Authorization?</label>
+                        <input type="checkbox" class="form-control" ng-model="patient.requireAuth">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">

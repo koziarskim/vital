@@ -170,6 +170,7 @@ mainApp.service('PatientService', function () {
             visitNum: 3,
             totalTxTime: 12,
             totalMinCode: "DEC",
+            requireAuth: true,
             vsBeforeTx: {
                 bph: 70,
                 bpl: 120,
@@ -383,6 +384,7 @@ mainApp.service('PatientService', function () {
             totalMinCode: null,
             vsBeforeTx: null,
             vsAfterTx: null,
+            requireAuth: true,
             notes: [
                 {
                     id: 1,
@@ -488,6 +490,7 @@ mainApp.service('PatientService', function () {
             visitNum: null,
             totalTxTime: null,
             totalMinCode: null,
+            requireAuth: false,
             notes: []
         }
     ];
