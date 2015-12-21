@@ -29,6 +29,9 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     $scope.editProfile = function (uid) {
         $location.path("profiles/"+uid);
     }
+    $scope.editPatient = function(patientId){
+        $location.path("patients/"+patientId);
+    }
 });
 
 mainApp.controller('LoginController', function ($scope, $location, UserContextService, ProfileService) {
