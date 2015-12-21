@@ -166,10 +166,22 @@ mainApp.service('PatientService', function () {
             authVisits: 15,
             visitFrom: new Date('2015-01-03'),
             visitTo: new Date('2016-01-03'),
-            dx:33,
-            visitNum:3,
+            dx: 33,
+            visitNum: 3,
             totalTxTime: 12,
-            totalMinCode:"DEC",
+            totalMinCode: "DEC",
+            vsBeforeTx: {
+                bph: 70,
+                bpl: 120,
+                hr: 60,
+                resp: 40
+            },
+            vsAfterTx: {
+                bph: 70,
+                bpl: 120,
+                hr: 60,
+                resp: 40
+            },
             notes: [
                 {
                     id: 1,
@@ -284,6 +296,18 @@ mainApp.service('PatientService', function () {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two..."
                     },
+                    vsBeforeTx: {
+                        bph: 70,
+                        bpl: 120,
+                        hr: 60,
+                        resp: 40
+                    },
+                    vsAfterTx: {
+                        bph: 70,
+                        bpl: 120,
+                        hr: 60,
+                        resp: 40
+                    },
                     txAreas: [
                         {
                             name: "Leg",
@@ -353,10 +377,12 @@ mainApp.service('PatientService', function () {
             authVisits: 1,
             visitFrom: null,
             visitTo: null,
-            dx:null,
-            visitNum:null,
+            dx: null,
+            visitNum: null,
             totalTxTime: null,
-            totalMinCode:null,
+            totalMinCode: null,
+            vsBeforeTx: null,
+            vsAfterTx: null,
             notes: [
                 {
                     id: 1,
@@ -458,10 +484,10 @@ mainApp.service('PatientService', function () {
             authVisits: 1,
             visitFrom: null,
             visitTo: null,
-            dx:null,
-            visitNum:null,
+            dx: null,
+            visitNum: null,
             totalTxTime: null,
-            totalMinCode:null,
+            totalMinCode: null,
             notes: []
         }
     ];

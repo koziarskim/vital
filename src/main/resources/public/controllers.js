@@ -147,6 +147,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     UserContextService.data.patientId = $scope.patient.id;
     UserContextService.data.noteId = $scope.note.id;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
+    $scope.vitalSignsShow=false;
+    $scope.toggleVitalSigns = function(){
+        $scope.vitalSignsShow=!$scope.vitalSignsShow;
+    }
     $scope.toggleTxArea = function (txAreaName) {
         if ($scope.visibleTxAreaName == txAreaName) {
             $scope.visibleTxAreaName = null;
