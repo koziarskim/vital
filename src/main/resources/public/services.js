@@ -5,7 +5,7 @@ mainApp.service('UserContextService', function () {
         lastName: null,
         office: null,
         patientName: null,
-        noteDate: null,
+        visitNum: null,
         patientId: null,
         noteId: null
     }
@@ -15,7 +15,7 @@ mainApp.service('UserContextService', function () {
         this.data.lastName = null;
         this.data.office = null;
         this.data.patientName = null;
-        this.data.noteDate = null;
+        this.data.visitNum = null;
         this.data.patientId = null;
         this.data.noteId = null;
     }
@@ -163,9 +163,13 @@ mainApp.service('PatientService', function () {
             dob: new Date('2015-11-03T06:00:00.000Z'),
             gender: 'male',
             insuranceName: 'BCBS',
-            authVisits: 1,
-            visitFrom: null,
-            visitTo: null,
+            authVisits: 15,
+            visitFrom: new Date('2015-01-03'),
+            visitTo: new Date('2016-01-03'),
+            dx:33,
+            visitNum:3,
+            totalTxTime: 12,
+            totalMinCode:"DEC",
             notes: [
                 {
                     id: 1,
@@ -349,6 +353,10 @@ mainApp.service('PatientService', function () {
             authVisits: 1,
             visitFrom: null,
             visitTo: null,
+            dx:null,
+            visitNum:null,
+            totalTxTime: null,
+            totalMinCode:null,
             notes: [
                 {
                     id: 1,
@@ -450,6 +458,10 @@ mainApp.service('PatientService', function () {
             authVisits: 1,
             visitFrom: null,
             visitTo: null,
+            dx:null,
+            visitNum:null,
+            totalTxTime: null,
+            totalMinCode:null,
             notes: []
         }
     ];

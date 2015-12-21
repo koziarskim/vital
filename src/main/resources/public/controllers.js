@@ -56,7 +56,7 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     $scope.availableLocations = ["Chicago-Portage Park", "Chicago Pediatrics", "Park Ridge", "Schaumburg", "Chicago/Thorek Hospital"];
     $scope.selectedLocation = UserContextService.data.office;
     UserContextService.data.patientName = null;
-    UserContextService.data.noteDate = null;
+    UserContextService.data.visitNum = null;
     UserContextService.data.patientId = null;
     UserContextService.data.noteId = null;
     $scope.locationAction = function () {
@@ -147,7 +147,6 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     UserContextService.data.patientId = $scope.patient.id;
     UserContextService.data.noteId = $scope.note.id;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
-    UserContextService.data.noteDate = $scope.note.date;
     $scope.toggleTxArea = function (txAreaName) {
         if ($scope.visibleTxAreaName == txAreaName) {
             $scope.visibleTxAreaName = null;

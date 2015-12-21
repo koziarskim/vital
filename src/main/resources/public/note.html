@@ -1,6 +1,17 @@
 <div class="container">
     <br/>
 
+    <div class="row">
+        <div class="col-sm-12">
+            <div><label class="control-label">Insurance:</label> {{patient.insuranceName}},
+                <label class="control-label">Auth Visits #:</label> {{patient.authVisits}} (from {{patient.visitFrom | date: "MM-dd-yyyy"}} to {{patient.visitTo | date: "MM-dd-yyyy"}}),
+                <label class="control-label">Dx:</label> {{patient.dx}},
+                <label class="control-label">Total Tx Time:</label> {{patient.totalTxTime}},
+                <label class="control-label">Total Min Timed Code:</label> {{patient.totalMinCode}}
+            </div>
+        </div>
+    </div>
+    <!--Subjective-->
     <div class="panel panel-default">
         <div class="panel-heading">Subjective</div>
         <div class="panel-body">
@@ -40,6 +51,7 @@
             </div>
         </div>
     </div>
+    <!--Objective-->
     <div class="panel panel-default">
         <div class="panel-heading">Objective</div>
         <div class="panel-body">
@@ -234,6 +246,7 @@
             </div>
         </div>
     </div>
+    <!--Assessment-->
     <div class="panel panel-default">
         <div class="panel-heading">Assessment/Functional Progress</div>
         <div class="panel-body">
@@ -242,8 +255,7 @@
             <input type="text" class="form-control" ng-model="note.assessment.commentsThree" placeholder="Type here...">
         </div>
     </div>
-    <br/>
-
+    <!--Plan-->
     <div class="panel panel-default">
         <div class="panel-heading">Plan</div>
         <div class="panel-body">
@@ -251,6 +263,7 @@
             <input type="text" class="form-control" ng-model="note.plan.commentsTwo" placeholder="Type here...">
         </div>
     </div>
+    <!--Therapist-->
     <div class="row">
         <div class="col-sm-2">
             <label class="control-label">Therapist Name:</label>
@@ -268,6 +281,7 @@
             <input type="date" class="form-control" ng-model="signDate">
         </div>
     </div>
+    <!--CoTherapist-->
     <div class="row">
         <div class="col-sm-2">
             <label class="control-label">Co. Tx Therapist:</label>
@@ -285,7 +299,7 @@
             <input type="date" class="form-control" ng-model="coSignDate">
         </div>
     </div>
-
+    <!--Save-->
     <div class="row">
         <div class="col-sm-offset-11 col-sm-1">
             <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
