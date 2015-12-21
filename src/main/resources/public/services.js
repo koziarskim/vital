@@ -7,7 +7,7 @@ mainApp.service('UserContextService', function () {
         patientName: null,
         visitNum: null,
         patientId: null,
-        noteId: null
+        noteId: null,
     }
     this.clearData = function () {
         this.data.uid = null;
@@ -163,11 +163,11 @@ mainApp.service('PatientService', function () {
             dob: new Date('2015-11-03T06:00:00.000Z'),
             gender: 'male',
             insuranceName: 'BCBS',
-            authVisits: 15,
+            authVisits: 9,
             visitFrom: new Date('2015-01-03'),
             visitTo: new Date('2016-01-03'),
             dx: 33,
-            visitNum: 3,
+            visitNum: 10,
             totalTxTime: 12,
             totalMinCode: "DEC",
             requireAuth: true,

@@ -27,10 +27,10 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
         $location.path("/");
     }
     $scope.editProfile = function (uid) {
-        $location.path("profiles/"+uid);
+        $location.path("profiles/" + uid);
     }
-    $scope.editPatient = function(patientId){
-        $location.path("patients/"+patientId);
+    $scope.editPatient = function (patientId) {
+        $location.path("patients/" + patientId);
     }
 });
 
@@ -45,10 +45,10 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
             return;
         }
         var authenticated = ProfileService.validateUser($scope.login.userName, $scope.login.password);
-        if(authenticated){
+        if (authenticated) {
             UserContextService.data.uid = $scope.login.userName;
             $location.path("/dashboard");
-        }else{
+        } else {
             alert("Invalid username and/or password");
             $location.path("/login");
         }
@@ -148,11 +148,18 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.visibleTxAreaName = null;
     $scope.patient = PatientService.getPatient($scope.patientId);
     UserContextService.data.patientId = $scope.patient.id;
-    UserContextService.data.noteId = $scope.note.id;
+    UserContextService.data.noteId = $routeParams.noteId;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
-    $scope.vitalSignsShow=false;
-    $scope.toggleVitalSigns = function(){
-        $scope.vitalSignsShow=!$scope.vitalSignsShow;
+    $scope.vitalSignsShow = false;
+    $scope.showNote = false;
+    $scope.toggleAuthAlert = function () {
+        if ($scope.patient.requireAuth && $scope.patient.authVisits <= $scope.patient.visitNum) {
+            alert("Patient doesn't have any more authorized visits!\nPlease update patient's profile!");
+        }
+        $scope.showNote=true;
+    }
+    $scope.toggleVitalSigns = function () {
+        $scope.vitalSignsShow = !$scope.vitalSignsShow;
     }
     $scope.toggleTxArea = function (txAreaName) {
         if ($scope.visibleTxAreaName == txAreaName) {
@@ -342,8 +349,8 @@ mainApp.controller('ProfileController', function ($scope, $location, $routeParam
     $scope.verifyPassword = null;
     $scope.profile = ProfileService.getProfile($scope.uid);
     $scope.saveProfile = function (profile) {
-        if($scope.changePassword){
-            if(profile.password!=$scope.verifyPassword){
+        if ($scope.changePassword) {
+            if (profile.password != $scope.verifyPassword) {
                 alert("Password and Verify Password don't match");
                 return;
             }

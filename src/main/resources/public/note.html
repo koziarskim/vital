@@ -1,346 +1,347 @@
-<div class="container">
+<div class="container" ng-init="toggleAuthAlert()">
     <br/>
+    <div ng-if=showNote>
+        <div class="row">
+            <div class="col-sm-12">
+                <div><label class="control-label">Insurance:</label> {{patient.insuranceName}},
+                    <label class="control-label">Auth Visits #:</label> {{patient.authVisits}} (from {{patient.visitFrom | date: "MM-dd-yyyy"}} to {{patient.visitTo | date: "MM-dd-yyyy"}}),
+                    <label class="control-label">Dx:</label> {{patient.dx}},
+                    <label class="control-label">Total Tx Time:</label> {{patient.totalTxTime}},
+                    <label class="control-label">Total Min Timed Code:</label> {{patient.totalMinCode}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1" style="padding-top: 6px;">
+                <div><a href="" ng-click="toggleVitalSigns()">Vital Signs</a></div>
+            </div>
+            <div ng-show="vitalSignsShow">
+                <div class="form-inline col-sm-5">
+                    <div class="form-group">
+                        <label class="control-label"><strong>Before TX </strong></label>
+                    </div>
+                    <div class="form-group">
+                        <span>BP: </span>
+                        <input type="number" class="form-control" ng-model="patient.vsBeforeTx.bpl" style="width:65px">
+                        <span>/</span>
+                        <input type="number" class="form-control" ng-model="patient.vsBeforeTx.bph" style="width:65px">
+                        <span>HR: </span>
+                        <input type="number" class="form-control" ng-model="patient.vsBeforeTx.hr" style="width:65px">
+                        <span>RESP: </span>
+                        <input type="number" class="form-control" ng-model="patient.vsBeforeTx.resp" style="width:65px">
+                    </div>
+                </div>
+                <div class="form-inline col-sm-5">
+                    <div class="form-group">
+                        <label class="control-label"><strong>After TX </strong></label>
+                    </div>
+                    <div class="form-group">
+                        <span>BP: </span>
+                        <input type="number" class="form-control" ng-model="patient.vsAfterTx.bpl" style="width:65px">
+                        <span>/</span>
+                        <input type="number" class="form-control" ng-model="patient.vsAfterTx.bph" style="width:65px">
+                        <span>HR: </span>
+                        <input type="number" class="form-control" ng-model="patient.vsAfterTx.hr" style="width:65px">
+                        <span>RESP: </span>
+                        <input type="number" class="form-control" ng-model="patient.vsAfterTx.resp" style="width:65px">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <!--Subjective-->
+        <div class="panel panel-default">
+            <div class="panel-heading">Subjective</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-1" style="padding-top: 30px;">
+                            <label class="control-label" for="noteDate">Date</label>
+                        </div>
+                        <div class="col-sm-2" style="padding-top: 30px;">
+                            <input type="date" class="form-control" id="noteDate" ng-model="note.date">
+                        </div>
+                        <div class="col-sm-offset-1 col-sm-1" style="padding-top: 30px;">
+                            <label class="control-label" for="noteDate">Pain: </label>
+                        </div>
+                        <div class="col-sm-5" style="border: 1px solid #ccc; padding-bottom: 20px;">
+                            <div class="col-sm-6">
+                                <label class="control-label">Area</label>
+                                <input type="text" class="form-control" id="painArea" ng-model="note.pain.area" list="painAreaList">
+                                <datalist id="painAreaList">
+                                    <option ng-repeat="painArea in availablePainAreas" value="{{painArea}}">
+                                </datalist>
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="control-label">Scale</label>
+                                <input type="number" min="0" max="10" class="form-control" id="painScale" ng-model="note.pain.scale">
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="control-label">Inc/Dec</label>
+                                <a href="" data-toggle="tooltip" data-placement="right" title="Percentage of pain increased or decreased since initial visit.">
+                                    <span class="glyphicon glyphicon-question-sign"></span>
+                                </a>
+                                <input type="text" class="form-control" id="painChange" value="{{painChange()}}%" readOnly>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/><br/>
+                </div>
+            </div>
+        </div>
+        <!--Objective-->
+        <div class="panel panel-default">
+            <div class="panel-heading">Objective</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-offset-3 col-sm-8"><h4>Patient was seen for following skilled therapy</h4></div>
+                </div>
+                <br/>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div><label class="control-label">Insurance:</label> {{patient.insuranceName}},
-                <label class="control-label">Auth Visits #:</label> {{patient.authVisits}} (from {{patient.visitFrom | date: "MM-dd-yyyy"}} to {{patient.visitTo | date: "MM-dd-yyyy"}}),
-                <label class="control-label">Dx:</label> {{patient.dx}},
-                <label class="control-label">Total Tx Time:</label> {{patient.totalTxTime}},
-                <label class="control-label">Total Min Timed Code:</label> {{patient.totalMinCode}}
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-1" style="padding-top: 6px;">
-            <div><a href="" ng-click="toggleVitalSigns()">Vital Signs</a></div>
-        </div>
-        <div ng-show="vitalSignsShow">
-            <div class="form-inline col-sm-5">
-                <div class="form-group">
-                    <label class="control-label"><strong>Before TX </strong></label>
-                </div>
-                <div class="form-group">
-                    <span>BP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.bpl" style="width:65px">
-                    <span>/</span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.bph" style="width:65px">
-                    <span>HR: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.hr" style="width:65px">
-                    <span>RESP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.resp" style="width:65px">
-                </div>
-            </div>
-            <div class="form-inline col-sm-5">
-                <div class="form-group">
-                    <label class="control-label"><strong>After TX </strong></label>
-                </div>
-                <div class="form-group">
-                    <span>BP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.bpl" style="width:65px">
-                    <span>/</span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.bph" style="width:65px">
-                    <span>HR: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.hr" style="width:65px">
-                    <span>RESP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.resp" style="width:65px">
-                </div>
-            </div>
-        </div>
-    </div>
-    <br/>
-    <!--Subjective-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Subjective</div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-sm-1" style="padding-top: 30px;">
-                        <label class="control-label" for="noteDate">Date</label>
+                <div class="row">
+                    <div class="col-sm-4" style="padding-top:5px">
+                        <label class="control-label">Choose modalities or prodedure for treatment plan: </label>
                     </div>
-                    <div class="col-sm-2" style="padding-top: 30px;">
-                        <input type="date" class="form-control" id="noteDate" ng-model="note.date">
-                    </div>
-                    <div class="col-sm-offset-1 col-sm-1" style="padding-top: 30px;">
-                        <label class="control-label" for="noteDate">Pain: </label>
-                    </div>
-                    <div class="col-sm-5" style="border: 1px solid #ccc; padding-bottom: 20px;">
-                        <div class="col-sm-6">
-                            <label class="control-label">Area</label>
-                            <input type="text" class="form-control" id="painArea" ng-model="note.pain.area" list="painAreaList">
-                            <datalist id="painAreaList">
-                                <option ng-repeat="painArea in availablePainAreas" value="{{painArea}}">
-                            </datalist>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="control-label">Scale</label>
-                            <input type="number" min="0" max="10" class="form-control" id="painScale" ng-model="note.pain.scale">
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="control-label">Inc/Dec</label>
-                            <a href="" data-toggle="tooltip" data-placement="right" title="Percentage of pain increased or decreased since initial visit.">
-                                <span class="glyphicon glyphicon-question-sign"></span>
-                            </a>
-                            <input type="text" class="form-control" id="painChange" value="{{painChange()}}%" readOnly>
-                        </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txArea" list="txAreaList" ng-model="selectedTxArea" placeholder="TX Area" ng-change="toggleTxArea(selectedTxArea)">
+                        <datalist id="txAreaList" ng-model="txArea">
+                            <option ng-repeat="txArea in availableTxAreas" ng-value="txArea">
+                        </datalist>
                     </div>
                 </div>
-                <br/><br/><br/>
-            </div>
-        </div>
-    </div>
-    <!--Objective-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Objective</div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-offset-3 col-sm-8"><h4>Patient was seen for following skilled therapy</h4></div>
-            </div>
-            <br/>
+                <br/>
 
-            <div class="row">
-                <div class="col-sm-4" style="padding-top:5px">
-                    <label class="control-label">Choose modalities or prodedure for treatment plan: </label>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label class="control-label">Modalities: </label>
+                    </div>
+                    <div class="col-sm-11">
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('USA')">US</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ELS')">EL. Stim v</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('HPC')">HP/CP v</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ION')">Ionto v</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MEC')">Mech. Tx v</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('INF')">Infrared v</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('COP')">Com. Pump</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTM')">Other Mod.</button>
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="txArea" list="txAreaList" ng-model="selectedTxArea" placeholder="TX Area" ng-change="toggleTxArea(selectedTxArea)">
-                    <datalist id="txAreaList" ng-model="txArea">
-                        <option ng-repeat="txArea in availableTxAreas" ng-value="txArea">
-                    </datalist>
-                </div>
-            </div>
-            <br/>
+                <br/>
 
-            <div class="row">
-                <div class="col-sm-1">
-                    <label class="control-label">Modalities: </label>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label class="control-label">Procedures: </label>
+                    </div>
+                    <div class="col-sm-11">
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MAT')">Man. Tx</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('TXE')">TX. Ex</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('NMR')">NM-RE</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('GAI')">Gait</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FUA')">Func. Act</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('AQU')">Aquatic</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveMotion('RMT')">ROM/MMT</button>
+                    </div>
                 </div>
-                <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('USA')">US</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ELS')">EL. Stim v</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('HPC')">HP/CP v</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ION')">Ionto v</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MEC')">Mech. Tx v</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('INF')">Infrared v</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('COP')">Com. Pump</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTM')">Other Mod.</button>
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label class="control-label"></label>
+                    </div>
+                    <div class="col-sm-11">
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('IEV')">Init. Ev</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('REV')">Re-ev</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FCE')">FCE</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('WC2')">WC-2hrs</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('WCA')">WC-addl</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MTE')">Man. Tests</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FTE')">Funct. Tests</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTP')">Other Proc.</button>
+                    </div>
                 </div>
-            </div>
-            <br/>
+                <br/>
 
-            <div class="row">
-                <div class="col-sm-1">
-                    <label class="control-label">Procedures: </label>
-                </div>
-                <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MAT')">Man. Tx</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('TXE')">TX. Ex</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('NMR')">NM-RE</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('GAI')">Gait</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FUA')">Func. Act</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('AQU')">Aquatic</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveMotion('RMT')">ROM/MMT</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-1">
-                    <label class="control-label"></label>
-                </div>
-                <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('IEV')">Init. Ev</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('REV')">Re-ev</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FCE')">FCE</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('WC2')">WC-2hrs</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('WCA')">WC-addl</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MTE')">Man. Tests</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FTE')">Funct. Tests</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTP')">Other Proc.</button>
-                </div>
-            </div>
-            <br/>
-
-            <div class="panel panel-default" ng-repeat="txArea in note.txAreas track by $index">
-                <div class="panel-heading"><a href="" ng-click="toggleTxArea(txArea.name)">Treatment Area: {{txArea.name}}</a></div>
-                <div class="panel-body" ng-show="visibleTxAreaName==txArea.name">
-                    <!--//******Modalities***************-->
-                    <div class="row" ng-if="txArea.modalities.length>0">
-                        <div class="col-sm-1">
-                            <label class="control-label">Exercise</label>
+                <div class="panel panel-default" ng-repeat="txArea in note.txAreas track by $index">
+                    <div class="panel-heading"><a href="" ng-click="toggleTxArea(txArea.name)">Treatment Area: {{txArea.name}}</a></div>
+                    <div class="panel-body" ng-show="visibleTxAreaName==txArea.name">
+                        <!--//******Modalities***************-->
+                        <div class="row" ng-if="txArea.modalities.length>0">
+                            <div class="col-sm-1">
+                                <label class="control-label">Exercise</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Minutes</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Unit(s)</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="control-label">Comments</label>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Minutes</label>
+                        <div class="row" ng-repeat="modality in txArea.modalities track by $index">
+                            <div class="col-sm-1">
+                                <label class="control-label">{{modality.name}}</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time" ng-change="updateUnits(modality)">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="units" ng-value="getUnits(modality)" readonly>
+                            </div>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" ng-model="modality.comments" list="commentsList">
+                                <datalist id="commentsList">
+                                    <option ng-repeat="comment in availableComments" value="{{comment}}">
+                                </datalist>
+                            </div>
+                            <br/><br/>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Unit(s)</label>
+                        <!--*******Procedures****************-->
+                        <div class="row" ng-if="txArea.procedures.length>0">
+                            <div class="col-sm-2">
+                                <label class="control-label">Exercise</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Sets</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Reps</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Minutes</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Weight</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">Comments</label>
+                            </div>
                         </div>
-                        <div class="col-sm-8">
-                            <label class="control-label">Comments</label>
+                        <div class="row" ng-repeat="procedure in txArea.procedures track by $index">
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="procedure.name">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.sets">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.reps">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.time">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.weight">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" ng-model="procedure.comments">
+                            </div>
+                            <br/><br/>
                         </div>
+                        <!--********Motions*************-->
+                        <div class="row" ng-if="txArea.motions.length>0">
+                            <div class="col-sm-2">
+                                <label class="control-label">Movement</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">AROM</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">PROM</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">MMT</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">PROM NORM</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">AROM NORM</label>
+                            </div>
+                        </div>
+                        <div class="row" ng-repeat="motion in txArea.motions track by $index">
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="motion.name">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="motion.arom">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="motion.prom">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="motion.mmt">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="motion.promn">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="motion.aromn">
+                            </div>
+                            <br/><br/>
+                        </div>
+                        <!--***************************-->
                     </div>
-                    <div class="row" ng-repeat="modality in txArea.modalities track by $index">
-                        <div class="col-sm-1">
-                            <label class="control-label">{{modality.name}}</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time" ng-change="updateUnits(modality)">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" id="units" ng-value="getUnits(modality)" readonly>
-                        </div>
-                        <div class="col-sm-8">
-                            <input class="form-control" type="text" ng-model="modality.comments" list="commentsList">
-                            <datalist id="commentsList">
-                                <option ng-repeat="comment in availableComments" value="{{comment}}">
-                            </datalist>
-                        </div>
-                        <br/><br/>
-                    </div>
-                    <!--*******Procedures****************-->
-                    <div class="row" ng-if="txArea.procedures.length>0">
-                        <div class="col-sm-2">
-                            <label class="control-label">Exercise</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Sets</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Reps</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Minutes</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Weight</label>
-                        </div>
-                        <div class="col-sm-4">
-                            <label class="control-label">Comments</label>
-                        </div>
-                    </div>
-                    <div class="row" ng-repeat="procedure in txArea.procedures track by $index">
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="procedure.name">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.sets">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.reps">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.time">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.weight">
-                        </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" ng-model="procedure.comments">
-                        </div>
-                        <br/><br/>
-                    </div>
-                    <!--********Motions*************-->
-                    <div class="row" ng-if="txArea.motions.length>0">
-                        <div class="col-sm-2">
-                            <label class="control-label">Movement</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <label class="control-label">AROM</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <label class="control-label">PROM</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <label class="control-label">MMT</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <label class="control-label">PROM NORM</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <label class="control-label">AROM NORM</label>
-                        </div>
-                    </div>
-                    <div class="row" ng-repeat="motion in txArea.motions track by $index">
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="motion.name">
-                        </div>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="motion.arom">
-                        </div>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="motion.prom">
-                        </div>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="motion.mmt">
-                        </div>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="motion.promn">
-                        </div>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="motion.aromn">
-                        </div>
-                        <br/><br/>
-                    </div>
-                    <!--***************************-->
                 </div>
             </div>
         </div>
-    </div>
-    <!--Assessment-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Assessment/Functional Progress</div>
-        <div class="panel-body">
-            <input type="text" class="form-control" ng-model="note.assessment.commentsOne" placeholder="Type here...">
-            <input type="text" class="form-control" ng-model="note.assessment.commentsTwo" placeholder="Type here...">
-            <input type="text" class="form-control" ng-model="note.assessment.commentsThree" placeholder="Type here...">
+        <!--Assessment-->
+        <div class="panel panel-default">
+            <div class="panel-heading">Assessment/Functional Progress</div>
+            <div class="panel-body">
+                <input type="text" class="form-control" ng-model="note.assessment.commentsOne" placeholder="Type here...">
+                <input type="text" class="form-control" ng-model="note.assessment.commentsTwo" placeholder="Type here...">
+                <input type="text" class="form-control" ng-model="note.assessment.commentsThree" placeholder="Type here...">
+            </div>
         </div>
-    </div>
-    <!--Plan-->
-    <div class="panel panel-default">
-        <div class="panel-heading">Plan</div>
-        <div class="panel-body">
-            <input type="text" class="form-control" ng-model="note.plan.commentsOne" placeholder="Type here...">
-            <input type="text" class="form-control" ng-model="note.plan.commentsTwo" placeholder="Type here...">
+        <!--Plan-->
+        <div class="panel panel-default">
+            <div class="panel-heading">Plan</div>
+            <div class="panel-body">
+                <input type="text" class="form-control" ng-model="note.plan.commentsOne" placeholder="Type here...">
+                <input type="text" class="form-control" ng-model="note.plan.commentsTwo" placeholder="Type here...">
+            </div>
         </div>
-    </div>
-    <!--Therapist-->
-    <div class="row">
-        <div class="col-sm-2">
-            <label class="control-label">Therapist Name:</label>
+        <!--Therapist-->
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label">Therapist Name:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" ng-model="inputProfile" list="terapistList">
+                <datalist id="terapistList">
+                    <option ng-repeat="profile in availableTherapists | filter:filterOnProfile" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
+                </datalist>
+            </div>
+            <div class="col-sm-1">
+                <label class="control-label">Date</label>
+            </div>
+            <div class="col-sm-2">
+                <input type="date" class="form-control" ng-model="signDate">
+            </div>
         </div>
-        <div class="col-sm-4">
-            <input class="form-control" type="text" ng-model="inputProfile" list="terapistList">
-            <datalist id="terapistList">
-                <option ng-repeat="profile in availableTherapists | filter:filterOnProfile" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
-            </datalist>
+        <!--CoTherapist-->
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="control-label">Co. Tx Therapist:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" ng-model="inputCoProfile" list="coTerapistList">
+                <datalist id="coTerapistList">
+                    <option ng-repeat="profile in availableCoTherapists" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
+                </datalist>
+            </div>
+            <div class="col-sm-1">
+                <label class="control-label">Date</label>
+            </div>
+            <div class="col-sm-2">
+                <input type="date" class="form-control" ng-model="coSignDate">
+            </div>
         </div>
-        <div class="col-sm-1">
-            <label class="control-label">Date</label>
-        </div>
-        <div class="col-sm-2">
-            <input type="date" class="form-control" ng-model="signDate">
-        </div>
-    </div>
-    <!--CoTherapist-->
-    <div class="row">
-        <div class="col-sm-2">
-            <label class="control-label">Co. Tx Therapist:</label>
-        </div>
-        <div class="col-sm-4">
-            <input class="form-control" type="text" ng-model="inputCoProfile" list="coTerapistList">
-            <datalist id="coTerapistList">
-                <option ng-repeat="profile in availableCoTherapists" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
-            </datalist>
-        </div>
-        <div class="col-sm-1">
-            <label class="control-label">Date</label>
-        </div>
-        <div class="col-sm-2">
-            <input type="date" class="form-control" ng-model="coSignDate">
-        </div>
-    </div>
-    <!--Save-->
-    <div class="row">
-        <div class="col-sm-offset-11 col-sm-1">
-            <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
+        <!--Save-->
+        <div class="row">
+            <div class="col-sm-offset-11 col-sm-1">
+                <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
+            </div>
         </div>
     </div>
 </div>
