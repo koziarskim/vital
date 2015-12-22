@@ -235,6 +235,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         to: null
     }
 
+    $scope.deleteModality = function(modalityId){
+        NoteService.deleteModality($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, modalityId);
+    }
+
     $scope.saveModality = function (modalityCode) {
         if ($scope.selectedTxAreaName == null) {
             alert("Please choose TX Area!");

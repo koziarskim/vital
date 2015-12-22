@@ -70,6 +70,14 @@ mainApp.service('NoteService', function (PatientService) {
         });
         return note;
     }
+    this.deleteModality = function(patientId, noteId, txAreaName, modalityId){
+        var txArea = this.getTxArea(patientId, noteId, txAreaName);
+        txArea.modalities.forEach(function (result, index) {
+            if (result['id'] == modalityId) {
+                txArea.modalities.splice(index, 1);
+            }
+        });
+    }
     this.saveModality = function (patientId, noteId, txAreaName, modality) {
         var txArea = this.getTxArea(patientId, noteId, txAreaName);
         if (txArea == null) {
