@@ -217,7 +217,8 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         return units;
     }
-
+    $scope.availableObservationTypes = ["Motivation","Follows Directions","Cooperation","Consistency"];
+    $scope.availableObservationScales = ["POOR","FAIR","GOOD","EXCELLENT"];
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
     $scope.selectedModality = {
         id: null,
@@ -293,11 +294,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     $scope.availableExercises = [
         {code: "USA", name: "US"},
-        {code: "ELS", name: "EL. Stim v"},
-        {code: "HPC", name: "HP/CP v"},
-        {code: "ION", name: "Ionto v"},
-        {code: "MEC", name: "Mech. Tx v"},
-        {code: "INF", name: "Infrared v"},
+        {code: "ELS", name: "EL. Stim"},
+        {code: "HPC", name: "HP/CP"},
+        {code: "ION", name: "Ionto"},
+        {code: "MEC", name: "Mech. Tx"},
+        {code: "INF", name: "Infrared"},
         {code: "COP", name: "Com. Pump"},
         {code: "OTM", name: "Other Mod."},
         {code: "MAT", name: "Man. Tx"},

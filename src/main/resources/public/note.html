@@ -283,6 +283,7 @@
                         <!--******** W C *************-->
                         <div ng-if="txArea.wc">
                             <br/>
+                            <h4>Performance</h4>
                             <div class="row">
                                 <div class="col-sm-2">
                                     <label class="control-label">Normal Pace Exercises</label>
@@ -291,7 +292,7 @@
                                     <input type="checkbox" ng-model="txArea.wc.normalPaceExFlag">
                                 </div>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" ng-model="txArea.wc.normalPaceExReason">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.normalPaceExReason" placeholder="Reason">
                                 </div>
                             </div>
                             <div class="row">
@@ -302,7 +303,7 @@
                                     <input type="checkbox" ng-model="txArea.wc.slowPaceExFlag">
                                 </div>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" ng-model="txArea.wc.slowPaceExReason">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.slowPaceExReason" placeholder="Reason">
                                 </div>
                             </div>
                             <div class="row">
@@ -313,7 +314,7 @@
                                     <input type="checkbox" ng-model="txArea.wc.breaksFlag">
                                 </div>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" ng-model="txArea.wc.breaksReason">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.breaksReason" placeholder="Reason">
                                 </div>
                                 <div class="col-sm-3">
                                     <span class="control-label">How many breaks per hour: </span>
@@ -330,7 +331,7 @@
                                     <input type="checkbox" ng-model="txArea.wc.unableWorkFlag">
                                 </div>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" ng-model="txArea.wc.unableWorkReason">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.unableWorkReason" placeholder="Reason">
                                 </div>
                             </div>
                             <div class="row">
@@ -341,13 +342,42 @@
                                     <input type="checkbox" ng-model="txArea.wc.stoppedWorkFlag">
                                 </div>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" ng-model="txArea.wc.stoppedWorkReason">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.stoppedWorkReason" placeholder="Reason">
                                 </div>
                                 <div class="col-sm-3">
-                                    <span class="control-label">How many breaks per hour: </span>
+                                    <span class="control-label">Stopped after munutes: </span>
                                 </div>
                                 <div class="col-sm-1">
-                                    <input type="number" class="form-control" ng-model="txArea.wc.breaksMinutes" style="width:65px">
+                                    <input type="number" class="form-control" ng-model="txArea.wc.stoppedMinutes" style="width:65px">
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Comments</label>
+                                </div>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.comments">
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Observations/Comments</h4>
+                                <div class="row" ng-repeat="observation in availableObservationTypes track by $index">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">{{observation}}</label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" type="text" ng-model="observations[index].type" list="observationScaleList">
+                                        <datalist id="observationScaleList">
+                                            <option ng-repeat="observationScale in availableObservationScales" value={{observationScale}}></option>
+                                        </datalist>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label">Comment</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <input class="form-control" type="text" ng-model="observations[index].comments">
+                                    </div>
                                 </div>
                             </div>
                         </div>
