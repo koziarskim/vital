@@ -1,6 +1,8 @@
 <div class="container" ng-init="toggleAuthAlert()">
     <br/>
+
     <div ng-if=showNote>
+        <!--Patient Info-->
         <div class="row">
             <div class="col-sm-12">
                 <div><label class="control-label">Insurance:</label> {{patient.insuranceName}},
@@ -11,6 +13,7 @@
                 </div>
             </div>
         </div>
+        <!--Vital Signs-->
         <div class="row">
             <div class="col-sm-1" style="padding-top: 6px;">
                 <div><a href="" ng-click="toggleVitalSigns()">Vital Signs</a></div>
@@ -103,9 +106,9 @@
                         <label class="control-label">Choose modalities or prodedure for treatment plan: </label>
                     </div>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" id="txArea" list="txAreaList" ng-model="selectedTxArea" placeholder="TX Area" ng-change="toggleTxArea(selectedTxArea)">
-                        <datalist id="txAreaList" ng-model="txArea">
-                            <option ng-repeat="txArea in availableTxAreas" ng-value="txArea">
+                        <input type="text" class="form-control" id="txArea" list="txAreaList" ng-model="selectedTxAreaName" placeholder="TX Area" ng-change="toggleTxArea(selectedTxAreaName)">
+                        <datalist id="txAreaList">
+                            <option ng-repeat="txAreaName in availableTxAreas" value={{txAreaName}}>
                         </datalist>
                     </div>
                 </div>
@@ -117,11 +120,11 @@
                     </div>
                     <div class="col-sm-11">
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('USA')">US</button>
-                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ELS')">EL. Stim v</button>
-                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('HPC')">HP/CP v</button>
-                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ION')">Ionto v</button>
-                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MEC')">Mech. Tx v</button>
-                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('INF')">Infrared v</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ELS')">EL. Stim</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('HPC')">HP/CP</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ION')">Ionto</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MEC')">Mech. Tx</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('INF')">Infrared</button>
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('COP')">Com. Pump</button>
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTM')">Other Mod.</button>
                     </div>
@@ -150,8 +153,7 @@
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('IEV')">Init. Ev</button>
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('REV')">Re-ev</button>
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FCE')">FCE</button>
-                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('WC2')">WC-2hrs</button>
-                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('WCA')">WC-addl</button>
+                        <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveWc('WC2')">WC-2hrs</button>
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MTE')">Man. Tests</button>
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FTE')">Funct. Tests</button>
                         <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTP')">Other Proc.</button>
@@ -277,7 +279,77 @@
                             <div class="col-sm-2">
                                 <input type="text" class="form-control" ng-model="motion.aromn">
                             </div>
-                            <br/><br/>
+                        </div>
+                        <!--******** W C *************-->
+                        <div ng-if="txArea.wc">
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Normal Pace Exercises</label>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" ng-model="txArea.wc.normalPaceExFlag">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.normalPaceExReason">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Slow Pace Exercises</label>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" ng-model="txArea.wc.slowPaceExFlag">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.slowPaceExReason">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Breaks</label>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" ng-model="txArea.wc.breaksFlag">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.breaksReason">
+                                </div>
+                                <div class="col-sm-3">
+                                    <span class="control-label">How many breaks per hour: </span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="number" class="form-control" ng-model="txArea.wc.breaksMinutes" style="width:65px">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Unable to work</label>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" ng-model="txArea.wc.unableWorkFlag">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.unableWorkReason">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="control-label">Stopped working</label>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" ng-model="txArea.wc.stoppedWorkFlag">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" ng-model="txArea.wc.stoppedWorkReason">
+                                </div>
+                                <div class="col-sm-3">
+                                    <span class="control-label">How many breaks per hour: </span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input type="number" class="form-control" ng-model="txArea.wc.breaksMinutes" style="width:65px">
+                                </div>
+                            </div>
                         </div>
                         <!--***************************-->
                     </div>

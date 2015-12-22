@@ -90,6 +90,13 @@ mainApp.service('NoteService', function (PatientService) {
             txArea.procedures.push(procedure);
         }
     }
+    this.saveWc = function (patientId, noteId, txAreaName, wc) {
+        var txArea = this.getTxArea(patientId, noteId, txAreaName);
+        if (txArea == null) {
+            txArea = this.saveTxArea(patientId, noteId, txAreaName);
+        }
+        txArea.wc = wc;
+    }
     this.saveMotion = function (patientId, noteId, txAreaName, motion) {
         var txArea = this.getTxArea(patientId, noteId, txAreaName);
         if (txArea == null) {
@@ -163,7 +170,7 @@ mainApp.service('PatientService', function () {
             dob: new Date('2015-11-03T06:00:00.000Z'),
             gender: 'male',
             insuranceName: 'BCBS',
-            authVisits: 9,
+            authVisits: 13,
             visitFrom: new Date('2015-01-03'),
             visitTo: new Date('2016-01-03'),
             dx: 33,
@@ -201,6 +208,33 @@ mainApp.service('PatientService', function () {
                     txAreas: [
                         {
                             name: "Back",
+                            wc : {
+                                normalPaceExFlag : false,
+                                normalPaceExReson : null,
+                                slowPaceExFlag : true,
+                                slowPaceExReason : "very tired",
+                                breaksFlag : true,
+                                breaksMinutes : 12,
+                                breaksReason : "tired as hell",
+                                unableWorkFlag : false,
+                                unableWorkReason : null,
+                                stoppedWorkFlag : false,
+                                stoppedWorkMinutes : 11,
+                                stoppedWorkReason : null,
+                                performanceComments : "Overall is doing OK",
+                                observations : [
+                                    {
+                                        name : "Motivation",
+                                        scaleCode : "POOR",
+                                        comments : "doing very poor"
+                                    },
+                                    {
+                                        name : "Consistency",
+                                        scaleCode : "GOOD",
+                                        comments : "doing good"
+                                    }
+                                ]
+                            },
                             modalities: [{
                                 id: "001",
                                 code: "USA",
@@ -265,6 +299,33 @@ mainApp.service('PatientService', function () {
                         },
                         {
                             name: "Up",
+                            wc : {
+                                normalPaceExFlag : false,
+                                normalPaceExReson : null,
+                                slowPaceExFlag : true,
+                                slowPaceExReason : "very tired aa",
+                                breaksFlag : true,
+                                breaksMinutes : 12,
+                                breaksReason : "tired as hell",
+                                unableWorkFlag : false,
+                                unableWorkReason : null,
+                                stoppedWorkFlag : false,
+                                stoppedWorkMinutes : 11,
+                                stoppedWorkReason : null,
+                                performanceComments : "Overall is doing OK",
+                                observations : [
+                                    {
+                                        name : "Follow Direction",
+                                        scaleCode : "GOOD",
+                                        comments : "doing very good"
+                                    },
+                                    {
+                                        name : "Cooperation",
+                                        scaleCode : "FAIR",
+                                        comments : "doing ok"
+                                    }
+                                ]
+                            },
                             modalities: [{
                                 id: "003",
                                 code: "USA",
