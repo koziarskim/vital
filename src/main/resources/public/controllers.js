@@ -150,12 +150,16 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     UserContextService.data.patientId = $scope.patient.id;
     UserContextService.data.noteId = $routeParams.noteId;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
+    UserContextService.data.visitNum = PatientService.getTotalVisits($scope.patientId);
     $scope.vitalSignsShow = false;
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
     $scope.toggleAuthAlert = function () {
-        if ($scope.patient.requireAuth && $scope.patient.authVisits <= $scope.patient.visitNum) {
-            alert("Patient doesn't have any more authorized visits!\nPlease update patient's profile!");
+        if ($scope.patient.requireAuth && $scope.patient.authVisits < UserContextService.data.visitNum) {
+            alert("Patient doesn't have any more authorized visits!" +
+                "\nTotal of visits: "+UserContextService.data.visitNum+
+                "\nAuthorized visits: "+$scope.patient.authVisits+
+                "\nPlease update patient's profile!");
         }
         $scope.showNote=true;
     }

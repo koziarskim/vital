@@ -571,6 +571,11 @@ mainApp.service('PatientService', function () {
             notes: []
         }
     ];
+
+    this.getTotalVisits = function(patientId){
+        var patient = this.getPatient(patientId);
+        return patient.notes.length;
+    }
     this.getAllPatients = function () {
         return patients;
     }
