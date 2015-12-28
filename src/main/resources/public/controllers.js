@@ -66,10 +66,13 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
         UserContextService.data.office = $scope.selectedLocation;
     };
     $scope.patients = PatientService.getAllPatients();
-    $scope.filterInput = null;
+    $scope.filterPatientNameInput = null;
+
+    $scope.patientCases = PatientService.getPatientCases();
+
     $scope.filterOnPatient = function (patient) {
-        if ($scope.filterInput) {
-            return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterInput.toLowerCase()) >= 0;
+        if ($scope.filterPatientNameInput) {
+            return (patient.fName + patient.lName).toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
         } else {
             return true;
         }

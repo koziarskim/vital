@@ -1,56 +1,54 @@
 <div class="container">
     <br/>
-
     <div class="row">
         <div class="col-sm-1">
-            <label class="control-label">Location: </label>
+            <label class="control-label" for="searchPatientInput">Patient: </label>
         </div>
         <div class="col-sm-4">
-            <input class="form-control" type="text" ng-model="selectedLocation" list="availableLocations" placeholder="Please select location" ng-change="locationAction()">
-            <datalist id="availableLocations">
-                <option ng-repeat="location in availableLocations" value="{{location}}">
-            </datalist>
+            <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput"/><br/><br/>
         </div>
     </div>
+    <!--<div class="row">-->
+        <!--<div class="col-sm-1">-->
+            <!--<label class="control-label">Location: </label>-->
+        <!--</div>-->
+        <!--<div class="col-sm-4">-->
+            <!--<input class="form-control" type="text" ng-model="selectedLocation" list="availableLocations" placeholder="Please select location" ng-change="locationAction()">-->
+            <!--<datalist id="availableLocations">-->
+                <!--<option ng-repeat="location in availableLocations" value="{{location}}">-->
+            <!--</datalist>-->
+        <!--</div>-->
+    <!--</div>-->
     <br/>
-
-    <div ng-show="selectedLocation!=null">
-        <div class="row">
-            <div class="col-sm-1">
-                <label class="control-label" for="searchPatientInput">Patient: </label>
-            </div>
-            <div class="col-sm-4">
-                <input class="form-control" id="searchPatientInput" type="text" ng-model="filterInput"/><br/><br/>
-            </div>
-        </div>
-        <div class="row">
-            <table class="table table-striped table-bordered">
-                <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>DOB</th>
-                    <th>Patient</th>
-                    <th>Note</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="patient in patients | filter:filterOnPatient">
-                    <td>{{ patient.firstName }}</td>
-                    <td>{{ patient.lastName }}</td>
-                    <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
-                    <td>
-                        <button ng-click="editPatient(patient.id)" class="btn btn-default">edit</button>
-                        <!--<button class="btn btn-default" ng-click="deletePatient(patient.id)">delete</button>-->
-                    <td>
-                        <button ng-click="createTodayNote(patient.id)" class="btn btn-default">Create Today's Note</button>
-                        <button ng-click="showAllNotes(patient.id)" class="btn btn-default">All Notes</button>
-                        <button ng-click="showInitNote(patient.id)" class="btn btn-default">Initial Note</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-default" value="Add New" ng-click="createNewPatient()">New Patient</button>
-        </div>
+    <div class="row">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>DOB</th>
+                <th>Case #</th>
+                <th>Patient</th>
+                <th>Note</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="patient in patientCases | filter:filterOnPatient | filter:filterOnLocation">
+                <td>{{ patient.fName }}</td>
+                <td>{{ patient.lName }}</td>
+                <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
+                <td>{{patient.caseNum}}</td>
+                <td>
+                    <button ng-click="editPatient(patient.patientId)" class="btn btn-default">edit</button>
+                </td>
+                <td>
+                    <button ng-click="createTodayNote(patient.patientId)" class="btn btn-default">Create Today's Note</button>
+                    <button ng-click="showAllNotes(patient.patientId)" class="btn btn-default">All Notes</button>
+                    <button ng-click="showInitNote(patient.patientId)" class="btn btn-default">Initial Note</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-default" value="Add New" ng-click="createNewPatient()">New Patient</button>
     </div>
 </div>

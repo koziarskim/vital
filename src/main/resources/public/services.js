@@ -70,7 +70,7 @@ mainApp.service('NoteService', function (PatientService) {
         });
         return note;
     }
-    this.deleteTxArea = function(patientId, noteId, txAreaName){
+    this.deleteTxArea = function (patientId, noteId, txAreaName) {
         var note = this.getNote(patientId, noteId);
         note.txAreas.forEach(function (result, index) {
             if (result.name == txAreaName) {
@@ -78,7 +78,7 @@ mainApp.service('NoteService', function (PatientService) {
             }
         });
     }
-    this.deleteModality = function(patientId, noteId, txAreaName, modalityId){
+    this.deleteModality = function (patientId, noteId, txAreaName, modalityId) {
         var txArea = this.getTxArea(patientId, noteId, txAreaName);
         txArea.modalities.forEach(function (result, index) {
             if (result['id'] == modalityId) {
@@ -180,7 +180,7 @@ mainApp.service('NoteService', function (PatientService) {
 mainApp.service('PatientService', function () {
     var patients = [
         {
-            id: 1,
+            id: "P001",
             firstName: 'Andrzej',
             lastName: 'Duda',
             dob: new Date('2015-11-03T06:00:00.000Z'),
@@ -194,6 +194,16 @@ mainApp.service('PatientService', function () {
             totalTxTime: 12,
             totalMinCode: "DEC",
             requireAuth: true,
+            locations: [
+                {
+                    id: "L001",
+                    code: "PRG"
+                },
+                {
+                    id: "L002",
+                    code: "CHI"
+                }
+            ],
             vsBeforeTx: {
                 bph: 70,
                 bpl: 120,
@@ -224,30 +234,30 @@ mainApp.service('PatientService', function () {
                     txAreas: [
                         {
                             name: "Back",
-                            wc : {
-                                normalPaceExFlag : false,
-                                normalPaceExReson : null,
-                                slowPaceExFlag : true,
-                                slowPaceExReason : "very tired",
-                                breaksFlag : true,
-                                breaksMinutes : 12,
-                                breaksReason : "tired as hell",
-                                unableWorkFlag : false,
-                                unableWorkReason : null,
-                                stoppedWorkFlag : false,
-                                stoppedWorkMinutes : 11,
-                                stoppedWorkReason : null,
-                                performanceComments : "Overall is doing OK",
-                                observations : [
+                            wc: {
+                                normalPaceExFlag: false,
+                                normalPaceExReson: null,
+                                slowPaceExFlag: true,
+                                slowPaceExReason: "very tired",
+                                breaksFlag: true,
+                                breaksMinutes: 12,
+                                breaksReason: "tired as hell",
+                                unableWorkFlag: false,
+                                unableWorkReason: null,
+                                stoppedWorkFlag: false,
+                                stoppedWorkMinutes: 11,
+                                stoppedWorkReason: null,
+                                performanceComments: "Overall is doing OK",
+                                observations: [
                                     {
-                                        name : "Motivation",
-                                        scaleCode : "POOR",
-                                        comments : "doing very poor"
+                                        name: "Motivation",
+                                        scaleCode: "POOR",
+                                        comments: "doing very poor"
                                     },
                                     {
-                                        name : "Consistency",
-                                        scaleCode : "GOOD",
-                                        comments : "doing good"
+                                        name: "Consistency",
+                                        scaleCode: "GOOD",
+                                        comments: "doing good"
                                     }
                                 ]
                             },
@@ -315,30 +325,30 @@ mainApp.service('PatientService', function () {
                         },
                         {
                             name: "Up",
-                            wc : {
-                                normalPaceExFlag : false,
-                                normalPaceExReson : null,
-                                slowPaceExFlag : true,
-                                slowPaceExReason : "very tired aa",
-                                breaksFlag : true,
-                                breaksMinutes : 12,
-                                breaksReason : "tired as hell",
-                                unableWorkFlag : false,
-                                unableWorkReason : null,
-                                stoppedWorkFlag : false,
-                                stoppedWorkMinutes : 11,
-                                stoppedWorkReason : null,
-                                performanceComments : "Overall is doing OK",
-                                observations : [
+                            wc: {
+                                normalPaceExFlag: false,
+                                normalPaceExReson: null,
+                                slowPaceExFlag: true,
+                                slowPaceExReason: "very tired aa",
+                                breaksFlag: true,
+                                breaksMinutes: 12,
+                                breaksReason: "tired as hell",
+                                unableWorkFlag: false,
+                                unableWorkReason: null,
+                                stoppedWorkFlag: false,
+                                stoppedWorkMinutes: 11,
+                                stoppedWorkReason: null,
+                                performanceComments: "Overall is doing OK",
+                                observations: [
                                     {
-                                        name : "Follow Direction",
-                                        scaleCode : "GOOD",
-                                        comments : "doing very good"
+                                        name: "Follow Direction",
+                                        scaleCode: "GOOD",
+                                        comments: "doing very good"
                                     },
                                     {
-                                        name : "Cooperation",
-                                        scaleCode : "FAIR",
-                                        comments : "doing ok"
+                                        name: "Cooperation",
+                                        scaleCode: "FAIR",
+                                        comments: "doing ok"
                                     }
                                 ]
                             },
@@ -361,7 +371,7 @@ mainApp.service('PatientService', function () {
                     ]
                 },
                 {
-                    id: 2,
+                    id: "P002",
                     number: 2,
                     date: new Date('2015-10-03'),
                     pain: {area: "Back", scale: 0},
@@ -446,7 +456,7 @@ mainApp.service('PatientService', function () {
             ]
         },
         {
-            id: 2,
+            id: "P003",
             firstName: 'Beata',
             lastName: 'Szydlo',
             dob: new Date('2015-11-03'),
@@ -572,7 +582,53 @@ mainApp.service('PatientService', function () {
         }
     ];
 
-    this.getTotalVisits = function(patientId){
+    this.getPatientCases = function () {
+        var patientDashboard = [
+            {
+                patientId: "P001",
+                fName: "Andrzej",
+                lName: "Duda",
+                dob: new Date('2005-11-03'),
+                caseId: "C001",
+                caseNum: "CA001"
+            },
+            {
+                patientId: "P001",
+                fName: "Andrzej",
+                lName: "Duda",
+                dob: new Date('2005-11-03'),
+                caseId: "C002",
+                caseNum: "CA002"
+            },
+            {
+                patientId: "P002",
+                fName: "Beata",
+                lName: "Szydlo",
+                dob: new Date('2005-11-04'),
+                caseId: "C003",
+                caseNum: "CA003"
+            },
+            {
+                patientId: "P002",
+                fName: "Beata",
+                lName: "Szydlo",
+                dob: new Date('2005-11-04'),
+                caseId: "C004",
+                caseNum: "CA004"
+            },
+            {
+                patientId: "P003",
+                fName: "John",
+                lName: "Smith",
+                dob: new Date('2005-11-05'),
+                caseId: "C005",
+                caseNum: "CA005"
+            }
+        ];
+        return patientDashboard;
+    }
+
+    this.getTotalVisits = function (patientId) {
         var patient = this.getPatient(patientId);
         return patient.notes.length;
     }
