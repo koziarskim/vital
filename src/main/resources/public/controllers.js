@@ -56,14 +56,6 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
 });
 
 mainApp.controller('DashboardController', function ($scope, $location, UserContextService, PatientService, NoteService) {
-    $scope.availableLocations = [
-        {id:"001", title: "Chicago-Portage Park"},
-        {id:"002", title: "Chicago Pediatrics"},
-        {id:"003", title: "Park Ridge"},
-        {id:"004", title: "Schaumburg"},
-        {id:"005", title: "Chicago/Thorek Hospital"}
-    ];
-    $scope.selectedLocation = null;
     UserContextService.data.patientName = null;
     UserContextService.data.visitNum = null;
     UserContextService.data.patientId = null;
@@ -160,6 +152,16 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.vitalSignsShow = false;
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
+    $scope.availableLocations = [
+        {id:"001", title: "Chicago-Portage Park"},
+        {id:"002", title: "Chicago Pediatrics"},
+        {id:"003", title: "Park Ridge"},
+        {id:"004", title: "Schaumburg"},
+        {id:"005", title: "Chicago/Thorek Hospital"}
+    ];
+    $scope.selectedLocation = null;
+
+
     $scope.toggleAuthAlert = function () {
         if ($scope.patient.requireAuth && $scope.patient.authVisits < UserContextService.data.visitNum) {
             alert("Patient doesn't have any more authorized visits!" +
@@ -186,7 +188,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         if (initNote != null && initNote.pain != null && initNote.pain.scale != null) {
             prevScale = initNote.pain.scale;
         }
-        var curScale = ($scope.note.pain == null || $scope.note.pain.scale == null) ? 0 : $scope.note.pain.scale;
+        var curScale = ($scope.note==null || $scope.note.pain == null || $scope.note.pain.scale == null) ? 0 : $scope.note.pain.scale;
         var scale = 0;
         if (prevScale == 0) {
             scale = curScale * 10;
@@ -293,6 +295,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     };
 
     $scope.saveNote = function () {
+        if(!$scope.selectedLocation){
+            alert("Please select Location!");
+            return;
+        }
         NoteService.saveNote($scope.patientId, $scope.note);
         $location.path("/dashboard");
     };
