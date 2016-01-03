@@ -1,1 +1,1 @@
-var mainApp = angular.module("mainApp", ['ngRoute']);
+var mainApp = angular.module("mainApp", ['ngRoute', 'mk.typeahead']);

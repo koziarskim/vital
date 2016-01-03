@@ -56,15 +56,18 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
 });
 
 mainApp.controller('DashboardController', function ($scope, $location, UserContextService, PatientService, NoteService) {
-    $scope.availableLocations = ["Chicago-Portage Park", "Chicago Pediatrics", "Park Ridge", "Schaumburg", "Chicago/Thorek Hospital"];
-    $scope.selectedLocation = UserContextService.data.office;
+    $scope.availableLocations = [
+        {id:"001", title: "Chicago-Portage Park"},
+        {id:"002", title: "Chicago Pediatrics"},
+        {id:"003", title: "Park Ridge"},
+        {id:"004", title: "Schaumburg"},
+        {id:"005", title: "Chicago/Thorek Hospital"}
+    ];
+    $scope.selectedLocation = null;
     UserContextService.data.patientName = null;
     UserContextService.data.visitNum = null;
     UserContextService.data.patientId = null;
     UserContextService.data.noteId = null;
-    $scope.locationAction = function () {
-        UserContextService.data.office = $scope.selectedLocation;
-    };
     $scope.patients = PatientService.getAllPatients();
     $scope.filterPatientNameInput = null;
 
@@ -160,16 +163,16 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.toggleAuthAlert = function () {
         if ($scope.patient.requireAuth && $scope.patient.authVisits < UserContextService.data.visitNum) {
             alert("Patient doesn't have any more authorized visits!" +
-                "\nTotal of visits: "+UserContextService.data.visitNum+
-                "\nAuthorized visits: "+$scope.patient.authVisits+
+                "\nTotal of visits: " + UserContextService.data.visitNum +
+                "\nAuthorized visits: " + $scope.patient.authVisits +
                 "\nPlease update patient's profile!");
         }
-        $scope.showNote=true;
+        $scope.showNote = true;
     }
     $scope.toggleVitalSigns = function () {
         $scope.vitalSignsShow = !$scope.vitalSignsShow;
     }
-    $scope.toggleTxArea = function (txAreaName){
+    $scope.toggleTxArea = function (txAreaName) {
         if ($scope.visibleTxAreaName == txAreaName) {
             $scope.visibleTxAreaName = null;
         } else {
@@ -224,8 +227,8 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         return units;
     }
-    $scope.availableObservationTypes = ["Motivation","Follows Directions","Cooperation","Consistency"];
-    $scope.availableObservationScales = ["POOR","FAIR","GOOD","EXCELLENT"];
+    $scope.availableObservationTypes = ["Motivation", "Follows Directions", "Cooperation", "Consistency"];
+    $scope.availableObservationScales = ["POOR", "FAIR", "GOOD", "EXCELLENT"];
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
     $scope.selectedModality = {
         id: null,
@@ -242,11 +245,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         to: null
     }
 
-    $scope.deleteModality = function(modalityId){
+    $scope.deleteModality = function (modalityId) {
         NoteService.deleteModality($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, modalityId);
     }
 
-    $scope.deleteTxArea = function(txAreaName){
+    $scope.deleteTxArea = function (txAreaName) {
         NoteService.deleteTxArea($scope.patientId, $scope.note.id, txAreaName);
     }
     $scope.saveModality = function (modalityCode) {
