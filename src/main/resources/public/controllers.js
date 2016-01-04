@@ -112,6 +112,7 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
         var note = angular.copy(lastNote);
         note.id = null;
         note.number = null;
+        note.billable = null;
         note.date = new Date();
         var newNote = NoteService.saveNote(patientId, note);
         $location.path("patients/" + patientId + "/notes/" + newNote.id);
@@ -308,7 +309,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             alert("Please select Location!");
             return;
         }
-        if(!$scope.note.billable){
+        if($scope.note.billable==null){
             alert("Please specify if note is billable!");
             return;
         }
