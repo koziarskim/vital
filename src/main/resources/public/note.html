@@ -1,14 +1,5 @@
 <div class="container" ng-init="toggleAuthAlert()">
-    <br/>
-
     <div ng-if=showNote>
-        <!--Patient Info-->
-        <div class="row">
-            <div class="col-sm-12">
-                    <label class="control-label">Dx:</label> {{patient.dx}},
-                </div>
-            </div>
-        </div>
         <!--Vital Signs-->
         <div class="row">
             <div class="col-sm-1" style="padding-top: 6px;">
@@ -50,17 +41,25 @@
         <br/>
         <!--Location and Date-->
         <div class="row">
-            <div class="col-sm-1">
-                <label class="control-label">Date: </label>
-            </div>
-            <div class="col-sm-2">
-                <input type="date" class="form-control" id="noteDate" ng-model="note.date">
-            </div>
-            <div class="col-sm-1">
-                <label class="control-label">Location: </label>
-            </div>
-            <div class="col-sm-5">
-                <mk-dropdown item='$parent.selectedLocation' items='availableLocations' item-label='title' item-id="id"></mk-dropdown>
+            <div class="form-inline">
+                <div class="col-sm-3 form-group" style="vertical-align: top;">
+                    <label class="control-label">Date: </label>
+                    <input type="date" class="form-control" id="noteDate" ng-model="note.date">
+                </div>
+                <div class="col-sm-5 form-group" style="vertical-align: top;">
+                    <label class="control-label">Location: </label>
+                    <mk-dropdown item='$parent.selectedLocation' items='availableLocations' item-label='title' item-id="id"></mk-dropdown>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" style="vertical-align: top;">
+                        <label class="control-label">Dx: </label>
+                    </div>
+                    <div class="form-group">
+                        <ul>
+                            <li ng-repeat="dx in patient.dx">{{dx.value}}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <br/>

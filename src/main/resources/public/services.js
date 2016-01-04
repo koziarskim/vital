@@ -198,7 +198,11 @@ mainApp.service('PatientService', function () {
             authVisits: 13,
             visitFrom: new Date('2015-01-03'),
             visitTo: new Date('2016-01-03'),
-            dx: 33,
+            dx: [
+                {value: "33 and going up"},
+                {value: "not sure"},
+                {value: "very good"}
+            ],
             visitNum: 10,
             totalTxTime: 12,
             totalMinCode: "DEC",
@@ -474,7 +478,11 @@ mainApp.service('PatientService', function () {
             authVisits: 1,
             visitFrom: null,
             visitTo: null,
-            dx: null,
+            dx: [
+                {value: "33 and going up"},
+                {value: "not sure"},
+                {value: "very good"}
+            ],
             visitNum: null,
             totalTxTime: null,
             totalMinCode: null,
