@@ -5,11 +5,7 @@
         <!--Patient Info-->
         <div class="row">
             <div class="col-sm-12">
-                <div><label class="control-label">Insurance:</label> {{patient.insuranceName}},
-                    <label class="control-label">Auth Visits Left:</label> {{patient.authVisits}} (from {{patient.visitFrom | date: "MM-dd-yyyy"}} to {{patient.visitTo | date: "MM-dd-yyyy"}}),
                     <label class="control-label">Dx:</label> {{patient.dx}},
-                    <label class="control-label">Total Tx Time:</label> {{patient.totalTxTime}},
-                    <label class="control-label">Total Min Timed Code:</label> {{patient.totalMinCode}}
                 </div>
             </div>
         </div>

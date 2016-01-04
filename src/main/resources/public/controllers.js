@@ -58,7 +58,11 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
 mainApp.controller('DashboardController', function ($scope, $location, UserContextService, PatientService, NoteService) {
     UserContextService.data.patientName = null;
     UserContextService.data.visitNum = null;
+    UserContextService.data.authVisits = null;
     UserContextService.data.patientId = null;
+    UserContextService.data.insuranceName = null;
+    UserContextService.data.totalTxTime = null;
+    UserContextService.data.totalMinCode = null;
     UserContextService.data.noteId = null;
     $scope.patients = PatientService.getAllPatients();
     $scope.filterPatientNameInput = null;
@@ -149,6 +153,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     UserContextService.data.noteId = $routeParams.noteId;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
     UserContextService.data.visitNum = PatientService.getTotalVisits($scope.patientId);
+    UserContextService.data.authVisits = $scope.patient.authVisits;
+    UserContextService.data.insuranceName = $scope.patient.insuranceName;
+    UserContextService.data.totalMinCode = $scope.patient.totalMinCode;
+    UserContextService.data.totalTxTime = $scope.patient.totalTxTime;
+
     $scope.vitalSignsShow = false;
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;

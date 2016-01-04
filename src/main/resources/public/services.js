@@ -5,9 +5,14 @@ mainApp.service('UserContextService', function () {
         lastName: null,
         office: null,
         patientName: null,
+        insuranceName: null,
         visitNum: null,
+        authVisits: null,
         patientId: null,
         noteId: null,
+        totalTxTime: null,
+        totalMinCode: null
+
     }
     this.clearData = function () {
         this.data.uid = null;
@@ -15,9 +20,13 @@ mainApp.service('UserContextService', function () {
         this.data.lastName = null;
         this.data.office = null;
         this.data.patientName = null;
+        this.data.insuranceName = null;
         this.data.visitNum = null;
+        this.data.authVisits = null;
         this.data.patientId = null;
         this.data.noteId = null;
+        this.data.totalTxTime = null;
+        this.data.totalMinCode = null;
     }
 });
 
@@ -626,15 +635,15 @@ mainApp.service('PatientService', function () {
             }
         ];
         return patientDashboard;
-    }
+    };
 
     this.getTotalVisits = function (patientId) {
         var patient = this.getPatient(patientId);
         return patient.notes.length;
-    }
+    };
     this.getAllPatients = function () {
         return patients;
-    }
+    };
     this.savePatient = function (patient) {
         if (patient != null) {
             if (patient.id == null) {
