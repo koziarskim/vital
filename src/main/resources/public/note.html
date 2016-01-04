@@ -459,11 +459,18 @@
                 <input type="date" class="form-control" ng-model="coSignDate">
             </div>
         </div>
+        <br/>
         <!--Save-->
         <div class="row">
-            <div class="col-sm-offset-11 col-sm-1">
+            <div class="pull-right col-sm-4 text-right">
+                <label class="control-label">Billable Note? </label>
+                <label class="control-label">Yes: <input class="btn btn-default" type="radio" ng-model="note.billable" value=true name="billableRadio"></label>
+                <label class="control-label">No: <input class="btn btn-default" type="radio" ng-model="note.billable" value=false name="billableRadio"></label>
                 <button type="submit" class="btn btn-default" ng-click="saveNote()">Save</button>
             </div>
         </div>
+        <br/>
+        <br/>
+        <br/>
     </div>
 </div>

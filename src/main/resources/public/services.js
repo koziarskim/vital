@@ -233,6 +233,7 @@ mainApp.service('PatientService', function () {
                 {
                     id: 1,
                     number: 1,
+                    billable: true,
                     date: new Date('2010-10-03'),
                     pain: {area: "Back", scale: 2},
                     assessment: {
@@ -386,6 +387,7 @@ mainApp.service('PatientService', function () {
                 {
                     id: "P002",
                     number: 2,
+                    billable: true,
                     date: new Date('2015-10-03'),
                     pain: {area: "Back", scale: 0},
                     assessment: {
@@ -433,6 +435,7 @@ mainApp.service('PatientService', function () {
                 {
                     id: 3,
                     number: 3,
+                    billable: true,
                     date: new Date('2015-10-03'),
                     pain: {area: "Back", scale: 0},
                     txAreas: []
@@ -440,6 +443,7 @@ mainApp.service('PatientService', function () {
                 {
                     id: 4,
                     number: 4,
+                    billable: true,
                     date: new Date('2015-11-03'),
                     pain: {area: "Upper", scale: 10},
                     assessment: {
@@ -493,6 +497,7 @@ mainApp.service('PatientService', function () {
                 {
                     id: 1,
                     number: 1,
+                    billable: true,
                     date: new Date('2010-10-03'),
                     pain: {area: "Back", scale: 2},
                     assessment: {
@@ -546,6 +551,7 @@ mainApp.service('PatientService', function () {
                 {
                     id: 2,
                     number: 2,
+                    billable: true,
                     date: new Date('2015-10-03'),
                     pain: {area: "Back", scale: 0},
                     assessment: {

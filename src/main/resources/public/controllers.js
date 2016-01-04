@@ -308,6 +308,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             alert("Please select Location!");
             return;
         }
+        if(!$scope.note.billable){
+            alert("Please specify if note is billable!");
+            return;
+        }
         NoteService.saveNote($scope.patientId, $scope.note);
         $location.path("/dashboard");
     };
