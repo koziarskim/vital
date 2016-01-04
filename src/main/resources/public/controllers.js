@@ -313,6 +313,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             alert("Please specify if note is billable!");
             return;
         }
+        if($scope.note.billable){
+            //TODO: Check if note is new or updating existing note. Don't decrease if update existing note.
+            $scope.patient.authVisits--;
+        }
         NoteService.saveNote($scope.patientId, $scope.note);
         $location.path("/dashboard");
     };
