@@ -52,6 +52,22 @@
             </div>
         </div>
         <br/>
+        <!--Location and Date-->
+        <div class="row">
+            <div class="col-sm-1">
+                <label class="control-label">Date: </label>
+            </div>
+            <div class="col-sm-2">
+                <input type="date" class="form-control" id="noteDate" ng-model="note.date">
+            </div>
+            <div class="col-sm-1">
+                <label class="control-label">Location: </label>
+            </div>
+            <div class="col-sm-5">
+                <mk-dropdown item='$parent.selectedLocation' items='availableLocations' item-label='title' item-id="id"></mk-dropdown>
+            </div>
+        </div>
+        <br/>
         <!--Subjective-->
         <div class="panel panel-default">
             <div class="panel-heading">Subjective</div>
