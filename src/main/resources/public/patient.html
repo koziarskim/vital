@@ -40,40 +40,37 @@
         </div>
         <br/><br/>
 
-        <div><h4>Insurance Information</h4></div>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-4 form-inline">
                 <label class="control-label">Insurance: </label>
+                <mk-dropdown class="space-right-sm" item-value="patient.insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
             </div>
-            <div class="col-sm-7">
-                <mk-dropdown item-value="patient.insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
+            <div class="col-sm-4 form-inline">
+                <label class="control-label">Madicare? <input type="checkbox" class="form-control" ng-model="patient.medicareFlag"></label>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-4 form-inline">
                 <label class="control-label">Authorized Visits Left:</label>
+                <input type="number" min="0" style="width:65px" class="form-control space-right-sm" ng-model="patient.authVisits">
             </div>
-            <div class="form-inline col-sm-10">
-                <div class="form-group">
-                    <input type="number" min="0" class="form-control" ng-model="patient.authVisits">
-                    <label class="control-label">Visit Range:</label>
-                    <input type="date" min="0" class="form-control" ng-model="patient.visitFrom">
-                    <input type="date" min="0" class="form-control" ng-model="patient.visitTo">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-inline col-sm-offset-2 col-sm-3">
-                    <div class="form-group" style="padding-left: 10px;">
-                        <label class="control-label">Requires Authorization?</label>
-                        <input type="checkbox" class="form-control" ng-model="patient.requireAuth">
-                    </div>
-                </div>
+            <div class="col-sm-5 form-inline">
+                <label class="control-label">Visit Range:</label>
+                <input type="date" min="0" class="form-control" ng-model="patient.visitFrom">
+                <input type="date" min="0" class="form-control" ng-model="patient.visitTo">
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" ng-click="savePatient(patient)">Save</button>
+            <div class="col-sm-4 form-inline">
+                <label class="control-label">Requires Authorization?</label>
+                <input type="checkbox" class="form-control" ng-model="patient.requireAuth">
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-offset-10 col-sm-2">
+            <button type="submit" class="btn btn-default" ng-click="savePatient(patient)">Save</button>
+        </div>
+    </div>
+</div>
 </div>

@@ -1,3 +1,7 @@
 .panel-default {
     border-color: #4A4848;
 }
+
+.space-right-sm {
+    margin-right: 12px;
+}
