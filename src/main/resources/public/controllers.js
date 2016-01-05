@@ -123,6 +123,8 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
 
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
     $scope.patientId = $routeParams.patientId;
+
+    $scope.availableInsuranceTypes = ["BCBS","Aetna","MyInsurance"];
     if ($scope.patientId == "new") {
         $scope.patientId = null;
     }

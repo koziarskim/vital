@@ -43,10 +43,10 @@
         <div><h4>Insurance Information</h4></div>
         <div class="row">
             <div class="col-sm-2">
-                <label class="control-label" for="insName">Insurance: </label>
+                <label class="control-label">Insurance: </label>
             </div>
             <div class="col-sm-7">
-                <input type="text" class="form-control" id="insName" ng-model="patient.insuranceName" placeholder="Enter Insurance Provider Name">
+                <mk-dropdown item-value="patient.insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
             </div>
         </div>
         <div class="row">
