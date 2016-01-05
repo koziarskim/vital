@@ -201,20 +201,9 @@ mainApp.service('PatientService', function () {
                 {value: "not sure"},
                 {value: "very good"}
             ],
-            visitNum: 10,
             totalTxTime: 12,
             totalMinCode: "DEC",
             requireAuth: true,
-            locations: [
-                {
-                    id: "L001",
-                    code: "PRG"
-                },
-                {
-                    id: "L002",
-                    code: "CHI"
-                }
-            ],
             vsBeforeTx: {
                 bph: 70,
                 bpl: 120,
@@ -229,10 +218,11 @@ mainApp.service('PatientService', function () {
             },
             notes: [
                 {
-                    id: 1,
+                    id: "V001",
                     billable: true,
                     date: new Date('2010-10-03T06:00:03.000Z'),
                     pain: {area: "Back", scale: 2},
+                    visitLocation: {id: "001", title: "Chicago-Portage Park"},
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -382,10 +372,11 @@ mainApp.service('PatientService', function () {
                     ]
                 },
                 {
-                    id: "P002",
+                    id: "V002",
                     billable: true,
                     date: new Date('2015-10-03T06:00:04.000Z'),
                     pain: {area: "Back", scale: 0},
+                    visitLocation: {id: "003", title: "Park Ridge"},
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -429,17 +420,19 @@ mainApp.service('PatientService', function () {
                     ]
                 },
                 {
-                    id: 3,
+                    id: "V004",
                     billable: true,
                     date: new Date('2015-10-03T06:00:05.000Z'),
                     pain: {area: "Back", scale: 0},
+                    visitLocation: {id: "001", title: "Chicago-Portage Park"},
                     txAreas: []
                 },
                 {
-                    id: 4,
+                    id: "V005",
                     billable: true,
                     date: new Date('2015-11-03T06:00:06.000Z'),
                     pain: {area: "Upper", scale: 10},
+                    visitLocation: {id: "003", title: "Park Ridge"},
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -482,7 +475,6 @@ mainApp.service('PatientService', function () {
                 {value: "not sure"},
                 {value: "very good"}
             ],
-            visitNum: null,
             totalTxTime: null,
             totalMinCode: null,
             vsBeforeTx: null,
@@ -490,10 +482,11 @@ mainApp.service('PatientService', function () {
             requireAuth: true,
             notes: [
                 {
-                    id: 1,
+                    id: "V006",
                     billable: true,
                     date: new Date('2010-10-03T06:00:08.000Z'),
                     pain: {area: "Back", scale: 2},
+                    visitLocation: {id: "001", title: "Chicago-Portage Park"},
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -543,10 +536,11 @@ mainApp.service('PatientService', function () {
                     ]
                 },
                 {
-                    id: 2,
+                    id: "V007",
                     billable: true,
                     date: new Date('2015-10-03T06:00:09.000Z'),
                     pain: {area: "Back", scale: 0},
+                    visitLocation: {id: "001", title: "Chicago-Portage Park"},
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -591,7 +585,6 @@ mainApp.service('PatientService', function () {
             visitFrom: null,
             visitTo: null,
             dx: null,
-            visitNum: null,
             totalTxTime: null,
             totalMinCode: null,
             requireAuth: false,
@@ -648,13 +641,13 @@ mainApp.service('PatientService', function () {
     this.getTotalVisits = function (patientId, date) {
         var count = 0;
         var patient = this.getPatient(patientId);
-        if(date){
-            patient.notes.forEach(function (it, index){
-                if(it.date <= date){
+        if (date) {
+            patient.notes.forEach(function (it, index) {
+                if (it.date <= date) {
                     count++
                 }
             });
-        }else {
+        } else {
             count = patient.notes.length;
         }
         return count;

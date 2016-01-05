@@ -174,9 +174,6 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         {id: "004", title: "Schaumburg"},
         {id: "005", title: "Chicago/Thorek Hospital"}
     ];
-    $scope.selectedLocation = null;
-
-
     $scope.toggleAuthAlert = function () {
         if ($scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
@@ -308,7 +305,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     };
 
     $scope.saveNote = function () {
-        if (!$scope.selectedLocation) {
+        if (!$scope.note.visitLocation) {
             alert("Please select Location!");
             return;
         }
