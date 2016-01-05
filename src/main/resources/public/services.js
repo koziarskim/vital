@@ -44,10 +44,8 @@ mainApp.service('NoteService', function (PatientService) {
                 }
                 if (patient.notes.length > 0) {
                     note.id = patient.notes.length + 1;
-                    note.number = patient.notes.length + 1;
                 } else {
                     note.id = 001;
-                    note.number = 1;
                 }
                 patient.notes.push(note);
             } else {
@@ -173,7 +171,6 @@ mainApp.service('NoteService', function (PatientService) {
         if (notes == null) {
             var newNote = {
                 id: null,
-                number: 1,
                 date: new Date(),
                 pain: null,
                 txAreas: []
@@ -197,8 +194,8 @@ mainApp.service('PatientService', function () {
             insuranceName: 'BCBS',
             medicareFlag: true,
             authVisits: 13,
-            visitFrom: new Date('2015-01-03'),
-            visitTo: new Date('2016-01-03'),
+            visitFrom: new Date('2015-01-03T06:00:01.000Z'),
+            visitTo: new Date('2016-01-03T06:00:02.000Z'),
             dx: [
                 {value: "33 and going up"},
                 {value: "not sure"},
@@ -233,9 +230,8 @@ mainApp.service('PatientService', function () {
             notes: [
                 {
                     id: 1,
-                    number: 1,
                     billable: true,
-                    date: new Date('2010-10-03'),
+                    date: new Date('2010-10-03T06:00:03.000Z'),
                     pain: {area: "Back", scale: 2},
                     assessment: {
                         commentsOne: "comments one...",
@@ -387,9 +383,8 @@ mainApp.service('PatientService', function () {
                 },
                 {
                     id: "P002",
-                    number: 2,
                     billable: true,
-                    date: new Date('2015-10-03'),
+                    date: new Date('2015-10-03T06:00:04.000Z'),
                     pain: {area: "Back", scale: 0},
                     assessment: {
                         commentsOne: "comments one...",
@@ -435,17 +430,15 @@ mainApp.service('PatientService', function () {
                 },
                 {
                     id: 3,
-                    number: 3,
                     billable: true,
-                    date: new Date('2015-10-03'),
+                    date: new Date('2015-10-03T06:00:05.000Z'),
                     pain: {area: "Back", scale: 0},
                     txAreas: []
                 },
                 {
                     id: 4,
-                    number: 4,
                     billable: true,
-                    date: new Date('2015-11-03'),
+                    date: new Date('2015-11-03T06:00:06.000Z'),
                     pain: {area: "Upper", scale: 10},
                     assessment: {
                         commentsOne: "comments one...",
@@ -474,10 +467,10 @@ mainApp.service('PatientService', function () {
             ]
         },
         {
-            id: "P003",
+            id: "P002",
             firstName: 'Beata',
             lastName: 'Szydlo',
-            dob: new Date('2015-11-03'),
+            dob: new Date('2015-11-03T06:00:07.000Z'),
             gender: "male",
             insuranceName: 'BCBS',
             medicareFlag: false,
@@ -498,9 +491,8 @@ mainApp.service('PatientService', function () {
             notes: [
                 {
                     id: 1,
-                    number: 1,
                     billable: true,
-                    date: new Date('2010-10-03'),
+                    date: new Date('2010-10-03T06:00:08.000Z'),
                     pain: {area: "Back", scale: 2},
                     assessment: {
                         commentsOne: "comments one...",
@@ -552,9 +544,8 @@ mainApp.service('PatientService', function () {
                 },
                 {
                     id: 2,
-                    number: 2,
                     billable: true,
-                    date: new Date('2015-10-03'),
+                    date: new Date('2015-10-03T06:00:09.000Z'),
                     pain: {area: "Back", scale: 0},
                     assessment: {
                         commentsOne: "comments one...",
@@ -589,10 +580,10 @@ mainApp.service('PatientService', function () {
             ]
         },
         {
-            id: 3,
+            id: "P003",
             firstName: 'Joe',
             lastName: 'Smith',
-            dob: new Date('2005-11-03'),
+            dob: new Date('2005-11-03T06:00:10.000Z'),
             gender: "female",
             insuranceName: null,
             medicareFlag: null,
@@ -614,7 +605,7 @@ mainApp.service('PatientService', function () {
                 patientId: "P001",
                 fName: "Andrzej",
                 lName: "Duda",
-                dob: new Date('2005-11-03'),
+                dob: new Date('2005-11-03T06:00:11.000Z'),
                 caseId: "C001",
                 caseNum: "CA001"
             },
@@ -622,7 +613,7 @@ mainApp.service('PatientService', function () {
                 patientId: "P001",
                 fName: "Andrzej",
                 lName: "Duda",
-                dob: new Date('2005-11-03'),
+                dob: new Date('2005-11-03T06:00:12.000Z'),
                 caseId: "C002",
                 caseNum: "CA002"
             },
@@ -630,7 +621,7 @@ mainApp.service('PatientService', function () {
                 patientId: "P002",
                 fName: "Beata",
                 lName: "Szydlo",
-                dob: new Date('2005-11-04'),
+                dob: new Date('2005-11-04T06:00:13.000Z'),
                 caseId: "C003",
                 caseNum: "CA003"
             },
@@ -638,7 +629,7 @@ mainApp.service('PatientService', function () {
                 patientId: "P002",
                 fName: "Beata",
                 lName: "Szydlo",
-                dob: new Date('2005-11-04'),
+                dob: new Date('2005-11-04T06:00:14.000Z'),
                 caseId: "C004",
                 caseNum: "CA004"
             },
@@ -646,7 +637,7 @@ mainApp.service('PatientService', function () {
                 patientId: "P003",
                 fName: "John",
                 lName: "Smith",
-                dob: new Date('2005-11-05'),
+                dob: new Date('2005-11-05T06:00:15.000Z'),
                 caseId: "C005",
                 caseNum: "CA005"
             }
@@ -654,9 +645,19 @@ mainApp.service('PatientService', function () {
         return patientDashboard;
     };
 
-    this.getTotalVisits = function (patientId) {
+    this.getTotalVisits = function (patientId, date) {
+        var count = 0;
         var patient = this.getPatient(patientId);
-        return patient.notes.length;
+        if(date){
+            patient.notes.forEach(function (it, index){
+                if(it.date <= date){
+                    count++
+                }
+            });
+        }else {
+            count = patient.notes.length;
+        }
+        return count;
     };
     this.getAllPatients = function () {
         return patients;

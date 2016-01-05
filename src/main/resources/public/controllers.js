@@ -155,7 +155,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     UserContextService.data.patientId = $scope.patient.id;
     UserContextService.data.noteId = $routeParams.noteId;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
-    UserContextService.data.visitNum = PatientService.getTotalVisits($scope.patientId);
+    UserContextService.data.visitNum = PatientService.getTotalVisits($scope.patientId, $scope.note.date);
     UserContextService.data.authVisits = $scope.patient.authVisits;
     UserContextService.data.insuranceName = $scope.patient.insuranceName;
     UserContextService.data.totalMinCode = $scope.patient.totalMinCode;

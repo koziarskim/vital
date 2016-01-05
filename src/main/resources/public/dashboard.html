@@ -22,7 +22,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="patient in patientCases | filter:filterOnPatient | filter:filterOnLocation">
+            <tr ng-repeat="patient in patientCases | filter:filterOnPatient">
                 <td>{{ patient.fName }}</td>
                 <td>{{ patient.lName }}</td>
                 <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>

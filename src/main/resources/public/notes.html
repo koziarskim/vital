@@ -20,14 +20,14 @@
     <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th>Note #</th>
-            <th>Note Date</th>
+            <th>Visit #</th>
+            <th>Visit Date</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="note in notes | filter:filterDate | orderBy : '-number'">
-            <td>{{ note.number }}</td>
+        <tr ng-repeat="note in notes | filter:filterDate | orderBy : '-date'">
+            <td>{{ notes.length-$index }}</td>
             <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
             <td>
                 <button ng-click="editNote(note.id)" class="btn btn-default">edit</button>
