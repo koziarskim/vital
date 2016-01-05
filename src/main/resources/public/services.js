@@ -13,7 +13,7 @@ mainApp.service('UserContextService', function () {
         totalTxTime: null,
         totalMinCode: null
 
-    }
+    };
     this.clearData = function () {
         this.data.uid = null;
         this.data.firstName = null;
@@ -191,7 +191,7 @@ mainApp.service('PatientService', function () {
             lastName: 'Duda',
             dob: new Date('2015-11-03T06:00:00.000Z'),
             gender: 'male',
-            insuranceName: 'BCBS',
+            insuranceName: "BCBC",
             medicareFlag: true,
             authVisits: 13,
             visitFrom: new Date('2015-01-03T06:00:01.000Z'),
@@ -223,6 +223,7 @@ mainApp.service('PatientService', function () {
                     date: new Date('2010-10-03T06:00:03.000Z'),
                     pain: {area: "Back", scale: 2},
                     visitLocation: {id: "001", title: "Chicago-Portage Park"},
+                    patientMedicalId: "PM001",
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -377,6 +378,7 @@ mainApp.service('PatientService', function () {
                     date: new Date('2015-10-03T06:00:04.000Z'),
                     pain: {area: "Back", scale: 0},
                     visitLocation: {id: "003", title: "Park Ridge"},
+                    patientMedicalId: "PM002",
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -420,19 +422,21 @@ mainApp.service('PatientService', function () {
                     ]
                 },
                 {
-                    id: "V004",
+                    id: "V003",
                     billable: true,
                     date: new Date('2015-10-03T06:00:05.000Z'),
                     pain: {area: "Back", scale: 0},
                     visitLocation: {id: "001", title: "Chicago-Portage Park"},
+                    patientMedicalId: "PM001",
                     txAreas: []
                 },
                 {
-                    id: "V005",
+                    id: "V004",
                     billable: true,
                     date: new Date('2015-11-03T06:00:06.000Z'),
                     pain: {area: "Upper", scale: 10},
                     visitLocation: {id: "003", title: "Park Ridge"},
+                    patientMedicalId: "PM001",
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -465,7 +469,7 @@ mainApp.service('PatientService', function () {
             lastName: 'Szydlo',
             dob: new Date('2015-11-03T06:00:07.000Z'),
             gender: "male",
-            insuranceName: 'BCBS',
+            insuranceName: "Aetna",
             medicareFlag: false,
             authVisits: 1,
             visitFrom: null,
@@ -482,11 +486,12 @@ mainApp.service('PatientService', function () {
             requireAuth: true,
             notes: [
                 {
-                    id: "V006",
+                    id: "V001",
                     billable: true,
                     date: new Date('2010-10-03T06:00:08.000Z'),
                     pain: {area: "Back", scale: 2},
                     visitLocation: {id: "001", title: "Chicago-Portage Park"},
+                    patientMedicalId: "PM003",
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -536,11 +541,12 @@ mainApp.service('PatientService', function () {
                     ]
                 },
                 {
-                    id: "V007",
+                    id: "V002",
                     billable: true,
                     date: new Date('2015-10-03T06:00:09.000Z'),
                     pain: {area: "Back", scale: 0},
                     visitLocation: {id: "001", title: "Chicago-Portage Park"},
+                    patientMedicalId: "PM003",
                     assessment: {
                         commentsOne: "comments one...",
                         commentsTwo: "comments two...",
@@ -579,7 +585,7 @@ mainApp.service('PatientService', function () {
             lastName: 'Smith',
             dob: new Date('2005-11-03T06:00:10.000Z'),
             gender: "female",
-            insuranceName: null,
+            insuranceName: "BCBC",
             medicareFlag: null,
             authVisits: 1,
             visitFrom: null,
@@ -591,6 +597,53 @@ mainApp.service('PatientService', function () {
             notes: []
         }
     ];
+
+    this.patientMedicalRecords = [
+        {
+            id: "PM001",
+            patientId: "P001",
+            insuranceName: "BCBS",
+            medicareFlag: false
+        },
+        {
+            id: "PM002",
+            patientId: "P002",
+            insuranceName: "Aetna",
+            medicareFlag: false
+        },
+        {
+            id: "PM003",
+            patientId: "P003",
+            insuranceName: "BCBS",
+            medicareFlag: false
+        }
+    ]
+
+    this.getPatientMedical = function (patientMedicalId) {
+        var patientMedical = null;
+        this.patientMedicalRecords.forEach(function (it) {
+            if (it.id == patientMedicalId) {
+                patientMedical = angular.copy(it);
+            }
+        });
+        return patientMedical;
+    };
+
+    this.savePatientMedical = function (patientMedical) {
+            if (patientMedical.id == null) {
+                patientMedical.id = patientMedicalRecords.length + 1;
+                this.patientMedicalRecords.push(angular.copy(patientMedical));
+            } else {
+                var indx = null;
+                this.patientMedicalRecords.forEach(function (it, index) {
+                    if (it.id == patientMedical.id) {
+                        indx = index;
+                    }
+                });
+                this.patientMedicalRecords[indx] = angular.copy(patientMedical);
+            }
+
+    }
 
     this.getPatientCases = function () {
         var patientDashboard = [

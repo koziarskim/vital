@@ -9,18 +9,18 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
         $location.path("/dashboard");
     }
     $scope.goNote = function () {
-        if (UserContextService.data.patientId == null || UserContextService.data.noteId == null) {
+        if ($scope.data.patientId == null || $scope.data.noteId == null) {
             alert("Please select note");
             return;
         }
-        $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId);
+        $location.path("patients/" + $scope.data.patientId + "/notes/" + $scope.data.noteId);
     }
     $scope.goAssessment = function () {
-        if (UserContextService.data.patientId == null || UserContextService.data.noteId == null) {
+        if ($scope.data.patientId == null || $scope.data.noteId == null) {
             alert("Please select note");
             return;
         }
-        $location.path("patients/" + UserContextService.data.patientId + "/notes/" + UserContextService.data.noteId + "/assessment");
+        $location.path("patients/" + $scope.data.patientId + "/notes/" + $scope.data.noteId + "/assessment");
     }
     $scope.logOut = function () {
         UserContextService.clearData();
@@ -29,8 +29,12 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     $scope.editProfile = function (uid) {
         $location.path("profiles/" + uid);
     }
-    $scope.editPatient = function (patientId) {
-        $location.path("patients/" + patientId);
+    $scope.editPatient = function (patientId, noteId) {
+        if(noteId) {
+            $location.path("/notes/" + noteId+"/patient/" + patientId );
+        }else{
+            $location.path("patients/" + patientId);
+        }
     }
 });
 
@@ -91,7 +95,7 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     }
     $scope.showInitNote = function (patientId) {
         var note = NoteService.getInitNote(patientId);
-        if(!note){
+        if (!note) {
             alert("Patient has no init note created yet." +
                 "\nPlease, create today's note first");
             return;
@@ -108,19 +112,33 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
 
 });
 
-mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
+mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService, NoteService) {
     $scope.patientId = $routeParams.patientId;
+    $scope.noteId = $routeParams.noteId;
 
-    $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
-    if ($scope.patientId == "new") {
-        $scope.patientId = null;
-    }
     $scope.patient = null;
+    $scope.note = null;
     if ($scope.patientId) {
         $scope.patient = PatientService.getPatient($scope.patientId);
     }
+    $scope.patientMedical = null;
+    $scope.insuranceName = null;
+    $scope.medicareFlag = null;
+    if($scope.noteId){
+        $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
+        $scope.patientMedical =  PatientService.getPatientMedical($scope.note.patientMedicalId);
+        $scope.insuranceName= $scope.patientMedical.insuranceName;
+        $scope.medicareFlag = $scope.patientMedical.medicareFlag;
+    }else{
+        $scope.insuranceName= $scope.patient.insuranceName;
+        $scope.medicareFlag = $scope.patient.medicareFlag;
+    }
+    $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
     $scope.savePatient = function () {
         PatientService.savePatient($scope.patient);
+        if($scope.noteId){
+            PatientService.savePatientMedical($scope.patientMedical);
+        }
         $location.path("/dashboard");
     };
 });
@@ -135,7 +153,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.lastNote = null;
-    $scope.note = $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
+    $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
     if (!$scope.note) {
         $scope.lastNote = NoteService.getLastNote($scope.patientId);
         if ($scope.lastNote) {
@@ -152,15 +170,16 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.initNote = null;
     $scope.visibleTxAreaName = null;
     $scope.patient = PatientService.getPatient($scope.patientId);
+    $scope.patientMedical = PatientService.getPatientMedical($scope.note.patientMedicalId);
+    UserContextService.data.insuranceName = $scope.patientMedical.insuranceName;
     UserContextService.data.patientId = $scope.patient.id;
     UserContextService.data.noteId = $routeParams.noteId;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
     UserContextService.data.visitNum = PatientService.getTotalVisits($scope.patientId, $scope.note.date);
-    if(!$scope.note.id){
+    if (!$scope.note.id) {
         UserContextService.data.visitNum++;
     }
     UserContextService.data.authVisits = $scope.patient.authVisits;
-    UserContextService.data.insuranceName = $scope.patient.insuranceName;
     UserContextService.data.totalMinCode = $scope.patient.totalMinCode;
     UserContextService.data.totalTxTime = $scope.patient.totalTxTime;
 
@@ -270,6 +289,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             return;
         }
         var modality = angular.copy($scope.getAvailableExercises(modalityCode));
+        //TODO: Remove.
+        if(!$scope.note.id){
+            NoteService.saveNote($scope.patientId, $scope.note);
+        }
         NoteService.saveModality($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, modality);
         $scope.visibleTxAreaName = $scope.selectedTxAreaName;
     };
@@ -280,6 +303,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             return;
         }
         var procedure = angular.copy($scope.getAvailableExercises(procedureCode));
+        //TODO: Remove.
+        if(!$scope.note.id){
+            NoteService.saveNote($scope.patientId, $scope.note);
+        }
         NoteService.saveProcedure($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, procedure);
         $scope.visibleTxAreaName = $scope.selectedTxAreaName;
     };
@@ -290,6 +317,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             return;
         }
         var wc = angular.copy($scope.getAvailableExercises(exCode));
+        //TODO: Remove.
+        if(!$scope.note.id){
+            NoteService.saveNote($scope.patientId, $scope.note);
+        }
         NoteService.saveWc($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, wc);
         $scope.visibleTxAreaName = $scope.selectedTxAreaName;
     };
@@ -300,6 +331,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             return;
         }
         var motion = angular.copy($scope.getAvailableExercises(motionCode));
+        //TODO: Remove.
+        if(!$scope.note.id){
+            NoteService.saveNote($scope.patientId, $scope.note);
+        }
         NoteService.saveMotion($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, motion);
         $scope.visibleTxAreaName = $scope.selectedTxAreaName;
     };
