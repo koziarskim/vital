@@ -173,10 +173,8 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
 
     $scope.toggleAuthAlert = function () {
-        if ($scope.patient.requireAuth && $scope.patient.authVisits < UserContextService.data.visitNum) {
+        if ($scope.patient.requireAuth && $scope.patient.authVisits <=0) {
             alert("Patient doesn't have any more authorized visits!" +
-                "\nTotal of visits: " + UserContextService.data.visitNum +
-                "\nAuthorized visits: " + $scope.patient.authVisits +
                 "\nPlease update patient's profile!");
         }
         $scope.showNote = true;
