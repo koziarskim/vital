@@ -8,7 +8,7 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })
-        .when('/patients/:patientId?/notes/:noteId', {
+        .when('/patients/:patientId/notes/:noteId', {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })

@@ -91,40 +91,27 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     }
     $scope.showInitNote = function (patientId) {
         var note = NoteService.getInitNote(patientId);
-        if (note == null) {
-            note = {
-                id: null,
-                number: 1,
-                date: new Date(),
-                pain: null,
-                txAreas: []
-            }
-            NoteService.saveNote(patientId, note);
+        if(!note){
+            alert("Patient has no init note created yet." +
+                "\nPlease, create today's note first");
+            return;
         }
-        note = NoteService.getInitNote(patientId);
         $location.path("patients/" + patientId + "/notes/" + note.id);
     }
     $scope.showAllNotes = function (patientId) {
         $location.path("patients/" + patientId + "/notes");
     }
-    $scope.createTodayNote = function (patientId) {
-        var lastNote = NoteService.getLastNote(patientId);
-        var note = angular.copy(lastNote);
-        note.id = null;
-        note.number = null;
-        note.billable = null;
-        note.date = new Date();
-        var newNote = NoteService.saveNote(patientId, note);
-        $location.path("patients/" + patientId + "/notes/" + newNote.id);
-    }
 
+    $scope.createTodayNote = function (patientId) {
+        $location.path("patients/" + patientId + "/notes/new");
+    }
 
 });
 
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService) {
     $scope.patientId = $routeParams.patientId;
 
-    $scope.availableInsuranceTypes = ["BCBS","Aetna","MyInsurance"];
+    $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
     if ($scope.patientId == "new") {
         $scope.patientId = null;
     }
@@ -147,15 +134,31 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     }
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
-    $scope.note = null;
+    $scope.lastNote = null;
+    $scope.note = $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
+    if (!$scope.note) {
+        $scope.lastNote = NoteService.getLastNote($scope.patientId);
+        if ($scope.lastNote) {
+            $scope.note = angular.copy($scope.lastNote);
+            $scope.note.id = null;
+            $scope.note.billable = null;
+            $scope.note.date = new Date();
+        } else {
+            $scope.note = {
+                date: new Date()
+            }
+        }
+    }
     $scope.initNote = null;
-    $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
     $scope.visibleTxAreaName = null;
     $scope.patient = PatientService.getPatient($scope.patientId);
     UserContextService.data.patientId = $scope.patient.id;
     UserContextService.data.noteId = $routeParams.noteId;
     UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
     UserContextService.data.visitNum = PatientService.getTotalVisits($scope.patientId, $scope.note.date);
+    if(!$scope.note.id){
+        UserContextService.data.visitNum++;
+    }
     UserContextService.data.authVisits = $scope.patient.authVisits;
     UserContextService.data.insuranceName = $scope.patient.insuranceName;
     UserContextService.data.totalMinCode = $scope.patient.totalMinCode;
@@ -165,17 +168,17 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
     $scope.availableLocations = [
-        {id:"001", title: "Chicago-Portage Park"},
-        {id:"002", title: "Chicago Pediatrics"},
-        {id:"003", title: "Park Ridge"},
-        {id:"004", title: "Schaumburg"},
-        {id:"005", title: "Chicago/Thorek Hospital"}
+        {id: "001", title: "Chicago-Portage Park"},
+        {id: "002", title: "Chicago Pediatrics"},
+        {id: "003", title: "Park Ridge"},
+        {id: "004", title: "Schaumburg"},
+        {id: "005", title: "Chicago/Thorek Hospital"}
     ];
     $scope.selectedLocation = null;
 
 
     $scope.toggleAuthAlert = function () {
-        if ($scope.patient.requireAuth && $scope.patient.authVisits <=0) {
+        if ($scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
                 "\nPlease update patient's profile!");
         }
@@ -198,7 +201,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         if (initNote != null && initNote.pain != null && initNote.pain.scale != null) {
             prevScale = initNote.pain.scale;
         }
-        var curScale = ($scope.note==null || $scope.note.pain == null || $scope.note.pain.scale == null) ? 0 : $scope.note.pain.scale;
+        var curScale = ($scope.note == null || $scope.note.pain == null || $scope.note.pain.scale == null) ? 0 : $scope.note.pain.scale;
         var scale = 0;
         if (prevScale == 0) {
             scale = curScale * 10;
@@ -305,15 +308,15 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     };
 
     $scope.saveNote = function () {
-        if(!$scope.selectedLocation){
+        if (!$scope.selectedLocation) {
             alert("Please select Location!");
             return;
         }
-        if($scope.note.billable==null){
+        if ($scope.note.billable == null) {
             alert("Please specify if note is billable!");
             return;
         }
-        if($scope.note.billable){
+        if ($scope.note.billable) {
             //TODO: Check if note is new or updating existing note. Don't decrease if update existing note.
             $scope.patient.authVisits--;
         }
