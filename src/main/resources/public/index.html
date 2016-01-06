@@ -41,15 +41,9 @@
                 <button ng-click="logOut()" class="btn btn-default">LOGOUT</button>
             </div>
             <div class="col-sm-2">
-                <div><div>Vital Rehabilitation</div><div><a href="" ng-click="editProfile(data.uid)">{{data.uid}}</a>{{data.office==null?'':"@"+data.office}}</div></div>
+                <div><a href="" ng-click="editProfile(data.uid)">{{data.uid}}</a>{{data.uid?"@":""}}Vital Rehabilitation</div>
             </div>
             <div class="col-sm-5 pull-right text-right">
-                <div>
-                    <div>Patient: <a href="" ng-click="editPatient(data.patientId, data.noteId)">{{data.patientName}}</a></div>
-                    <div>Insurance: {{data.insuranceName}}</div>
-                    <div>Visit #: {{data.visitNum}}, Auth Visits Left: {{data.authVisits}}</div>
-                    <div>Tx Time: {{data.totalTxTime}}, Timed Code: {{data.totalMinCode}}</div>
-                </div>
             </div>
         </div>
     </div>

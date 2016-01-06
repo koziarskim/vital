@@ -29,12 +29,9 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     $scope.editProfile = function (uid) {
         $location.path("profiles/" + uid);
     }
-    $scope.editPatient = function (patientId, noteId) {
-        if(noteId) {
-            $location.path("/notes/" + noteId+"/patient/" + patientId );
-        }else{
-            $location.path("patients/" + patientId);
-        }
+    $scope.readOnlyPatient = true;
+    $scope.editPatient = function () {
+        $scope.readOnlyPatient=!$scope.readOnlyPatient;
     }
 });
 

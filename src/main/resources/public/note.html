@@ -1,4 +1,20 @@
 <div class="container" ng-init="toggleAuthAlert()">
+    <!--Patient info-->
+    <div class="row">
+        <div class="col-sm-3">
+            <h3>Patient: <a href="" ng-click="editPatient()">{{data.patientName}}</a></h3>
+        </div>
+        <div class="col-sm-5" style="margin-top:28px;">
+            <label class="control-label">Diagnosis: </label>
+            <span ng-repeat="dx in patient.dx track by $index">{{$index==0?"":"&bullet; "}}{{dx.value}} </span>
+        </div>
+        <div class="col-sm-4 pull-right text-right">
+            <div>Insurance: {{data.insuranceName}}</div>
+            <div>Visit #: {{data.visitNum}}, Auth Visits Left: {{data.authVisits}}</div>
+            <div>Tx Time: {{data.totalTxTime}}, Timed Code: {{data.totalMinCode}}</div>
+        </div>
+
+    </div>
     <!--Vital Signs-->
     <div class="row">
         <div class="col-sm-1" style="padding-top: 6px;">
@@ -48,16 +64,6 @@
             <div class="col-sm-5 form-group" style="vertical-align: top;">
                 <label class="control-label">Location: </label>
                 <mk-dropdown item='note.visitLocation' items='availableLocations' item-label='title' item-id="id"></mk-dropdown>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group" style="vertical-align: top;">
-                    <label class="control-label">Dx: </label>
-                </div>
-                <div class="form-group">
-                    <ul>
-                        <li ng-repeat="dx in patient.dx">{{dx.value}}</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
