@@ -1,9 +1,10 @@
 package com.vital.web.data;
 
-import org.springframework.boot.autoconfigure.jdbc.TomcatDataSourceConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -13,12 +14,14 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@ConfigurationProperties(prefix = "spring.ds_primary") //Defines property name.
-public class DatabaseConfig extends TomcatDataSourceConfiguration {
+public class DatabaseConfig {
 
+    @ConfigurationProperties(prefix="spring.ds_primary")
     @Bean(name = "primaryDataSource")
     public DataSource dataSource() {
-        return super.dataSource();
+        return DataSourceBuilder
+                .create()
+                .build();
     }
 
     @Bean(name = "primaryJdbcTemplate")
