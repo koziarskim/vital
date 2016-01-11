@@ -29,10 +29,6 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     $scope.editProfile = function (uid) {
         $location.path("profiles/" + uid);
     }
-    $scope.readOnlyPatient = true;
-    $scope.editPatient = function () {
-        $scope.readOnlyPatient=!$scope.readOnlyPatient;
-    }
 });
 
 mainApp.controller('LoginController', function ($scope, $location, UserContextService, ProfileService) {
@@ -121,6 +117,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     $scope.patientMedical = null;
     $scope.insuranceName = null;
     $scope.medicareFlag = null;
+    $scope.patientInfoDate = new Date();
     if($scope.noteId){
         $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
         $scope.patientMedical =  PatientService.getPatientMedical($scope.note.patientMedicalId);
@@ -208,6 +205,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         $scope.selectedTxAreaName = txAreaName;
     }
+    $scope.editPatient = function (patientId) {
+        $location.path("/patients/" + patientId);
+    }
+
     $scope.painChange = function () {
         var prevScale = 0;
         var initNote = NoteService.getInitNote($scope.patientId);

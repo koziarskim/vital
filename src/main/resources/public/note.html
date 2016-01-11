@@ -2,7 +2,7 @@
     <!--Patient info-->
     <div class="row">
         <div class="col-sm-3">
-            <h3>Patient: <a href="" ng-click="editPatient()">{{data.patientName}}</a></h3>
+            <h3>Patient: <a href="" ng-click="editPatient(data.patientId)" ng-if="noteId=='new'">{{data.patientName}}</a>{{noteId=='new'?'':data.patientName}}</h3>
         </div>
         <div class="col-sm-5" style="margin-top:28px;">
             <label class="control-label">Diagnosis: </label>
