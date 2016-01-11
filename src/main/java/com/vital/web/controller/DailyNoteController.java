@@ -7,12 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @RestController
-@RequestMapping("/dailyNote")
+@RequestMapping("/api/notes")
 public class DailyNoteController {
 
     @Inject
@@ -52,6 +50,14 @@ public class DailyNoteController {
         dailyNote.setDescription(resource.getDescription());
         DailyNote savedDailyNote = dailyNoteService.create(dailyNote);
         return savedDailyNote!=null?resource:null;
+    }
+
+    @RequestMapping("/hello")
+    public Map<String, Object> home() {
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("id", UUID.randomUUID().toString());
+        model.put("content", "Hello World");
+        return model;
     }
 
 }

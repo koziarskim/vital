@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -33,5 +34,10 @@ public class UserController {
     public List<User> listUsers() {
         LOGGER.debug("Received request to list all users");
         return userService.getList();
+    }
+
+    @RequestMapping("/session/user")
+    public Principal user(Principal user) {
+        return user;
     }
 }
