@@ -2,14 +2,14 @@
     <!--Patient info-->
     <div class="row">
         <div class="col-sm-3">
-            <h3>Patient: <a href="" ng-click="editPatient(data.patientId)" ng-if="noteId=='new'">{{data.patientName}}</a>{{noteId=='new'?'':data.patientName}}</h3>
+            <div style="font-size: 23px">Patient: {{data.patientName}}</div>
         </div>
         <div class="col-sm-5" style="margin-top:28px;">
             <label class="control-label">Diagnosis: </label>
             <span> {{patient.dx}} </span>
         </div>
         <div class="col-sm-4 pull-right text-right">
-            <div>Insurance: {{data.insuranceName}}</div>
+            <div>Insurance: {{data.insuranceName}}, Medicare: {{patient.medicareFlag?"Yes":"No"}}</div>
             <div>Visit #: {{data.visitNum}}, Auth Visits Left: {{data.authVisits}}</div>
             <div>Tx Time: {{data.totalTxTime}}, Timed Code: {{data.totalMinCode}}</div>
         </div>

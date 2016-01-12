@@ -211,6 +211,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             $scope.note.id = null;
             $scope.note.billable = null;
             $scope.note.date = new Date();
+            $scope.note.visitLocation = null;
         } else {
             $scope.note = {
                 date: new Date()
@@ -221,6 +222,9 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.visibleTxAreaName = null;
     $scope.patient = PatientService.getPatient($scope.patientId);
     $scope.patientMedical = PatientService.getPatientMedical($scope.note.patientMedicalId);
+    if(!$scope.patientMedical){
+        $scope.patientMedical = {};
+    }
     UserContextService.data.insuranceName = $scope.patientMedical.insuranceName;
     UserContextService.data.patientId = $scope.patient.id;
     UserContextService.data.noteId = $routeParams.noteId;
