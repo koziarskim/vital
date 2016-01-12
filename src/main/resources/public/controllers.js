@@ -8,12 +8,8 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     $scope.goDashboard = function () {
         $location.path("/dashboard");
     }
-    $scope.goNote = function () {
-        if ($scope.data.patientId == null || $scope.data.noteId == null) {
-            alert("Please select note");
-            return;
-        }
-        $location.path("patients/" + $scope.data.patientId + "/notes/" + $scope.data.noteId);
+    $scope.goReport = function () {
+        $location.path("report");
     }
     $scope.goAssessment = function () {
         if ($scope.data.patientId == null || $scope.data.noteId == null) {
@@ -84,8 +80,15 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     $scope.deletePatient = function (patientId) {
         PatientService.deletePatient(patientId);
     }
+});
 
-
+mainApp.controller('ReportController', function ($scope, $location, UserContextService, PatientService, LocationService) {
+    $scope.locationItem = null;
+    $scope.locationItems = LocationService.getAvailableLocation();
+    $scope.patientItem = {};
+    $scope.patientItems = PatientService.getAllPatientItems();
+    $scope.caseItem = null;
+    $scope.caseItems = [{id:'C001', name:'C001'},{id:'C002', name:'C002'},{id:'C003', name:'C003'}];
 });
 
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService, NoteService) {
@@ -169,10 +172,18 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.editNote = function (noteId) {
         $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
     }
-    $scope.createTodayNote = function () {
+    $scope.saveAndCreateTodayNote = function () {
+        if(!$scope.patientCase){
+            $scope.patientCase = {};
+        }
+        $scope.patientCase.patientId = $scope.patientId;
+        PatientService.savePatientCase($scope.patientCase);
         $location.path("patients/" + $scope.patientId + "/notes/new");
     };
     $scope.saveCase = function () {
+        if(!$scope.patientCase){
+            $scope.patientCase = {};
+        }
         $scope.patientCase.patientId = $scope.patientId;
         PatientService.savePatientCase($scope.patientCase);
         $location.path("patients/" + $scope.patientId);
@@ -182,7 +193,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     };
 });
 
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService, ProfileService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService, ProfileService, LocationService) {
     if ($routeParams.patientId == null) {
         console.log("PatientId is null");
     }
@@ -225,13 +236,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.vitalSignsShow = false;
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
-    $scope.availableLocations = [
-        {id: "001", title: "Chicago-Portage Park"},
-        {id: "002", title: "Chicago Pediatrics"},
-        {id: "003", title: "Park Ridge"},
-        {id: "004", title: "Schaumburg"},
-        {id: "005", title: "Chicago/Thorek Hospital"}
-    ];
+    $scope.availableLocations = LocationService.getAvailableLocation();
     $scope.toggleAuthAlert = function () {
         if ($scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
@@ -396,7 +401,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             $scope.patient.authVisits--;
         }
         NoteService.saveNote($scope.patientId, $scope.note);
-        $location.path("/dashboard");
+        $location.path("/patients/"+$scope.patientId);
+    };
+
+    $scope.cancelNote = function () {
+        $location.path("/patients/"+$scope.patientId);
     };
 
     $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];

@@ -721,9 +721,19 @@ mainApp.service('PatientService', function () {
         }
         return count;
     };
+
     this.getAllPatients = function () {
         return patients;
     };
+
+    this.getAllPatientItems = function () {
+        var patientItems = [];
+        patients.forEach(function(it, index){
+            patientItems.push({id: it.id, title: it.firstName+" "+it.lastName})
+        });
+        return patientItems;
+    };
+
     this.savePatient = function (patient) {
         if (patient != null) {
             if (patient.id == null) {
@@ -822,5 +832,17 @@ mainApp.service('ProfileService', function () {
             return true;
         }
     }
-})
-;
+});
+
+mainApp.service('LocationService', function () {
+    var availableLocations = [
+        {id: "001", title: "Chicago-Portage Park"},
+        {id: "002", title: "Chicago Pediatrics"},
+        {id: "003", title: "Park Ridge"},
+        {id: "004", title: "Schaumburg"},
+        {id: "005", title: "Chicago/Thorek Hospital"}
+    ];
+    this.getAvailableLocation = function () {
+        return availableLocations;
+    }
+});

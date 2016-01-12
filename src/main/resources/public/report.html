@@ -1,0 +1,45 @@
+<div class="container">
+    <br/>
+
+    <div style="font-size:23px">Report:</div>
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-1">
+            <div>Date:</div>
+        </div>
+        <div class="col-sm-6 form-inline">
+            From: <input class="form-control" ng-model="dateFrom" type="date"/> To: <input class="form-control" ng-model="dateTo" type="date"/>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-1">
+            <div>Location:</div>
+        </div>
+        <div class="col-sm-4 form-inline">
+            <mk-dropdown item='locationItem' items='locationItems' item-label='title' item-id="id" placeholder="All Locations"></mk-dropdown>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-1">
+            <div>Patient:</div>
+        </div>
+        <div class="col-sm-4 form-inline">
+            <mk-dropdown item='patientItem' items='patientItems' item-label='title' item-id="id" placeholder="All Patients"></mk-dropdown>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-1">
+            <div>Case:</div>
+        </div>
+        <div class="col-sm-4 form-inline">
+            <mk-dropdown ng-select="setCaseItems()" item='caseItem' items='caseItems' item-label='name' item-id="id" placeholder="All Cases"></mk-dropdown>
+        </div>
+    </div>
+    <br/>
+    <a href="reports/sample_01.xlsx" target="_self" class="btn btn-primary btn-primary btn-sm" role="button">Download Report</a>
+</div>

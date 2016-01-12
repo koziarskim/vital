@@ -467,10 +467,13 @@
     <br/>
     <!--Save-->
     <div class="row">
-            <label class="control-label">Billable Note? </label>
-            <label class="control-label">Yes: <input class="btn btn-sm" type="radio" ng-model="note.billable" ng-value="true" name="billableRadio"></label>
-            <label class="control-label">No: <input class="btn btn-sm" type="radio" ng-model="note.billable" ng-value="false" name="billableRadio"></label>
-            <button type="submit" class="btn btn-sm" ng-click="saveNote()">Save</button>
+        <label class="control-label">Billable Note? </label>
+        <label class="control-label">Yes: <input class="btn btn-primary btn-sm" type="radio" ng-model="note.billable" ng-value="true" name="billableRadio"></label>
+        <label class="control-label">No: <input class="btn btn-primary btn-sm" type="radio" ng-model="note.billable" ng-value="false" name="billableRadio"></label>
+    </div>
+    <div class="row">
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="saveNote()">Save</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="cancelNote()">Cancel</button>
     </div>
     <br/>
     <br/>

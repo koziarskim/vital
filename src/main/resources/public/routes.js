@@ -32,6 +32,10 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'dashboard.html',
             controller: 'DashboardController'
         })
+        .when('/report', {
+            templateUrl: 'report.html',
+            controller: 'ReportController'
+        })
         .otherwise({
             redirectTo: '/login'
         });

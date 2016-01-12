@@ -24,10 +24,10 @@
                 <td>{{ patient.firstName}}</td>
                 <td>{{patient.lastName}}</td>
                 <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
-                <td><button class="btn btn-sm" ng-click="editPatient(patient.id)">Edit</button></td>
+                <td><button class="btn btn-primary btn-sm" ng-click="editPatient(patient.id)">Edit</button></td>
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-sm" value="Add New" ng-click="createNewPatient()">New Patient</button>
+        <button type="button" class="btn btn-primary btn-sm" value="Add New" ng-click="createNewPatient()">New Patient</button>
     </div>
 </div>

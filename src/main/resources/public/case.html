@@ -37,12 +37,12 @@
             <td>{{ notes.length-$index }}</td>
             <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
             <td>
-                <button ng-click="editNote(note.id)" class="btn btn-sm">edit</button>
+                <button ng-click="editNote(note.id)" class="btn btn-primary btn-sm">edit</button>
             </td>
         </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-sm" ng-click="saveCase()">Save</button>
-    <button type="button" class="btn btn-sm" ng-click="cancelCase()">Cancel</button>
-    <button type="button" class="btn btn-sm" ng-click="createTodayNote()">Save & Create Today's Note</button>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="saveCase()">Save</button>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="cancelCase()">Cancel</button>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="saveAndCreateTodayNote()">Save & Create Today's Note</button>
 </div>
