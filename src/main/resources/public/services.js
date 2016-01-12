@@ -638,41 +638,68 @@ mainApp.service('PatientService', function () {
 
     }
 
-    this.getPatientCases = function (patientId) {
-        var allCases = [
+    this.getPatientCase = function(patientId, caseId){
+        var patientCase = null;
+        this.getAllPatientCases(patientId).forEach(function (it, index) {
+            if (it.id == caseId) {
+                patientCase = angular.copy(it);
+            }
+        });
+        return patientCase;
+    }
 
-                {
-                    patientId: "P001",
-                    id: "C001",
-                    num: "C001",
-                    desc: "Upper shoulder",
-                    evalDate: new Date('2005-11-03T06:00:10.000Z')
-                },
-
-                {
-                    patientId: "P002",
-                    id: "C002",
-                    num: "C002",
-                    desc: "Upper shoulder",
-                    evalDate: new Date('2005-11-03T06:00:10.000Z')
-                },
-                {
-                    patientId: "P002",
-                    id: "C003",
-                    num: "C003",
-                    desc: "Knew issue",
-                    evalDate: new Date('2005-11-03T06:00:10.000Z')
-                },
-                {
-                    patientId: "P003",
-                    id: "C004",
-                    num: "C004",
-                    desc: "Back pain, Head injury",
-                    evalDate: new Date('2005-11-03T06:00:10.000Z')
+    this.savePatientCase = function (patientCase) {
+        if (patientCase.id == null) {
+            patientCase.id = this.allCases.length + 1;
+            this.allCases.push(angular.copy(patientCase));
+        } else {
+            var indx = null;
+            this.allCases.forEach(function (it, index) {
+                if (it.id == patientCase.id) {
+                    indx = index;
                 }
-            ];
+            });
+            this.allCases[indx] = angular.copy(patientCase);
+        }
+
+    }
+
+    this.allCases = [
+
+        {
+            patientId: "P001",
+            id: "C001",
+            num: "C001",
+            desc: "Upper shoulder",
+            evalDate: new Date('2005-11-03T06:00:10.000Z')
+        },
+
+        {
+            patientId: "P002",
+            id: "C002",
+            num: "C002",
+            desc: "Upper shoulder",
+            evalDate: new Date('2005-11-03T06:00:10.000Z')
+        },
+        {
+            patientId: "P002",
+            id: "C003",
+            num: "C003",
+            desc: "Knew issue",
+            evalDate: new Date('2005-11-03T06:00:10.000Z')
+        },
+        {
+            patientId: "P003",
+            id: "C004",
+            num: "C004",
+            desc: "Back pain, Head injury",
+            evalDate: new Date('2005-11-03T06:00:10.000Z')
+        }
+    ];
+
+    this.getAllPatientCases = function (patientId) {
         var patientCases = [];
-        allCases.forEach(function (it, index) {
+        this.allCases.forEach(function (it, index) {
             if (it.patientId == patientId) {
                 patientCases.push(it);
             }

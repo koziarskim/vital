@@ -92,9 +92,9 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
 
-    $scope.patient = null;
+    $scope.patient = {};
     $scope.note = null;
-    if ($scope.patientId) {
+    if ($scope.patientId!="new") {
         $scope.patient = PatientService.getPatient($scope.patientId);
     }
     $scope.patientMedical = null;
@@ -111,13 +111,16 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
         $scope.medicareFlag = $scope.patient.medicareFlag;
     }
 
-    $scope.patientCases = PatientService.getPatientCases($scope.patientId);
+    $scope.patientCases = PatientService.getAllPatientCases($scope.patientId);
     $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
     $scope.savePatient = function () {
         PatientService.savePatient($scope.patient);
         if($scope.noteId){
             PatientService.savePatientMedical($scope.patientMedical);
         }
+        $location.path("/dashboard");
+    };
+    $scope.cancelPatient = function () {
         $location.path("/dashboard");
     };
     $scope.showInitNote = function (patientId) {
@@ -132,10 +135,51 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     $scope.editCase = function (patientId, caseId) {
         $location.path("patients/" + patientId + "/cases/"+caseId);
     }
+    $scope.createCase = function () {
+        $location.path("patients/" + $scope.patientId + "/cases/new");
+    }
 
     $scope.createTodayNote = function (patientId) {
         $location.path("patients/" + patientId + "/notes/new");
     }
+});
+
+mainApp.controller('CaseController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
+    $scope.patientId = $routeParams.patientId;
+    $scope.caseId = $routeParams.caseId;
+    $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
+    $scope.notes = [];
+    if($scope.caseId!="new"){
+        $scope.notes = NoteService.getAllNotes($scope.patientId);
+    }
+    $scope.patient = PatientService.getPatient($scope.patientId);
+    UserContextService.data.patientId = $scope.patientId;
+    UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
+    $scope.dateRange = {
+        from: null,
+        to: null
+    }
+    $scope.filterDate = function (note) {
+        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    $scope.editNote = function (noteId) {
+        $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
+    }
+    $scope.createTodayNote = function () {
+        $location.path("patients/" + $scope.patientId + "/notes/new");
+    };
+    $scope.saveCase = function () {
+        $scope.patientCase.patientId = $scope.patientId;
+        PatientService.savePatientCase($scope.patientCase);
+        $location.path("patients/" + $scope.patientId);
+    };
+    $scope.cancelCase = function () {
+        $location.path("patients/" + $scope.patientId);
+    };
 });
 
 mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService, ProfileService) {
@@ -407,28 +451,6 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     };
     $scope.availableTherapists = ProfileService.getAllProfiles();
     $scope.availableCoTherapists = ProfileService.getAllProfiles();
-});
-
-mainApp.controller('CaseController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
-    $scope.patientId = $routeParams.patientId;
-    $scope.notes = NoteService.getAllNotes($scope.patientId);
-    var patient = PatientService.getPatient($scope.patientId);
-    UserContextService.data.patientId = $scope.patientId;
-    UserContextService.data.patientName = patient.firstName + " " + patient.lastName;
-    $scope.dateRange = {
-        from: null,
-        to: null
-    }
-    $scope.filterDate = function (note) {
-        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-    $scope.editNote = function (noteId) {
-        $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
-    }
 });
 
 mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService, UserContextService) {

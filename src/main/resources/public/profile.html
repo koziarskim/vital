@@ -26,8 +26,10 @@
         </div>
     </div>
     <br/>
+
     <div><a href="" ng-click="changePassword?changePassword=false:changePassword=true">{{changePassword==true?"Cancel":"Change Password"}}</a></div>
     <br/>
+
     <div ng-show="changePassword">
         <div class="row">
             <div class="col-sm-4">
@@ -45,9 +47,7 @@
     <br/>
 
     <div class="row">
-        <div class="col-sm-offset-3 col-sm-2">
-            <button type="submit" class="btn btn-default" ng-click="saveProfile(profile)">Save</button>
-        </div>
+        <button type="submit" class="btn btn-sm" ng-click="saveProfile(profile)">Save</button>
     </div>
 </div>
 </div>
