@@ -38,6 +38,7 @@
             <div class="col-sm-5">
                 <button ng-click="goDashboard()" class="btn btn-primary btn-sm">DASHBOARD</button>
                 <button ng-show="profile.roles.admin || profile.roles.billing" ng-click="goReport()" class="btn btn-primary btn-sm">REPORT</button>
+                <button ng-click="editProfile(data.uid)" class="btn btn-primary btn-sm">PROFILE</button>
                 <button ng-click="logOut()" class="btn btn-primary btn-sm">LOGOUT</button>
             </div>
             <div class="col-sm-2">
