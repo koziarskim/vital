@@ -6,7 +6,7 @@
         </div>
         <div class="col-sm-5" style="margin-top:28px;">
             <label class="control-label">Diagnosis: </label>
-            <span ng-repeat="dx in patient.dx track by $index">{{$index==0?"":"&bullet; "}}{{dx.value}} </span>
+            <span> {{patient.dx}} </span>
         </div>
         <div class="col-sm-4 pull-right text-right">
             <div>Insurance: {{data.insuranceName}}</div>

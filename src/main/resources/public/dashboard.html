@@ -14,27 +14,17 @@
             <thead>
             <tr>
                 <th>First Name</th>
-                <th>Last Name</th>
-                <th>DOB</th>
-                <th>Case #</th>
-                <th>Patient</th>
-                <th>Note</th>
+                <th>Last Name </th>
+                <th>Date of Birth</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="patient in patientCases | filter:filterOnPatient">
-                <td>{{ patient.fName }}</td>
-                <td>{{ patient.lName }}</td>
+            <tr ng-repeat="patient in patients | filter:filterOnPatient">
+                <td>{{ patient.firstName}}</td>
+                <td>{{patient.lastName}}</td>
                 <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
-                <td>{{patient.caseNum}}</td>
-                <td>
-                    <button ng-click="editPatient(patient.patientId)" class="btn btn-default">edit</button>
-                </td>
-                <td>
-                    <button ng-click="createTodayNote(patient.patientId)" class="btn btn-default">Create Today's Note</button>
-                    <button ng-click="showAllNotes(patient.patientId)" class="btn btn-default">View All Notes</button>
-                    <button ng-click="showInitNote(patient.patientId)" class="btn btn-default">View Init Note</button>
-                </td>
+                <td><button class="btn btn-sm" ng-click="editPatient(patient.id)">Edit</button></td>
             </tr>
             </tbody>
         </table>

@@ -64,11 +64,9 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     $scope.patients = PatientService.getAllPatients();
     $scope.filterPatientNameInput = null;
 
-    $scope.patientCases = PatientService.getPatientCases();
-
     $scope.filterOnPatient = function (patient) {
         if ($scope.filterPatientNameInput) {
-            return (patient.fName + patient.lName).toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
+            return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
         } else {
             return true;
         }
@@ -86,22 +84,7 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     $scope.deletePatient = function (patientId) {
         PatientService.deletePatient(patientId);
     }
-    $scope.showInitNote = function (patientId) {
-        var note = NoteService.getInitNote(patientId);
-        if (!note) {
-            alert("Patient has no init note created yet." +
-                "\nPlease, create today's note first");
-            return;
-        }
-        $location.path("patients/" + patientId + "/notes/" + note.id);
-    }
-    $scope.showAllNotes = function (patientId) {
-        $location.path("patients/" + patientId + "/notes");
-    }
 
-    $scope.createTodayNote = function (patientId) {
-        $location.path("patients/" + patientId + "/notes/new");
-    }
 
 });
 
@@ -127,6 +110,8 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
         $scope.insuranceName= $scope.patient.insuranceName;
         $scope.medicareFlag = $scope.patient.medicareFlag;
     }
+
+    $scope.patientCases = PatientService.getPatientCases($scope.patientId);
     $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
     $scope.savePatient = function () {
         PatientService.savePatient($scope.patient);
@@ -135,6 +120,22 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
         }
         $location.path("/dashboard");
     };
+    $scope.showInitNote = function (patientId) {
+        var note = NoteService.getInitNote(patientId);
+        if (!note) {
+            alert("Patient has no init note created yet." +
+                "\nPlease, create today's note first");
+            return;
+        }
+        $location.path("patients/" + patientId + "/notes/" + note.id);
+    }
+    $scope.editCase = function (patientId, caseId) {
+        $location.path("patients/" + patientId + "/cases/"+caseId);
+    }
+
+    $scope.createTodayNote = function (patientId) {
+        $location.path("patients/" + patientId + "/notes/new");
+    }
 });
 
 mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService, ProfileService) {
@@ -408,7 +409,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.availableCoTherapists = ProfileService.getAllProfiles();
 });
 
-mainApp.controller('NotesController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
+mainApp.controller('CaseController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
     $scope.patientId = $routeParams.patientId;
     $scope.notes = NoteService.getAllNotes($scope.patientId);
     var patient = PatientService.getPatient($scope.patientId);
