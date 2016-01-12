@@ -1,4 +1,5 @@
-mainApp.service('UserContextService', function () {
+mainApp.service('UserContextService', function ($rootScope, ProfileService) {
+
     this.data = {
         uid: null,
         firstName: null,
@@ -28,6 +29,7 @@ mainApp.service('UserContextService', function () {
         this.data.totalTxTime = null;
         this.data.totalMinCode = null;
     }
+
 });
 
 mainApp.service('NoteService', function (PatientService) {
@@ -773,25 +775,52 @@ mainApp.service('PatientService', function () {
 mainApp.service('ProfileService', function () {
     var profiles = [
         {
+            id:"P001",
             firstName: "Tom",
             lastName: "Kokocinski",
             uid: "tom",
             credentials: "PT, DPT, CFCE",
-            password: "1234"
+            password: "1234",
+            roles: {
+                admin: true,
+                billing: true
+            }
         },
         {
+            id:"P002",
             firstName: "Marcin",
             lastName: "Koziarski",
             uid: "marcin",
             credentials: "Developer",
-            password: "1234"
+            password: "1234",
+            roles: {
+                admin: true,
+                billing: true
+            }
         },
         {
+            id:"P003",
             firstName: "Joe",
             lastName: "Smith",
             uid: "joe",
             credentials: "PT",
-            password: "1234"
+            password: "1234",
+            roles: {
+                admin: false,
+                billing: true
+            }
+        },
+        {
+            id:"P004",
+            firstName: "Greg",
+            lastName: "Johnson",
+            uid: "greg",
+            credentials: "PT",
+            password: "1234",
+            roles: {
+                admin: false,
+                billing: false
+            }
         }
     ]
     this.getAllProfiles = function () {

@@ -26,7 +26,14 @@
         </div>
     </div>
     <br/>
-
+    <div style="font-size: 20px">Roles: </div>
+    <div class="checkbox">
+        <label><input type="checkbox" ng-model="profile.roles.admin">Admin</label>
+    </div>
+    <div class="checkbox">
+        <label><input type="checkbox" ng-model="profile.roles.billing">Billing</label>
+    </div>
+    <br/>
     <div><a href="" ng-click="changePassword?changePassword=false:changePassword=true">{{changePassword==true?"Cancel":"Change Password"}}</a></div>
     <br/>
 

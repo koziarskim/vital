@@ -1,10 +1,13 @@
-mainApp.controller('IndexController', function ($scope, $location, UserContextService) {
+mainApp.controller('IndexController', function ($scope, $rootScope, $location, UserContextService, ProfileService) {
     $scope.$on('$viewContentLoaded', function () {
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     });
     $scope.data = UserContextService.data;
+
+
+    $rootScope.profile = null;
     $scope.goDashboard = function () {
         $location.path("/dashboard");
     }
@@ -27,7 +30,7 @@ mainApp.controller('IndexController', function ($scope, $location, UserContextSe
     }
 });
 
-mainApp.controller('LoginController', function ($scope, $location, UserContextService, ProfileService) {
+mainApp.controller('LoginController', function ($scope, $rootScope, $location, UserContextService, ProfileService) {
     $scope.login = {
         userName: null,
         password: null
@@ -40,6 +43,7 @@ mainApp.controller('LoginController', function ($scope, $location, UserContextSe
         var authenticated = ProfileService.validateUser($scope.login.userName, $scope.login.password);
         if (authenticated) {
             UserContextService.data.uid = $scope.login.userName;
+            $rootScope.profile = ProfileService.getProfile($scope.login.userName);
             $location.path("/dashboard");
         } else {
             alert("Invalid username and/or password");
@@ -466,7 +470,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.availableCoTherapists = ProfileService.getAllProfiles();
 });
 
-mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService, UserContextService) {
+mainApp.controller('ProfileController', function ($scope, $rootScope, $location, $routeParams, ProfileService, UserContextService) {
     $scope.uid = $routeParams.uid;
     $scope.changePassword = false;
     $scope.verifyPassword = null;
@@ -480,6 +484,7 @@ mainApp.controller('ProfileController', function ($scope, $location, $routeParam
         }
         ProfileService.saveProfile(profile);
         UserContextService.data.uid = profile.uid;
+        UserContextService.updateData();
         $location.path("dashboard/");
     }
 });
