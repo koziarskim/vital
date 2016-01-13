@@ -4,21 +4,10 @@
     <meta charset="utf-8">
     <title>AngularJS Routing</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">-->
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>-->
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-route.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js"></script>
-    <!--<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>-->
-
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>-->
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>-->
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>-->
 
     <script type="text/javascript" src="thirdparty/mk.dropdown.min.js"></script>
 
@@ -35,16 +24,15 @@
 
     <div ng-if="data.uid">
         <div class="row">
-            <div class="col-sm-5">
-                <button ng-click="goDashboard()" class="btn btn-primary btn-sm">DASHBOARD</button>
+            <div class="col-sm-6">
+                <button ng-click="goNewPatient()" class="btn btn-primary btn-sm">NEW PATIENT</button>
+                <button ng-click="goDashboard()" class="btn btn-primary btn-sm">PATIENT SEARCH</button>
                 <button ng-show="profile.roles.admin || profile.roles.billing" ng-click="goReport()" class="btn btn-primary btn-sm">REPORT</button>
-                <button ng-click="editProfile(data.uid)" class="btn btn-primary btn-sm">PROFILE</button>
+                <button ng-click="editProfile(data.uid)" class="btn btn-primary btn-sm">THERAPIST PROFILE</button>
                 <button ng-click="logOut()" class="btn btn-primary btn-sm">LOGOUT</button>
             </div>
             <div class="col-sm-2">
                 <div><a href="" ng-click="editProfile(data.uid)">{{data.uid}}</a>{{data.uid?"@":""}}Vital Rehabilitation</div>
-            </div>
-            <div class="col-sm-5 pull-right text-right">
             </div>
         </div>
     </div>

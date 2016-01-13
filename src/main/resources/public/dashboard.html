@@ -1,5 +1,6 @@
 <div class="container">
     <br/>
+    <br/>
 
     <div class="row">
         <div class="col-sm-1">
@@ -9,7 +10,7 @@
             <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput"/><br/><br/>
         </div>
     </div>
-    <div class="row">
+    <div ng-show="filterPatientNameInput" class="row">
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
@@ -28,6 +29,5 @@
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-primary btn-sm" value="Add New" ng-click="createNewPatient()">New Patient</button>
     </div>
 </div>

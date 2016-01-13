@@ -21,6 +21,9 @@ mainApp.controller('IndexController', function ($scope, $rootScope, $location, U
         }
         $location.path("patients/" + $scope.data.patientId + "/notes/" + $scope.data.noteId + "/assessment");
     }
+    $scope.goNewPatient = function () {
+        $location.path("/patients/new");
+    }
     $scope.logOut = function () {
         UserContextService.clearData();
         $location.path("/");
@@ -68,16 +71,14 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
         if ($scope.filterPatientNameInput) {
             return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
         } else {
-            return true;
+            return false;
         }
     };
     $scope.savePatient = function (patient) {
         var savedPatient = PatientService.savePatient(patient);
         $location.path("/patients/" + savedPatient.id);
     };
-    $scope.createNewPatient = function () {
-        $location.path("/patients/new");
-    }
+
     $scope.editPatient = function (patientId) {
         $location.path("/patients/" + patientId);
     }
