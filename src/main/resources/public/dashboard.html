@@ -7,11 +7,10 @@
             <label class="control-label">Patient: </label>
         </div>
         <div class="col-sm-4">
-            <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput"/>
+            <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput" placeholder="Search First or Last Name"/>
             <div style="position: fixed; background-color:white;">
-                <div ng-repeat="patient in patients | filter:filterOnPatient">
-                    {{patient.firstName}} {{patient.lastName}} ({{patient.dob | date: "MM-dd-yyyy"}})
-                    <a href ng-click="addToMyPatients(patient)">Add</a>
+                <div ng-repeat="patient in store.patients | filter:filterOnPatient">
+                    <a href ng-click="addToMyPatients(patient)">{{patient.firstName}} {{patient.lastName}} ({{patient.dob | date: "MM-dd-yyyy"}})</a>
                 </div>
             </div>
         </div>
@@ -28,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="patient in myPatients">
+            <tr ng-repeat="patient in store.myPatients">
                 <td>{{ patient.firstName}}</td>
                 <td>{{patient.lastName}}</td>
                 <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>

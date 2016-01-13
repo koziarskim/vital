@@ -5,6 +5,7 @@ mainApp.controller('IndexController', function ($scope, $rootScope, $location, U
         });
     });
     $scope.data = UserContextService.data;
+    $rootScope.store = {};
 
 
     $rootScope.profile = null;
@@ -26,6 +27,7 @@ mainApp.controller('IndexController', function ($scope, $rootScope, $location, U
     }
     $scope.logOut = function () {
         UserContextService.clearData();
+        $rootScope.store = {};
         $location.path("/");
     }
     $scope.editProfile = function (uid) {
@@ -55,7 +57,7 @@ mainApp.controller('LoginController', function ($scope, $rootScope, $location, U
     }
 });
 
-mainApp.controller('DashboardController', function ($scope, $location, UserContextService, PatientService) {
+mainApp.controller('DashboardController', function ($scope, $rootScope, $location, UserContextService, PatientService) {
     UserContextService.data.patientName = null;
     UserContextService.data.visitNum = null;
     UserContextService.data.authVisits = null;
@@ -64,27 +66,31 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     UserContextService.data.totalTxTime = null;
     UserContextService.data.totalMinCode = null;
     UserContextService.data.noteId = null;
-    $scope.patients = PatientService.getAllPatients();
+    if(!$rootScope.store.patients) {
+        $rootScope.store.patients = PatientService.getAllPatients();
+    }
     $scope.filterPatientNameInput = null;
-
-    $scope.myPatients = [];
+    if(!$rootScope.store.myPatients) {
+        $rootScope.store.myPatients = [];
+    }
 
     $scope.addToMyPatients = function (patient) {
-        $scope.myPatients.push(angular.copy(patient));
-        $scope.patients.forEach(function (it, index) {
+        $rootScope.store.myPatients.push(angular.copy(patient));
+        $rootScope.store.patients.forEach(function (it, index) {
             if (it.id == patient.id) {
-                $scope.patients.splice(index, 1);
+                $rootScope.store.patients.splice(index, 1);
             }
         });
+        $scope.filterPatientNameInput = null;
     }
 
     $scope.removeFromMyPatients = function (patient) {
-        $scope.myPatients.forEach(function (it, index) {
+        $rootScope.store.myPatients.forEach(function (it, index) {
             if (it.id == patient.id) {
-                $scope.myPatients.splice(index, 1);
+                $rootScope.store.myPatients.splice(index, 1);
             }
         });
-        $scope.patients.push(angular.copy(patient));
+        $rootScope.store.patients.push(angular.copy(patient));
     }
 
 
