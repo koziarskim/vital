@@ -55,7 +55,7 @@ mainApp.controller('LoginController', function ($scope, $rootScope, $location, U
     }
 });
 
-mainApp.controller('DashboardController', function ($scope, $location, UserContextService, PatientService, NoteService) {
+mainApp.controller('DashboardController', function ($scope, $location, UserContextService, PatientService) {
     UserContextService.data.patientName = null;
     UserContextService.data.visitNum = null;
     UserContextService.data.authVisits = null;
@@ -66,6 +66,28 @@ mainApp.controller('DashboardController', function ($scope, $location, UserConte
     UserContextService.data.noteId = null;
     $scope.patients = PatientService.getAllPatients();
     $scope.filterPatientNameInput = null;
+
+    $scope.myPatients = [];
+
+    $scope.addToMyPatients = function (patient) {
+        $scope.myPatients.push(angular.copy(patient));
+        $scope.patients.forEach(function (it, index) {
+            if (it.id == patient.id) {
+                $scope.patients.splice(index, 1);
+            }
+        });
+    }
+
+    $scope.removeFromMyPatients = function (patient) {
+        $scope.myPatients.forEach(function (it, index) {
+            if (it.id == patient.id) {
+                $scope.myPatients.splice(index, 1);
+            }
+        });
+        $scope.patients.push(angular.copy(patient));
+    }
+
+
 
     $scope.filterOnPatient = function (patient) {
         if ($scope.filterPatientNameInput) {
@@ -93,7 +115,7 @@ mainApp.controller('ReportController', function ($scope, $location, UserContextS
     $scope.patientItem = {};
     $scope.patientItems = PatientService.getAllPatientItems();
     $scope.caseItem = null;
-    $scope.caseItems = [{id:'C001', name:'C001'},{id:'C002', name:'C002'},{id:'C003', name:'C003'}];
+    $scope.caseItems = [{id: 'C001', name: 'C001'}, {id: 'C002', name: 'C002'}, {id: 'C003', name: 'C003'}];
 });
 
 mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService, NoteService) {
@@ -102,20 +124,20 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
 
     $scope.patient = {};
     $scope.note = null;
-    if ($scope.patientId!="new") {
+    if ($scope.patientId != "new") {
         $scope.patient = PatientService.getPatient($scope.patientId);
     }
     $scope.patientMedical = null;
     $scope.insuranceName = null;
     $scope.medicareFlag = null;
     $scope.patientInfoDate = new Date();
-    if($scope.noteId){
+    if ($scope.noteId) {
         $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
-        $scope.patientMedical =  PatientService.getPatientMedical($scope.note.patientMedicalId);
-        $scope.insuranceName= $scope.patientMedical.insuranceName;
+        $scope.patientMedical = PatientService.getPatientMedical($scope.note.patientMedicalId);
+        $scope.insuranceName = $scope.patientMedical.insuranceName;
         $scope.medicareFlag = $scope.patientMedical.medicareFlag;
-    }else{
-        $scope.insuranceName= $scope.patient.insuranceName;
+    } else {
+        $scope.insuranceName = $scope.patient.insuranceName;
         $scope.medicareFlag = $scope.patient.medicareFlag;
     }
 
@@ -123,7 +145,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
     $scope.savePatient = function () {
         PatientService.savePatient($scope.patient);
-        if($scope.noteId){
+        if ($scope.noteId) {
             PatientService.savePatientMedical($scope.patientMedical);
         }
         $location.path("/dashboard");
@@ -141,7 +163,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
         $location.path("patients/" + patientId + "/notes/" + note.id);
     }
     $scope.editCase = function (patientId, caseId) {
-        $location.path("patients/" + patientId + "/cases/"+caseId);
+        $location.path("patients/" + patientId + "/cases/" + caseId);
     }
     $scope.createCase = function () {
         $location.path("patients/" + $scope.patientId + "/cases/new");
@@ -157,7 +179,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.caseId = $routeParams.caseId;
     $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
     $scope.notes = [];
-    if($scope.caseId!="new"){
+    if ($scope.caseId != "new") {
         $scope.notes = NoteService.getAllNotes($scope.patientId);
     }
     $scope.patient = PatientService.getPatient($scope.patientId);
@@ -178,7 +200,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
         $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
     }
     $scope.saveAndCreateTodayNote = function () {
-        if(!$scope.patientCase){
+        if (!$scope.patientCase) {
             $scope.patientCase = {};
         }
         $scope.patientCase.patientId = $scope.patientId;
@@ -186,7 +208,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
         $location.path("patients/" + $scope.patientId + "/notes/new");
     };
     $scope.saveCase = function () {
-        if(!$scope.patientCase){
+        if (!$scope.patientCase) {
             $scope.patientCase = {};
         }
         $scope.patientCase.patientId = $scope.patientId;
@@ -227,7 +249,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.visibleTxAreaName = null;
     $scope.patient = PatientService.getPatient($scope.patientId);
     $scope.patientMedical = PatientService.getPatientMedical($scope.note.patientMedicalId);
-    if(!$scope.patientMedical){
+    if (!$scope.patientMedical) {
         $scope.patientMedical = {};
     }
     UserContextService.data.insuranceName = $scope.patientMedical.insuranceName;
@@ -347,7 +369,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         var modality = angular.copy($scope.getAvailableExercises(modalityCode));
         //TODO: Remove.
-        if(!$scope.note.id){
+        if (!$scope.note.id) {
             NoteService.saveNote($scope.patientId, $scope.note);
         }
         NoteService.saveModality($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, modality);
@@ -361,7 +383,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         var procedure = angular.copy($scope.getAvailableExercises(procedureCode));
         //TODO: Remove.
-        if(!$scope.note.id){
+        if (!$scope.note.id) {
             NoteService.saveNote($scope.patientId, $scope.note);
         }
         NoteService.saveProcedure($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, procedure);
@@ -375,7 +397,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         var wc = angular.copy($scope.getAvailableExercises(exCode));
         //TODO: Remove.
-        if(!$scope.note.id){
+        if (!$scope.note.id) {
             NoteService.saveNote($scope.patientId, $scope.note);
         }
         NoteService.saveWc($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, wc);
@@ -389,7 +411,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         var motion = angular.copy($scope.getAvailableExercises(motionCode));
         //TODO: Remove.
-        if(!$scope.note.id){
+        if (!$scope.note.id) {
             NoteService.saveNote($scope.patientId, $scope.note);
         }
         NoteService.saveMotion($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, motion);
@@ -410,11 +432,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             $scope.patient.authVisits--;
         }
         NoteService.saveNote($scope.patientId, $scope.note);
-        $location.path("/patients/"+$scope.patientId);
+        $location.path("/patients/" + $scope.patientId);
     };
 
     $scope.cancelNote = function () {
-        $location.path("/patients/"+$scope.patientId);
+        $location.path("/patients/" + $scope.patientId);
     };
 
     $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];

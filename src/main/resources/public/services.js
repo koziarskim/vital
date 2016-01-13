@@ -731,7 +731,7 @@ mainApp.service('PatientService', function () {
     this.getAllPatientItems = function () {
         var patientItems = [];
         patients.forEach(function(it, index){
-            patientItems.push({id: it.id, title: it.firstName+" "+it.lastName})
+            patientItems.push({id: it.id, name: it.firstName+" "+it.lastName})
         });
         return patientItems;
     };
