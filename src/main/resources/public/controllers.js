@@ -76,8 +76,6 @@ mainApp.controller('DashboardController', function ($scope, $window, $rootScope,
     }
     $scope.myPatients = JSON.parse($window.localStorage.storedMyPatients);
 
-
-
     $scope.filterPatientNameInput = null;
 
     $scope.addTostoredPatients = function (patient) {
@@ -103,7 +101,6 @@ mainApp.controller('DashboardController', function ($scope, $window, $rootScope,
         $window.localStorage.storedAllPatients = JSON.stringify($scope.allPatients);
     }
 
-
     $scope.filterOnPatient = function (patient) {
         if ($scope.filterPatientNameInput) {
             return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
@@ -121,6 +118,10 @@ mainApp.controller('DashboardController', function ($scope, $window, $rootScope,
     }
     $scope.deletePatient = function (patientId) {
         PatientService.deletePatient(patientId);
+    }
+
+    $scope.createTodayNote = function (patientId) {
+        $location.path("patients/" + patientId + "/notes/new");
     }
 });
 

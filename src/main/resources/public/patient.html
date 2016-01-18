@@ -88,7 +88,7 @@
                 <td>{{patientCase.desc}}</td>
                 <td>{{ patientCase.evalDate | date: "MM-dd-yyyy"}}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm" ng-click="editCase(patientCase.patientId, patientCase.id)">Edit</button>
+                    <button class="btn btn-primary btn-sm" ng-click="editCase(patientCase.patientId, patientCase.id)">View Notes</button>
                 </td>
                 <td>
                     <button class="btn btn-primary btn-sm" ng-click="createTodayNote(patientCase.patientId)">Create Today's Note</button>
@@ -101,7 +101,7 @@
     <div class="row">
         <button type="submit" class="btn btn-primary btn-sm" ng-click="savePatient()">Save</button>
         <button type="submit" class="btn btn-primary btn-sm" ng-click="cancelPatient()">Cancel</button>
-        <button type="submit" class="btn btn-primary btn-sm" ng-click="createCase()">Save & Create New Case/Diagnosis</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="createCase()">Create New Case</button>
     </div>
 </div>
 </div>
