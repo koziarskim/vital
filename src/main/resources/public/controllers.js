@@ -1,11 +1,12 @@
-mainApp.controller('IndexController', function ($scope, $window, $rootScope, $location, UserContextService, ProfileService) {
+mainApp.controller('IndexController', function ($scope, $window, $rootScope, $location) {
     $scope.$on('$viewContentLoaded', function () {
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     });
-    $scope.data = UserContextService.data;
-    $rootScope.profile = null;
+    if($window.localStorage.userContext) {
+        $rootScope.profile = JSON.parse($window.localStorage.userContext)
+    }
     $scope.goDashboard = function () {
         $location.path("/dashboard");
     }
@@ -23,8 +24,8 @@ mainApp.controller('IndexController', function ($scope, $window, $rootScope, $lo
         $location.path("/patients/new");
     }
     $scope.logOut = function () {
-        UserContextService.clearData();
         $window.localStorage.clear()
+        $rootScope.profile = null;
         $location.path("/");
     }
     $scope.editProfile = function (uid) {
@@ -32,7 +33,7 @@ mainApp.controller('IndexController', function ($scope, $window, $rootScope, $lo
     }
 });
 
-mainApp.controller('LoginController', function ($scope, $window, $rootScope, $location, UserContextService, ProfileService) {
+mainApp.controller('LoginController', function ($scope, $window, $rootScope, $location, ProfileService) {
     $scope.login = {
         userName: null,
         password: null
@@ -46,8 +47,8 @@ mainApp.controller('LoginController', function ($scope, $window, $rootScope, $lo
         var authenticated = ProfileService.validateUser($scope.login.userName, $scope.login.password);
 
         if (authenticated) {
-            UserContextService.data.uid = $scope.login.userName;
             $rootScope.profile = ProfileService.getProfile($scope.login.userName);
+            $window.localStorage.userContext = JSON.stringify($rootScope.profile);
             $location.path("/dashboard");
         } else {
             alert("Invalid username and/or password");
@@ -56,16 +57,7 @@ mainApp.controller('LoginController', function ($scope, $window, $rootScope, $lo
     }
 });
 
-mainApp.controller('DashboardController', function ($scope, $window, $rootScope, $location, UserContextService, PatientService) {
-    UserContextService.data.patientName = null;
-    UserContextService.data.visitNum = null;
-    UserContextService.data.authVisits = null;
-    UserContextService.data.patientId = null;
-    UserContextService.data.insuranceName = null;
-    UserContextService.data.totalTxTime = null;
-    UserContextService.data.totalMinCode = null;
-    UserContextService.data.noteId = null;
-
+mainApp.controller('DashboardController', function ($scope, $window, $location, PatientService) {
     if (!$window.localStorage.storedAllPatients) {
         $window.localStorage.storedAllPatients = JSON.stringify(PatientService.getAllPatients());
     }
@@ -125,7 +117,7 @@ mainApp.controller('DashboardController', function ($scope, $window, $rootScope,
     }
 });
 
-mainApp.controller('ReportController', function ($scope, $location, UserContextService, PatientService, LocationService) {
+mainApp.controller('ReportController', function ($scope, $location, PatientService, LocationService) {
     $scope.locationItem = null;
     $scope.locationItems = LocationService.getAvailableLocation();
     $scope.patientItem = {};
@@ -190,7 +182,7 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     }
 });
 
-mainApp.controller('CaseController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService) {
+mainApp.controller('CaseController', function ($scope, $location, $routeParams, NoteService, PatientService) {
     $scope.patientId = $routeParams.patientId;
     $scope.caseId = $routeParams.caseId;
     $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
@@ -199,8 +191,6 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
         $scope.notes = NoteService.getAllNotes($scope.patientId);
     }
     $scope.patient = PatientService.getPatient($scope.patientId);
-    UserContextService.data.patientId = $scope.patientId;
-    UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
     $scope.dateRange = {
         from: null,
         to: null
@@ -236,7 +226,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     };
 });
 
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, UserContextService, ProfileService, LocationService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, ProfileService, LocationService) {
     if ($routeParams.patientId == null) {
         console.log("PatientId is null");
     }
@@ -268,18 +258,6 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     if (!$scope.patientMedical) {
         $scope.patientMedical = {};
     }
-    UserContextService.data.insuranceName = $scope.patientMedical.insuranceName;
-    UserContextService.data.patientId = $scope.patient.id;
-    UserContextService.data.noteId = $routeParams.noteId;
-    UserContextService.data.patientName = $scope.patient.firstName + " " + $scope.patient.lastName;
-    UserContextService.data.visitNum = PatientService.getTotalVisits($scope.patientId, $scope.note.date);
-    if (!$scope.note.id) {
-        UserContextService.data.visitNum++;
-    }
-    UserContextService.data.authVisits = $scope.patient.authVisits;
-    UserContextService.data.totalMinCode = $scope.patient.totalMinCode;
-    UserContextService.data.totalTxTime = $scope.patient.totalTxTime;
-
     $scope.vitalSignsShow = false;
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
@@ -509,7 +487,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.availableCoTherapists = ProfileService.getAllProfiles();
 });
 
-mainApp.controller('ProfileController', function ($scope, $rootScope, $location, $routeParams, ProfileService, UserContextService) {
+mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService) {
     $scope.uid = $routeParams.uid;
     $scope.changePassword = false;
     $scope.verifyPassword = null;
@@ -522,7 +500,6 @@ mainApp.controller('ProfileController', function ($scope, $rootScope, $location,
             }
         }
         ProfileService.saveProfile(profile);
-        UserContextService.data.uid = profile.uid;
         $location.path("dashboard/");
     }
 });

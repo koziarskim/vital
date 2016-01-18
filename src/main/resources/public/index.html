@@ -22,17 +22,17 @@
 <div ng-app="mainApp" ng-controller="IndexController" class="container">
     <br/>
 
-    <div ng-if="data.uid">
+    <div ng-if="profile.uid">
         <div class="row">
             <div class="col-sm-6">
                 <button ng-click="goNewPatient()" class="btn btn-primary btn-sm">NEW PATIENT</button>
                 <button ng-click="goDashboard()" class="btn btn-primary btn-sm">PATIENT SEARCH</button>
                 <button ng-show="profile.roles.admin || profile.roles.billing" ng-click="goReport()" class="btn btn-primary btn-sm">REPORT</button>
-                <button ng-click="editProfile(data.uid)" class="btn btn-primary btn-sm">THERAPIST PROFILE</button>
+                <button ng-click="editProfile(profile.uid)" class="btn btn-primary btn-sm">THERAPIST PROFILE</button>
                 <button ng-click="logOut()" class="btn btn-primary btn-sm">LOGOUT</button>
             </div>
             <div class="col-sm-2">
-                <div><a href="" ng-click="editProfile(data.uid)">{{data.uid}}</a>{{data.uid?"@":""}}Vital Rehabilitation</div>
+                <div><a href="" ng-click="editProfile(profile.uid)">{{profile.uid}}</a>{{profile.uid?"@":""}}Vital Rehabilitation</div>
             </div>
         </div>
     </div>

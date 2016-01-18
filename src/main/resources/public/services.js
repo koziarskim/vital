@@ -1,34 +1,5 @@
-mainApp.service('UserContextService', function ($rootScope, ProfileService) {
+mainApp.service('UserContextService', function ($window, $rootScope, ProfileService) {
 
-    this.data = {
-        uid: null,
-        firstName: null,
-        lastName: null,
-        office: null,
-        patientName: null,
-        insuranceName: null,
-        visitNum: null,
-        authVisits: null,
-        patientId: null,
-        noteId: null,
-        totalTxTime: null,
-        totalMinCode: null
-
-    };
-    this.clearData = function () {
-        this.data.uid = null;
-        this.data.firstName = null;
-        this.data.lastName = null;
-        this.data.office = null;
-        this.data.patientName = null;
-        this.data.insuranceName = null;
-        this.data.visitNum = null;
-        this.data.authVisits = null;
-        this.data.patientId = null;
-        this.data.noteId = null;
-        this.data.totalTxTime = null;
-        this.data.totalMinCode = null;
-    }
 
 });
 
@@ -196,6 +167,7 @@ mainApp.service('PatientService', function () {
             insuranceName: "BCBC",
             medicareFlag: true,
             authVisits: 13,
+            visitNum: 12,
             visitFrom: new Date('2015-01-03T06:00:01.000Z'),
             visitTo: new Date('2016-01-03T06:00:02.000Z'),
             caseId: "C001",
@@ -471,6 +443,7 @@ mainApp.service('PatientService', function () {
             insuranceName: "Aetna",
             medicareFlag: false,
             authVisits: 1,
+            visitNum: 10,
             visitFrom: null,
             visitTo: null,
             dx: "33 and going up, not sure, very good",
@@ -583,6 +556,7 @@ mainApp.service('PatientService', function () {
             insuranceName: "BCBC",
             medicareFlag: null,
             authVisits: 1,
+            visitNum: 1,
             visitFrom: null,
             visitTo: null,
             dx: null,

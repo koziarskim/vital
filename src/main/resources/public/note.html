@@ -2,16 +2,16 @@
     <!--Patient info-->
     <div class="row">
         <div class="col-sm-3">
-            <div style="font-size: 25px; margin-top: 18px">Patient: {{data.patientName}}</div>
+            <div style="font-size: 25px; margin-top: 18px">Patient: {{patient.firstName}} {{patient.lastName}}</div>
         </div>
         <div class="col-sm-5" style="margin-top:28px;">
             <label class="control-label">Diagnosis: </label>
             <span> {{patient.dx}} </span>
         </div>
         <div class="col-sm-4 pull-right text-right">
-            <div>Insurance: {{data.insuranceName}}, Medicare: {{patient.medicareFlag?"Yes":"No"}}</div>
-            <div>Visit #: {{data.visitNum}}, Auth Visits Left: {{data.authVisits}}</div>
-            <div>Tx Time: {{data.totalTxTime}}, Timed Code: {{data.totalMinCode}}</div>
+            <div>Insurance: {{patient.insuranceName}}, Medicare: {{patient.medicareFlag?"Yes":"No"}}</div>
+            <div>Visit #: {{patient.visitNum}}, Auth Visits Left: {{patient.authVisits}}</div>
+            <div>Tx Time: {{patient.totalTxTime}}, Timed Code: {{patient.totalMinCode}}</div>
         </div>
 
     </div>
