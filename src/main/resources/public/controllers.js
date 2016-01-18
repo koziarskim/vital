@@ -1,13 +1,10 @@
-mainApp.controller('IndexController', function ($scope, $rootScope, $location, UserContextService, ProfileService) {
+mainApp.controller('IndexController', function ($scope, $window, $rootScope, $location, UserContextService, ProfileService) {
     $scope.$on('$viewContentLoaded', function () {
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
     });
     $scope.data = UserContextService.data;
-    $rootScope.store = {};
-
-
     $rootScope.profile = null;
     $scope.goDashboard = function () {
         $location.path("/dashboard");
@@ -27,7 +24,7 @@ mainApp.controller('IndexController', function ($scope, $rootScope, $location, U
     }
     $scope.logOut = function () {
         UserContextService.clearData();
-        $rootScope.store = {};
+        $window.localStorage.clear()
         $location.path("/");
     }
     $scope.editProfile = function (uid) {
@@ -35,17 +32,19 @@ mainApp.controller('IndexController', function ($scope, $rootScope, $location, U
     }
 });
 
-mainApp.controller('LoginController', function ($scope, $rootScope, $location, UserContextService, ProfileService) {
+mainApp.controller('LoginController', function ($scope, $window, $rootScope, $location, UserContextService, ProfileService) {
     $scope.login = {
         userName: null,
         password: null
     };
     $scope.loginAction = function () {
+        $window.localStorage.clear()
         if ($scope.login.userName == null || $scope.login.password == null) {
             alert("Please enter username and password");
             return;
         }
         var authenticated = ProfileService.validateUser($scope.login.userName, $scope.login.password);
+
         if (authenticated) {
             UserContextService.data.uid = $scope.login.userName;
             $rootScope.profile = ProfileService.getProfile($scope.login.userName);
@@ -57,7 +56,7 @@ mainApp.controller('LoginController', function ($scope, $rootScope, $location, U
     }
 });
 
-mainApp.controller('DashboardController', function ($scope, $rootScope, $location, UserContextService, PatientService) {
+mainApp.controller('DashboardController', function ($scope, $window, $rootScope, $location, UserContextService, PatientService) {
     UserContextService.data.patientName = null;
     UserContextService.data.visitNum = null;
     UserContextService.data.authVisits = null;
@@ -66,33 +65,43 @@ mainApp.controller('DashboardController', function ($scope, $rootScope, $locatio
     UserContextService.data.totalTxTime = null;
     UserContextService.data.totalMinCode = null;
     UserContextService.data.noteId = null;
-    if(!$rootScope.store.patients) {
-        $rootScope.store.patients = PatientService.getAllPatients();
-    }
-    $scope.filterPatientNameInput = null;
-    if(!$rootScope.store.myPatients) {
-        $rootScope.store.myPatients = [];
-    }
 
-    $scope.addToMyPatients = function (patient) {
-        $rootScope.store.myPatients.push(angular.copy(patient));
-        $rootScope.store.patients.forEach(function (it, index) {
+    if (!$window.localStorage.storedAllPatients) {
+        $window.localStorage.storedAllPatients = JSON.stringify(PatientService.getAllPatients());
+    }
+    $scope.allPatients = JSON.parse($window.localStorage.storedAllPatients);
+
+    if (!$window.localStorage.storedMyPatients) {
+        $window.localStorage.storedMyPatients = JSON.stringify([]);
+    }
+    $scope.myPatients = JSON.parse($window.localStorage.storedMyPatients);
+
+
+
+    $scope.filterPatientNameInput = null;
+
+    $scope.addTostoredPatients = function (patient) {
+        $scope.myPatients.push(angular.copy(patient));
+        $scope.allPatients.forEach(function (it, index) {
             if (it.id == patient.id) {
-                $rootScope.store.patients.splice(index, 1);
+                $scope.allPatients.splice(index, 1);
             }
         });
+        $window.localStorage.storedMyPatients = JSON.stringify($scope.myPatients);
+        $window.localStorage.storedAllPatients = JSON.stringify($scope.allPatients);
         $scope.filterPatientNameInput = null;
     }
 
-    $scope.removeFromMyPatients = function (patient) {
-        $rootScope.store.myPatients.forEach(function (it, index) {
+    $scope.removeFromstoredPatients = function (patient) {
+        $scope.myPatients.forEach(function (it, index) {
             if (it.id == patient.id) {
-                $rootScope.store.myPatients.splice(index, 1);
+                $scope.myPatients.splice(index, 1);
             }
         });
-        $rootScope.store.patients.push(angular.copy(patient));
+        $scope.allPatients.push(angular.copy(patient));
+        $window.localStorage.storedMyPatients = JSON.stringify($scope.myPatients);
+        $window.localStorage.storedAllPatients = JSON.stringify($scope.allPatients);
     }
-
 
 
     $scope.filterOnPatient = function (patient) {

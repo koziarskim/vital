@@ -9,8 +9,8 @@
         <div class="col-sm-4">
             <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput" placeholder="Search First or Last Name"/>
             <div style="position: fixed; background-color:white;">
-                <div ng-repeat="patient in store.patients | filter:filterOnPatient">
-                    <a href ng-click="addToMyPatients(patient)">{{patient.firstName}} {{patient.lastName}} ({{patient.dob | date: "MM-dd-yyyy"}})</a>
+                <div ng-repeat="patient in allPatients | filter:filterOnPatient">
+                    <a href ng-click="addTostoredPatients(patient)">{{patient.firstName}} {{patient.lastName}} ({{patient.dob | date: "MM-dd-yyyy"}})</a>
                 </div>
             </div>
         </div>
@@ -27,13 +27,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="patient in store.myPatients">
+            <tr ng-repeat="patient in myPatients">
                 <td>{{ patient.firstName}}</td>
                 <td>{{patient.lastName}}</td>
                 <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
                 <td>
                     <button class="btn btn-primary btn-sm" ng-click="editPatient(patient.id)">Edit</button>
-                    <button class="btn btn-primary btn-sm" ng-click="removeFromMyPatients(patient)">Remove</button>
+                    <button class="btn btn-primary btn-sm" ng-click="removeFromstoredPatients(patient)">Remove</button>
                 </td>
             </tr>
             </tbody>
