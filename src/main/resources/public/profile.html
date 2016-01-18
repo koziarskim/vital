@@ -26,20 +26,23 @@
         </div>
     </div>
     <br/>
-    <div style="font-size: 20px">Roles: </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="control-label">Discipline: </label>
+            <label class="control-label">PT: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="PT"></label>
+            <label class="control-label">OT: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="OT"></label>
+            <label class="control-label">ST: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="ST"></label>
+        </div>
+    </div>
+    <br/>
+
+    <div style="font-size: 20px">Roles:</div>
     <div class="checkbox">
         <label><input type="checkbox" ng-model="profile.roles.admin">Admin</label>
     </div>
     <div class="checkbox">
         <label><input type="checkbox" ng-model="profile.roles.billing">Billing</label>
-    </div>
-    <br/>
-
-    <div class="row">
-        <label class="control-label">Discipline: </label>
-        <label class="control-label">PT: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="PT"></label>
-        <label class="control-label">OT: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="OT"></label>
-        <label class="control-label">ST: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="ST"></label>
     </div>
     <br/>
 
