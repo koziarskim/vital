@@ -34,6 +34,16 @@
         <label><input type="checkbox" ng-model="profile.roles.billing">Billing</label>
     </div>
     <br/>
+
+    <div class="row">
+        <label class="control-label">Discipline: </label>
+        <label class="control-label">PT: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="PT"></label>
+        <label class="control-label">OT: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="OT"></label>
+        <label class="control-label">ST: <input class="btn btn-primary btn-sm" type="radio" ng-model="profile.discipline" value="ST"></label>
+    </div>
+    <br/>
+
+
     <div><a href="" ng-click="changePassword?changePassword=false:changePassword=true">{{changePassword==true?"Cancel":"Change Password"}}</a></div>
     <br/>
 

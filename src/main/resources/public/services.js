@@ -784,7 +784,8 @@ mainApp.service('ProfileService', function () {
             roles: {
                 admin: true,
                 billing: true
-            }
+            },
+            discipline: "PT"
         },
         {
             id:"P002",
@@ -796,7 +797,8 @@ mainApp.service('ProfileService', function () {
             roles: {
                 admin: true,
                 billing: true
-            }
+            },
+            discipline: "OT"
         },
         {
             id:"P003",
@@ -808,7 +810,8 @@ mainApp.service('ProfileService', function () {
             roles: {
                 admin: false,
                 billing: true
-            }
+            },
+            discipline: "ST"
         },
         {
             id:"P004",
@@ -820,7 +823,8 @@ mainApp.service('ProfileService', function () {
             roles: {
                 admin: false,
                 billing: false
-            }
+            },
+            discipline: "PT"
         }
     ]
     this.getAllProfiles = function () {

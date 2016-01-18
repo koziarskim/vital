@@ -523,7 +523,6 @@ mainApp.controller('ProfileController', function ($scope, $rootScope, $location,
         }
         ProfileService.saveProfile(profile);
         UserContextService.data.uid = profile.uid;
-        UserContextService.updateData();
         $location.path("dashboard/");
     }
 });
