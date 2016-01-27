@@ -126,7 +126,7 @@ mainApp.controller('ReportController', function ($scope, $location, PatientServi
     $scope.caseItems = [{id: 'C001', name: 'C001'}, {id: 'C002', name: 'C002'}, {id: 'C003', name: 'C003'}];
 });
 
-mainApp.controller('PatientController', function ($scope, $location, $routeParams, PatientService, NoteService) {
+mainApp.controller('PatientController', function ($scope, $window, $location, $routeParams, PatientService, NoteService) {
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
 
@@ -153,9 +153,8 @@ mainApp.controller('PatientController', function ($scope, $location, $routeParam
     $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
     $scope.savePatient = function () {
         PatientService.savePatient($scope.patient);
-        if ($scope.noteId) {
-            PatientService.savePatientMedical($scope.patientMedical);
-        }
+        $scope.allPatients = PatientService.getAllPatients();
+        $window.localStorage.storedAllPatients = JSON.stringify($scope.allPatients);
         $location.path("/dashboard");
     };
     $scope.cancelPatient = function () {
