@@ -6,11 +6,14 @@ mainApp.service('UserContextService', function ($window, $rootScope, ProfileServ
 mainApp.service('NoteService', function (PatientService) {
     this.getAllNotes = function (patientId) {
         var patient = PatientService.getPatient(patientId);
-        return patient.notes;
+        if(patient) {
+            return patient.notes;
+        }
+        return null;
     }
     this.saveNote = function (patientId, note) {
         var patient = PatientService.getPatient(patientId);
-        if (note != null) {
+        if (patient && note != null) {
             if (note.id == null) {
                 if (patient.notes == null) {
                     patient.notes = [];
@@ -43,11 +46,13 @@ mainApp.service('NoteService', function (PatientService) {
     this.getNote = function (patientId, id) {
         var patient = PatientService.getPatient(patientId);
         var note = null;
-        patient.notes.forEach(function (it, index) {
-            if (it.id == id) {
-                note = it;
-            }
-        });
+        if(patient) {
+            patient.notes.forEach(function (it, index) {
+                if (it.id == id) {
+                    note = it;
+                }
+            });
+        }
         return note;
     }
     this.deleteTxArea = function (patientId, noteId, txAreaName) {
@@ -140,6 +145,7 @@ mainApp.service('NoteService', function (PatientService) {
     }
 
     this.getLastNote = function (patientId) {
+        var note = null;
         var notes = this.getAllNotes(patientId);
         if (notes == null) {
             var newNote = {
@@ -151,7 +157,9 @@ mainApp.service('NoteService', function (PatientService) {
             this.saveNote(patientId, newNote);
         }
         notes = this.getAllNotes(patientId);
-        var note = notes[notes.length - 1];
+        if(notes){
+            note = notes[notes.length - 1];
+        }
         return note;
     }
 });

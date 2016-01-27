@@ -263,7 +263,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.selectedTxAreaName = null;
     $scope.availableLocations = LocationService.getAvailableLocation();
     $scope.toggleAuthAlert = function () {
-        if ($scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
+        if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
                 "\nPlease update patient's profile!");
         }
@@ -423,7 +423,9 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         if ($scope.note.billable) {
             //TODO: Check if note is new or updating existing note. Don't decrease if update existing note.
-            $scope.patient.authVisits--;
+            if($scope.patient) {
+                $scope.patient.authVisits--;
+            }
         }
         NoteService.saveNote($scope.patientId, $scope.note);
         $location.path("/patients/" + $scope.patientId);
