@@ -23,7 +23,8 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Date of Birth</th>
-                <th>Action</th>
+                <th>Patient</th>
+                <th>Note</th>
             </tr>
             </thead>
             <tbody>
@@ -34,7 +35,11 @@
                 <td>
                     <button class="btn btn-primary btn-sm" ng-click="editPatient(patient.id)">Edit Patient</button>
                     <button class="btn btn-primary btn-sm" ng-click="removeFromstoredPatients(patient)">Remove Patient</button>
-                    <button class="btn btn-primary btn-sm" ng-click="createNote(patient.id)">Create Note</button>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm" ng-click="createTodayNote(patient.id)">Create Today's Note</button>
+                    <button class="btn btn-primary btn-sm" ng-click="viewAllNotes(patient.id)">View All Notes</button>
+                    <button class="btn btn-primary btn-sm" ng-click="viewInitNote(patient.id)">View Init Note</button>
                 </td>
             </tr>
             </tbody>

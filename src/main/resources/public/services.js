@@ -655,6 +655,8 @@ mainApp.service('PatientService', function () {
             id: "C001",
             num: "C001",
             desc: "Upper shoulder",
+            discipline: "PT",
+            status: "ACT",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
 
@@ -663,6 +665,8 @@ mainApp.service('PatientService', function () {
             id: "C002",
             num: "C002",
             desc: "Upper shoulder",
+            discipline: "PT",
+            status: "ACT",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
         {
@@ -670,6 +674,8 @@ mainApp.service('PatientService', function () {
             id: "C003",
             num: "C003",
             desc: "Knew issue",
+            discipline: "OT",
+            status: "ACT",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
         {
@@ -677,8 +683,29 @@ mainApp.service('PatientService', function () {
             id: "C004",
             num: "C004",
             desc: "Back pain, Head injury",
+            discipline: "PT",
+            status: "ACT",
+            evalDate: new Date('2005-11-03T06:00:10.000Z')
+        },
+        {
+            patientId: "P003",
+            id: "C005",
+            num: "C005",
+            desc: "Shoulder pain",
+            discipline: "PT",
+            status: "CSD",
+            evalDate: new Date('2005-11-03T06:00:10.000Z')
+        },
+        {
+            patientId: "P003",
+            id: "C006",
+            num: "C006",
+            desc: "Leg injury",
+            discipline: "ST",
+            status: "CSD",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         }
+
     ];
 
     this.getAllPatientCases = function (patientId) {

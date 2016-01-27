@@ -4,17 +4,17 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'login.html',
             controller: 'LoginController'
         })
-        .when('/notes/:noteId?', {
-            templateUrl: 'note.html',
-            controller: 'NoteController'
+        .when('/patients/:patientId/cases/:caseId', {
+            templateUrl: 'case.html',
+            controller: 'CaseController'
         })
         .when('/patients/:patientId/notes/:noteId', {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })
-        .when('/patients/:patientId/cases/:caseId', {
-            templateUrl: 'case.html',
-            controller: 'CaseController'
+        .when('/patients/:patientId/notes', {
+            templateUrl: 'notes.html',
+            controller: 'NotesController'
         })
         .when('/patients/:patientId?', {
             templateUrl: 'patient.html',

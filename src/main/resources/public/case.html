@@ -13,36 +13,7 @@
         <label class="control-label">Evaluation Date: </label>
         <input class="form-control" ng-model="patientCase.evalDate" type="date"/>
     </div>
-
     <br/>
-
-    <div style="font-size: 23px">Notes/Visits</div>
-    <div class="form-inline">
-        <label class="control-label">From: </label>
-        <input class="form-control" style="width:180px" ng-model="dateRange.from" type="date"/>
-        <label class="control-label">To: </label>
-        <input class="form-control" ng-model="dateRange.to" type="date"/>
-    </div>
-    <br/>
-    <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-            <th>Visit/Note #</th>
-            <th>Visit/Note Date</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="note in notes | filter:filterDate | orderBy : '-date'">
-            <td>{{ notes.length-$index }}</td>
-            <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
-            <td>
-                <button ng-click="editNote(note.id)" class="btn btn-primary btn-sm">edit</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
     <button type="button" class="btn btn-primary btn-sm" ng-click="saveCase()">Save</button>
     <button type="button" class="btn btn-primary btn-sm" ng-click="cancelCase()">Cancel</button>
-    <button type="button" class="btn btn-primary btn-sm" ng-click="saveAndCreateTodayNote()">Create Today's Note</button>
 </div>

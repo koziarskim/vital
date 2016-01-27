@@ -57,7 +57,7 @@ mainApp.controller('LoginController', function ($scope, $window, $rootScope, $lo
     }
 });
 
-mainApp.controller('DashboardController', function ($scope, $window, $location, PatientService) {
+mainApp.controller('DashboardController', function ($scope, $window, $location, PatientService, NoteService) {
     if (!$window.localStorage.storedAllPatients) {
         $window.localStorage.storedAllPatients = JSON.stringify(PatientService.getAllPatients());
     }
@@ -112,8 +112,20 @@ mainApp.controller('DashboardController', function ($scope, $window, $location, 
         PatientService.deletePatient(patientId);
     }
 
-    $scope.createNote = function (patientId) {
-        $location.path("/patients/" + patientId);
+    $scope.createTodayNote = function (patientId) {
+        $location.path("patients/" + patientId + "/notes/new");
+    }
+    $scope.viewInitNote = function (patientId) {
+        var note = NoteService.getInitNote(patientId);
+        if (!note) {
+            alert("Patient has no init note created yet." +
+                "\nPlease, create today's note first");
+            return;
+        }
+        $location.path("patients/" + patientId + "/notes/" + note.id);
+    }
+    $scope.viewAllNotes = function (patientId) {
+        $location.path("patients/" + patientId + "/notes");
     }
 });
 
@@ -160,18 +172,6 @@ mainApp.controller('PatientController', function ($scope, $window, $location, $r
     $scope.cancelPatient = function () {
         $location.path("/dashboard");
     };
-    $scope.showInitNote = function (patientId) {
-        var note = NoteService.getInitNote(patientId);
-        if (!note) {
-            alert("Patient has no init note created yet." +
-                "\nPlease, create today's note first");
-            return;
-        }
-        $location.path("patients/" + patientId + "/notes/" + note.id);
-    }
-    $scope.editCase = function (patientId, caseId) {
-        $location.path("patients/" + patientId + "/cases/" + caseId);
-    }
     $scope.createCase = function () {
         $location.path("patients/" + $scope.patientId + "/cases/new");
     }
@@ -201,17 +201,6 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
             return false;
         }
     };
-    $scope.editNote = function (noteId) {
-        $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
-    }
-    $scope.saveAndCreateTodayNote = function () {
-        if (!$scope.patientCase) {
-            $scope.patientCase = {};
-        }
-        $scope.patientCase.patientId = $scope.patientId;
-        PatientService.savePatientCase($scope.patientCase);
-        $location.path("patients/" + $scope.patientId + "/notes/new");
-    };
     $scope.saveCase = function () {
         if (!$scope.patientCase) {
             $scope.patientCase = {};
@@ -223,6 +212,31 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.cancelCase = function () {
         $location.path("patients/" + $scope.patientId);
     };
+});
+
+mainApp.controller('NotesController', function ($scope, $location, $routeParams, NoteService, PatientService) {
+    $scope.patientId = $routeParams.patientId;
+    $scope.caseId = $routeParams.caseId;
+    $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
+    $scope.notes = [];
+    if ($scope.caseId != "new") {
+        $scope.notes = NoteService.getAllNotes($scope.patientId);
+    }
+    $scope.patient = PatientService.getPatient($scope.patientId);
+    $scope.dateRange = {
+        from: null,
+        to: null
+    }
+    $scope.filterDate = function (note) {
+        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    $scope.editNote = function (noteId) {
+        $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
+    }
 });
 
 mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, ProfileService, LocationService) {
