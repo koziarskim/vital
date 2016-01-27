@@ -1,17 +1,29 @@
 <div class="container">
     <br/>
+
     <div><span style="font-size: 23px"> Diagnosis/Case Information </span>(Changes will apply to today or future visits only)</div>
     <br/>
+
     <div style="font-size:20px">Patient: {{patient.firstName + " "+patient.lastName}}</div>
     <br/>
 
-    <div class="form-inline">
-        <label class="control-label">Case #: </label>
-        <input class="form-control" ng-model="patientCase.num" type="text"/>
-        <label class="control-label">Diagnosis: </label>
-        <input class="form-control" ng-model="patientCase.desc" type="text"/>
-        <label class="control-label">Evaluation Date: </label>
-        <input class="form-control" ng-model="patientCase.evalDate" type="date"/>
+    <div class="row">
+        <div class="form-inline">
+            <label class="control-label">Case #: </label>
+            <input class="form-control" ng-model="patientCase.num" type="text"/>
+            <label class="control-label">Diagnosis: </label>
+            <input class="form-control" ng-model="patientCase.desc" type="text"/>
+            <label class="control-label">Evaluation Date: </label>
+            <input class="form-control" ng-model="patientCase.evalDate" type="date"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="control-label">Discipline: </label>
+            <label class="control-label">PT: <input class="btn btn-primary btn-sm" type="radio" ng-model="patientCase.discipline" value="PT"></label>
+            <label class="control-label">OT: <input class="btn btn-primary btn-sm" type="radio" ng-model="patientCase.discipline" value="OT"></label>
+            <label class="control-label">ST: <input class="btn btn-primary btn-sm" type="radio" ng-model="patientCase.discipline" value="ST"></label>
+        </div>
     </div>
     <br/>
     <button type="button" class="btn btn-primary btn-sm" ng-click="saveCase()">Save</button>

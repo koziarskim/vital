@@ -4,9 +4,10 @@
         <div class="col-sm-3">
             <div style="font-size: 25px; margin-top: 18px">Patient: {{patient.firstName}} {{patient.lastName}}</div>
         </div>
-        <div class="col-sm-5" style="margin-top:28px;">
+        <div class="col-sm-5 form-inline" style="margin-top:28px;">
             <label class="control-label">Diagnosis: </label>
-            <span> {{patient.dx}} </span>
+            <mk-dropdown item='selectedCase' items='patientCases' item-label='desc' item-id="id"></mk-dropdown>
+            <!--<span> {{patient.dx}} </span>-->
         </div>
         <div class="col-sm-4 pull-right text-right">
             <div>Insurance: {{patient.insuranceName}}, Medicare: {{patient.medicareFlag?"Yes":"No"}}</div>

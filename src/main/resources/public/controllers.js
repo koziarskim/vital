@@ -275,6 +275,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
     $scope.availableLocations = LocationService.getAvailableLocation();
+    $scope.patientCases = PatientService.getAllPatientCases($scope.patientId);
     $scope.toggleAuthAlert = function () {
         if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
