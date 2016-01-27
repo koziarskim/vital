@@ -112,8 +112,8 @@ mainApp.controller('DashboardController', function ($scope, $window, $location, 
         PatientService.deletePatient(patientId);
     }
 
-    $scope.createTodayNote = function (patientId) {
-        $location.path("patients/" + patientId + "/notes/new");
+    $scope.createNote = function (patientId) {
+        $location.path("/patients/" + patientId);
     }
 });
 
