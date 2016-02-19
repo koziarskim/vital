@@ -45,32 +45,6 @@
     <br/><br/>
 
     <div class="row">
-        <div class="col-sm-4 form-inline">
-            <label class="control-label">Insurance: </label>
-            <mk-dropdown class="space-right-sm" item-value="insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
-        </div>
-        <div class="col-sm-4 form-inline">
-            <label class="control-label">Madicare? <input type="checkbox" class="form-control" ng-model="medicareFlag"></label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4 form-inline">
-            <label class="control-label">Authorized Visits Left:</label>
-            <input type="number" min="0" style="width:65px" class="form-control space-right-sm" ng-model="patient.authVisits">
-        </div>
-        <div class="col-sm-5 form-inline">
-            <label class="control-label">Visit Range:</label>
-            <input type="date" min="0" class="form-control" ng-model="patient.visitFrom">
-            <input type="date" min="0" class="form-control" ng-model="patient.visitTo">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4 form-inline">
-            <label class="control-label">Requires Authorization?</label>
-            <input type="checkbox" class="form-control" ng-model="patient.requireAuth">
-        </div>
-    </div>
-    <div class="row">
         <div class="col-sm-12 form-inline">
             <label style="font-size: 28px">Cases/Diagnosis</label>
             <button type="submit" class="btn btn-primary btn-sm" ng-click="createCase()">Add Case</button>
@@ -86,6 +60,7 @@
                 <th>Evaluation Date</th>
                 <th>Discipline</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -95,6 +70,7 @@
                 <td>{{ patientCase.evalDate | date: "MM-dd-yyyy"}}</td>
                 <td>{{patientCase.discipline}}</td>
                 <td>{{patientCase.status}}</td>
+                <td><button type="submit" class="btn btn-primary btn-sm" ng-click="editCase(patientCase)">Edit Case</button></td>
             </tr>
             </tbody>
         </table>

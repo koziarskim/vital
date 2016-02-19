@@ -4,8 +4,8 @@ mainApp.controller('IndexController', function ($scope, $window, $rootScope, $lo
             $('[data-toggle="tooltip"]').tooltip();
         });
     });
-    if($window.localStorage.userContext) {
-        $rootScope.profile = JSON.parse($window.localStorage.userContext)
+    if($window.sessionStorage.userContext) {
+        $rootScope.profile = JSON.parse($window.sessionStorage.userContext)
     }
     $scope.goDashboard = function () {
         $location.path("/dashboard");
@@ -13,18 +13,11 @@ mainApp.controller('IndexController', function ($scope, $window, $rootScope, $lo
     $scope.goReport = function () {
         $location.path("report");
     }
-    $scope.goAssessment = function () {
-        if ($scope.data.patientId == null || $scope.data.noteId == null) {
-            alert("Please select note");
-            return;
-        }
-        $location.path("patients/" + $scope.data.patientId + "/notes/" + $scope.data.noteId + "/assessment");
-    }
     $scope.goNewPatient = function () {
         $location.path("/patients/new");
     }
     $scope.logOut = function () {
-        $window.localStorage.clear()
+        $window.sessionStorage.clear()
         $rootScope.profile = null;
         $location.path("/");
     }
@@ -39,7 +32,7 @@ mainApp.controller('LoginController', function ($scope, $window, $rootScope, $lo
         password: null
     };
     $scope.loginAction = function () {
-        $window.localStorage.clear()
+        $window.sessionStorage.clear()
         if ($scope.login.userName == null || $scope.login.password == null) {
             alert("Please enter username and password");
             return;
@@ -48,7 +41,7 @@ mainApp.controller('LoginController', function ($scope, $window, $rootScope, $lo
 
         if (authenticated) {
             $rootScope.profile = ProfileService.getProfile($scope.login.userName);
-            $window.localStorage.userContext = JSON.stringify($rootScope.profile);
+            $window.sessionStorage.userContext = JSON.stringify($rootScope.profile);
             $location.path("/dashboard");
         } else {
             alert("Invalid username and/or password");
@@ -58,15 +51,27 @@ mainApp.controller('LoginController', function ($scope, $window, $rootScope, $lo
 });
 
 mainApp.controller('DashboardController', function ($scope, $window, $location, PatientService, NoteService) {
-    if (!$window.localStorage.storedAllPatients) {
-        $window.localStorage.storedAllPatients = JSON.stringify(PatientService.getAllPatients());
+    $scope.goSearch = function () {
+        $location.path("search");
     }
-    $scope.allPatients = JSON.parse($window.localStorage.storedAllPatients);
+    $scope.goNewPatient = function () {
+        $location.path("/patients/new");
+    }
 
-    if (!$window.localStorage.storedMyPatients) {
-        $window.localStorage.storedMyPatients = JSON.stringify([]);
+
+});
+
+
+mainApp.controller('SearchController', function ($scope, $window, $location, PatientService, NoteService) {
+    if (!$window.sessionStorage.storedAllPatients) {
+        $window.sessionStorage.storedAllPatients = JSON.stringify(PatientService.getAllPatients());
     }
-    $scope.myPatients = JSON.parse($window.localStorage.storedMyPatients);
+    $scope.allPatients = JSON.parse($window.sessionStorage.storedAllPatients);
+
+    if (!$window.sessionStorage.storedMyPatients) {
+        $window.sessionStorage.storedMyPatients = JSON.stringify([]);
+    }
+    $scope.myPatients = JSON.parse($window.sessionStorage.storedMyPatients);
 
     $scope.filterPatientNameInput = null;
 
@@ -77,8 +82,8 @@ mainApp.controller('DashboardController', function ($scope, $window, $location, 
                 $scope.allPatients.splice(index, 1);
             }
         });
-        $window.localStorage.storedMyPatients = JSON.stringify($scope.myPatients);
-        $window.localStorage.storedAllPatients = JSON.stringify($scope.allPatients);
+        $window.sessionStorage.storedMyPatients = JSON.stringify($scope.myPatients);
+        $window.sessionStorage.storedAllPatients = JSON.stringify($scope.allPatients);
         $scope.filterPatientNameInput = null;
     }
 
@@ -89,8 +94,8 @@ mainApp.controller('DashboardController', function ($scope, $window, $location, 
             }
         });
         $scope.allPatients.push(angular.copy(patient));
-        $window.localStorage.storedMyPatients = JSON.stringify($scope.myPatients);
-        $window.localStorage.storedAllPatients = JSON.stringify($scope.allPatients);
+        $window.sessionStorage.storedMyPatients = JSON.stringify($scope.myPatients);
+        $window.sessionStorage.storedAllPatients = JSON.stringify($scope.allPatients);
     }
 
     $scope.filterOnPatient = function (patient) {
@@ -127,6 +132,9 @@ mainApp.controller('DashboardController', function ($scope, $window, $location, 
     $scope.viewAllNotes = function (patientId) {
         $location.path("patients/" + patientId + "/notes");
     }
+    $scope.cancelSearch = function () {
+        $location.path("/dashboard");
+    };
 });
 
 mainApp.controller('ReportController', function ($scope, $location, PatientService, LocationService) {
@@ -136,6 +144,10 @@ mainApp.controller('ReportController', function ($scope, $location, PatientServi
     $scope.patientItems = PatientService.getAllPatientItems();
     $scope.caseItem = null;
     $scope.caseItems = [{id: 'C001', name: 'C001'}, {id: 'C002', name: 'C002'}, {id: 'C003', name: 'C003'}];
+
+    $scope.cancelReport = function () {
+        $location.path("/dashboard");
+    };
 });
 
 mainApp.controller('PatientController', function ($scope, $window, $location, $routeParams, PatientService, NoteService) {
@@ -148,7 +160,7 @@ mainApp.controller('PatientController', function ($scope, $window, $location, $r
         $scope.patient = PatientService.getPatient($scope.patientId);
     }
     $scope.patientMedical = null;
-    $scope.insuranceName = null;
+
     $scope.medicareFlag = null;
     $scope.patientInfoDate = new Date();
     if ($scope.noteId) {
@@ -162,11 +174,11 @@ mainApp.controller('PatientController', function ($scope, $window, $location, $r
     }
 
     $scope.patientCases = PatientService.getAllPatientCases($scope.patientId);
-    $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
+
     $scope.savePatient = function () {
         PatientService.savePatient($scope.patient);
         $scope.allPatients = PatientService.getAllPatients();
-        $window.localStorage.storedAllPatients = JSON.stringify($scope.allPatients);
+        $window.sessionStorage.storedAllPatients = JSON.stringify($scope.allPatients);
         $location.path("/dashboard");
     };
     $scope.cancelPatient = function () {
@@ -175,9 +187,8 @@ mainApp.controller('PatientController', function ($scope, $window, $location, $r
     $scope.createCase = function () {
         $location.path("patients/" + $scope.patientId + "/cases/new");
     }
-
-    $scope.createTodayNote = function (patientId) {
-        $location.path("patients/" + patientId + "/notes/new");
+    $scope.editCase = function (patientCase) {
+        $location.path("patients/" + $scope.patientId + "/cases/"+patientCase.id);
     }
 });
 
@@ -185,11 +196,9 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.patientId = $routeParams.patientId;
     $scope.caseId = $routeParams.caseId;
     $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
-    $scope.notes = [];
-    if ($scope.caseId != "new") {
-        $scope.notes = NoteService.getAllNotes($scope.patientId);
-    }
     $scope.patient = PatientService.getPatient($scope.patientId);
+    $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
+
     $scope.dateRange = {
         from: null,
         to: null
@@ -275,7 +284,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
     $scope.availableLocations = LocationService.getAvailableLocation();
-    $scope.patientCases = PatientService.getAllPatientCases($scope.patientId);
+    $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
     $scope.toggleAuthAlert = function () {
         if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
@@ -518,4 +527,7 @@ mainApp.controller('ProfileController', function ($scope, $location, $routeParam
         ProfileService.saveProfile(profile);
         $location.path("dashboard/");
     }
+    $scope.cancelProfile = function () {
+        $location.path("/dashboard");
+    };
 });

@@ -6,7 +6,7 @@ mainApp.service('UserContextService', function ($window, $rootScope, ProfileServ
 mainApp.service('NoteService', function (PatientService) {
     this.getAllNotes = function (patientId) {
         var patient = PatientService.getPatient(patientId);
-        if(patient) {
+        if (patient) {
             return patient.notes;
         }
         return null;
@@ -46,7 +46,7 @@ mainApp.service('NoteService', function (PatientService) {
     this.getNote = function (patientId, id) {
         var patient = PatientService.getPatient(patientId);
         var note = null;
-        if(patient) {
+        if (patient) {
             patient.notes.forEach(function (it, index) {
                 if (it.id == id) {
                     note = it;
@@ -157,7 +157,7 @@ mainApp.service('NoteService', function (PatientService) {
             this.saveNote(patientId, newNote);
         }
         notes = this.getAllNotes(patientId);
-        if(notes){
+        if (notes) {
             note = notes[notes.length - 1];
         }
         return note;
@@ -622,7 +622,7 @@ mainApp.service('PatientService', function () {
 
     }
 
-    this.getPatientCase = function(patientId, caseId){
+    this.getPatientCase = function (patientId, caseId) {
         var patientCase = null;
         this.getAllPatientCases(patientId).forEach(function (it, index) {
             if (it.id == caseId) {
@@ -654,7 +654,10 @@ mainApp.service('PatientService', function () {
             patientId: "P001",
             id: "C001",
             num: "C001",
-            desc: "Upper shoulder",
+            dxs: [
+                {name: "Upper shoulder"},
+                {name: "Lower back"}
+            ],
             discipline: "PT",
             status: "ACT",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
@@ -664,7 +667,10 @@ mainApp.service('PatientService', function () {
             patientId: "P002",
             id: "C002",
             num: "C002",
-            desc: "Upper shoulder",
+            dxs: [
+                {name: "Knee Issue"},
+                {name: "Lower back"}
+            ],
             discipline: "PT",
             status: "ACT",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
@@ -673,7 +679,10 @@ mainApp.service('PatientService', function () {
             patientId: "P002",
             id: "C003",
             num: "C003",
-            desc: "Knew issue",
+            dxs: [
+                {name: "Head injury"},
+                {name: "Lower back"}
+            ],
             discipline: "OT",
             status: "ACT",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
@@ -682,7 +691,10 @@ mainApp.service('PatientService', function () {
             patientId: "P003",
             id: "C004",
             num: "C004",
-            desc: "Back pain, Head injury",
+            dxs: [
+                {name: "Finger issue"},
+                {name: "Lower back"}
+            ],
             discipline: "PT",
             status: "ACT",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
@@ -691,7 +703,10 @@ mainApp.service('PatientService', function () {
             patientId: "P003",
             id: "C005",
             num: "C005",
-            desc: "Shoulder pain",
+            dxs: [
+                {name: "Hand issue"},
+                {name: "Lower back"}
+            ],
             discipline: "PT",
             status: "CSD",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
@@ -700,7 +715,10 @@ mainApp.service('PatientService', function () {
             patientId: "P003",
             id: "C006",
             num: "C006",
-            desc: "Leg injury",
+            dxs: [
+                {name: "Leg issue"},
+                {name: "Lower back"}
+            ],
             discipline: "ST",
             status: "CSD",
             evalDate: new Date('2005-11-03T06:00:10.000Z')
@@ -739,8 +757,8 @@ mainApp.service('PatientService', function () {
 
     this.getAllPatientItems = function () {
         var patientItems = [];
-        patients.forEach(function(it, index){
-            patientItems.push({id: it.id, name: it.firstName+" "+it.lastName})
+        patients.forEach(function (it, index) {
+            patientItems.push({id: it.id, name: it.firstName + " " + it.lastName})
         });
         return patientItems;
     };
@@ -784,7 +802,7 @@ mainApp.service('PatientService', function () {
 mainApp.service('ProfileService', function () {
     var profiles = [
         {
-            id:"P001",
+            id: "P001",
             firstName: "Tom",
             lastName: "Kokocinski",
             uid: "tom",
@@ -797,7 +815,7 @@ mainApp.service('ProfileService', function () {
             discipline: "PT"
         },
         {
-            id:"P002",
+            id: "P002",
             firstName: "Marcin",
             lastName: "Koziarski",
             uid: "marcin",
@@ -810,7 +828,7 @@ mainApp.service('ProfileService', function () {
             discipline: "OT"
         },
         {
-            id:"P003",
+            id: "P003",
             firstName: "Joe",
             lastName: "Smith",
             uid: "joe",
@@ -823,7 +841,7 @@ mainApp.service('ProfileService', function () {
             discipline: "ST"
         },
         {
-            id:"P004",
+            id: "P004",
             firstName: "Greg",
             lastName: "Johnson",
             uid: "greg",

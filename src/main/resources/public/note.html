@@ -6,7 +6,10 @@
         </div>
         <div class="col-sm-5 form-inline" style="margin-top:28px;">
             <label class="control-label">Diagnosis: </label>
-            <mk-dropdown item='selectedCase' items='patientCases' item-label='desc' item-id="id"></mk-dropdown>
+            <ul>
+                <li ng-repeat="dx in patientCase.dxs">{{dx.name}}</li>
+            </ul>
+            <!--<mk-dropdown item='selectedCase' items='patientCases' item-label='desc' item-id="id"></mk-dropdown>-->
             <!--<span> {{patient.dx}} </span>-->
         </div>
         <div class="col-sm-4 pull-right text-right">

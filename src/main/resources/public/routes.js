@@ -32,6 +32,10 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'dashboard.html',
             controller: 'DashboardController'
         })
+        .when('/search', {
+            templateUrl: 'search.html',
+            controller: 'SearchController'
+        })
         .when('/report', {
             templateUrl: 'report.html',
             controller: 'ReportController'
