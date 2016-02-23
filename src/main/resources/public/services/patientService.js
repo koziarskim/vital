@@ -425,7 +425,11 @@ mainApp.service('PatientService', function () {
     };
 
     this.getAllPatients = function () {
-        return patients;
+        var localPatients = [];
+        patients.forEach(function(it, index){
+            localPatients.push(angular.copy(it))
+        })
+        return localPatients;
     };
 
     this.getAllPatientItems = function () {

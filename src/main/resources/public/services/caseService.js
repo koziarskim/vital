@@ -1,4 +1,4 @@
-mainApp.service('CaseService', function () {
+mainApp.service('CaseService', function (PatientService) {
 
     var allCases = [
         {
@@ -105,6 +105,8 @@ mainApp.service('CaseService', function () {
         var patientCases = [];
         allCases.forEach(function (it, index) {
             if (it.patientId == patientId) {
+                var patient = PatientService.getPatient(it.patientId);
+                it.patient = angular.merge(patient);
                 patientCases.push(it);
             }
         });

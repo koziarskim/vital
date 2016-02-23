@@ -29,9 +29,9 @@
             </thead>
             <tbody>
             <tr ng-repeat="case in myCases">
-                <td>{{ case.firstName}}</td>
-                <td>{{case.lastName}}</td>
-                <td>{{ case.dob | date: "MM-dd-yyyy"}}</td>
+                <td>{{ case.patient.firstName}}</td>
+                <td>{{case.patient.lastName}}</td>
+                <td>{{ case.patient.dob | date: "MM-dd-yyyy"}}</td>
                 <td>
                     <button class="btn btn-primary btn-sm" ng-click="editPatient(case.id)">Edit Patient</button>
                     <button class="btn btn-primary btn-sm" ng-click="patientCanceledAction(case)">Cancel Patient</button>

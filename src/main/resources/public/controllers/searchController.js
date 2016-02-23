@@ -1,4 +1,4 @@
-mainApp.controller('SearchController', function ($scope, $window, $location, PatientService, NoteService) {
+mainApp.controller('SearchController', function ($scope, $window, $location, CaseService, PatientService, NoteService) {
     if (!$window.sessionStorage.allPatients) {
         $window.sessionStorage.allPatients = JSON.stringify(PatientService.getAllPatients());
     }
@@ -12,7 +12,7 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Pat
     $scope.filterPatientNameInput = null;
 
     $scope.patientSelectedAction = function (patient) {
-        $scope.myCases.push(angular.copy(patient));
+        $scope.myCases = CaseService.getAllPatientCases(patient.id);
         $scope.allPatients.forEach(function (it, index) {
             if (it.id == patient.id) {
                 $scope.allPatients.splice(index, 1);
@@ -23,20 +23,22 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Pat
         $scope.filterPatientNameInput = null;
     }
 
-    $scope.patientCanceledAction = function (patient) {
+    $scope.patientCanceledAction = function (patientCase) {
         $scope.myCases.forEach(function (it, index) {
-            if (it.id == patient.id) {
+            if (it.id == patientCase.id) {
                 $scope.myCases.splice(index, 1);
             }
         });
-        $scope.allPatients.push(angular.copy(patient));
+        PatientService.getAllPatients()
+        $scope.allPatients = PatientService.getAllPatients();
         $window.sessionStorage.myCases = JSON.stringify($scope.myCases);
         $window.sessionStorage.allPatients = JSON.stringify($scope.allPatients);
     }
 
     $scope.filterOnPatient = function (patient) {
         if ($scope.filterPatientNameInput) {
-            return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
+            var patientName = patient.firstName + patient.lastName;
+            return patientName.toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
         } else {
             return false;
         }
