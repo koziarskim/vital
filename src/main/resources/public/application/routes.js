@@ -4,7 +4,11 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'login.html',
             controller: 'LoginController'
         })
-        .when('/patients/:patientId/cases/:caseId', {
+        .when('/cases/:caseId', {
+            templateUrl: 'case.html',
+            controller: 'CaseController'
+        })
+        .when('/cases/:caseId/patient/:patientId', {
             templateUrl: 'case.html',
             controller: 'CaseController'
         })
@@ -14,15 +18,7 @@ mainApp.config(function ($routeProvider) {
         })
         .when('/patients/:patientId/notes', {
             templateUrl: 'notes.html',
-            controller: 'NotesController'
-        })
-        .when('/patients/:patientId?', {
-            templateUrl: 'patient.html',
-            controller: 'PatientController'
-        })
-        .when('/notes/:noteId/patient/:patientId', {
-            templateUrl: 'patient.html',
-            controller: 'PatientController'
+            controller: 'NoteController'
         })
         .when('/profiles/:uid?', {
             templateUrl: 'profile.html',

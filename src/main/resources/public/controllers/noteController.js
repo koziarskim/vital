@@ -1,254 +1,4 @@
-mainApp.controller('IndexController', function ($scope, $window, $rootScope, $location) {
-    $scope.$on('$viewContentLoaded', function () {
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    });
-    if($window.sessionStorage.userContext) {
-        $rootScope.profile = JSON.parse($window.sessionStorage.userContext)
-    }
-    $scope.goDashboard = function () {
-        $location.path("/dashboard");
-    }
-    $scope.goReport = function () {
-        $location.path("report");
-    }
-    $scope.goNewPatient = function () {
-        $location.path("/patients/new");
-    }
-    $scope.logOut = function () {
-        $window.sessionStorage.clear()
-        $rootScope.profile = null;
-        $location.path("/");
-    }
-    $scope.editProfile = function (uid) {
-        $location.path("profiles/" + uid);
-    }
-});
-
-mainApp.controller('LoginController', function ($scope, $window, $rootScope, $location, ProfileService) {
-    $scope.login = {
-        userName: null,
-        password: null
-    };
-    $scope.loginAction = function () {
-        $window.sessionStorage.clear()
-        if ($scope.login.userName == null || $scope.login.password == null) {
-            alert("Please enter username and password");
-            return;
-        }
-        var authenticated = ProfileService.validateUser($scope.login.userName, $scope.login.password);
-
-        if (authenticated) {
-            $rootScope.profile = ProfileService.getProfile($scope.login.userName);
-            $window.sessionStorage.userContext = JSON.stringify($rootScope.profile);
-            $location.path("/dashboard");
-        } else {
-            alert("Invalid username and/or password");
-            $location.path("/login");
-        }
-    }
-});
-
-mainApp.controller('DashboardController', function ($scope, $window, $location, PatientService, NoteService) {
-    $scope.goSearch = function () {
-        $location.path("search");
-    }
-    $scope.goNewPatient = function () {
-        $location.path("/patients/new");
-    }
-
-
-});
-
-
-mainApp.controller('SearchController', function ($scope, $window, $location, PatientService, NoteService) {
-    if (!$window.sessionStorage.storedAllPatients) {
-        $window.sessionStorage.storedAllPatients = JSON.stringify(PatientService.getAllPatients());
-    }
-    $scope.allPatients = JSON.parse($window.sessionStorage.storedAllPatients);
-
-    if (!$window.sessionStorage.storedMyPatients) {
-        $window.sessionStorage.storedMyPatients = JSON.stringify([]);
-    }
-    $scope.myPatients = JSON.parse($window.sessionStorage.storedMyPatients);
-
-    $scope.filterPatientNameInput = null;
-
-    $scope.addTostoredPatients = function (patient) {
-        $scope.myPatients.push(angular.copy(patient));
-        $scope.allPatients.forEach(function (it, index) {
-            if (it.id == patient.id) {
-                $scope.allPatients.splice(index, 1);
-            }
-        });
-        $window.sessionStorage.storedMyPatients = JSON.stringify($scope.myPatients);
-        $window.sessionStorage.storedAllPatients = JSON.stringify($scope.allPatients);
-        $scope.filterPatientNameInput = null;
-    }
-
-    $scope.removeFromstoredPatients = function (patient) {
-        $scope.myPatients.forEach(function (it, index) {
-            if (it.id == patient.id) {
-                $scope.myPatients.splice(index, 1);
-            }
-        });
-        $scope.allPatients.push(angular.copy(patient));
-        $window.sessionStorage.storedMyPatients = JSON.stringify($scope.myPatients);
-        $window.sessionStorage.storedAllPatients = JSON.stringify($scope.allPatients);
-    }
-
-    $scope.filterOnPatient = function (patient) {
-        if ($scope.filterPatientNameInput) {
-            return (patient.firstName + patient.lastName).toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
-        } else {
-            return false;
-        }
-    };
-    $scope.savePatient = function (patient) {
-        var savedPatient = PatientService.savePatient(patient);
-        $location.path("/patients/" + savedPatient.id);
-    };
-
-    $scope.editPatient = function (patientId) {
-        $location.path("/patients/" + patientId);
-    }
-    $scope.deletePatient = function (patientId) {
-        PatientService.deletePatient(patientId);
-    }
-
-    $scope.createTodayNote = function (patientId) {
-        $location.path("patients/" + patientId + "/notes/new");
-    }
-    $scope.viewInitNote = function (patientId) {
-        var note = NoteService.getInitNote(patientId);
-        if (!note) {
-            alert("Patient has no init note created yet." +
-                "\nPlease, create today's note first");
-            return;
-        }
-        $location.path("patients/" + patientId + "/notes/" + note.id);
-    }
-    $scope.viewAllNotes = function (patientId) {
-        $location.path("patients/" + patientId + "/notes");
-    }
-    $scope.cancelSearch = function () {
-        $location.path("/dashboard");
-    };
-});
-
-mainApp.controller('ReportController', function ($scope, $location, PatientService, LocationService) {
-    $scope.locationItem = null;
-    $scope.locationItems = LocationService.getAvailableLocation();
-    $scope.patientItem = {};
-    $scope.patientItems = PatientService.getAllPatientItems();
-    $scope.caseItem = null;
-    $scope.caseItems = [{id: 'C001', name: 'C001'}, {id: 'C002', name: 'C002'}, {id: 'C003', name: 'C003'}];
-
-    $scope.cancelReport = function () {
-        $location.path("/dashboard");
-    };
-});
-
-mainApp.controller('PatientController', function ($scope, $window, $location, $routeParams, PatientService, NoteService) {
-    $scope.patientId = $routeParams.patientId;
-    $scope.noteId = $routeParams.noteId;
-
-    $scope.patient = {};
-    $scope.note = null;
-    if ($scope.patientId != "new") {
-        $scope.patient = PatientService.getPatient($scope.patientId);
-    }
-    $scope.patientMedical = null;
-
-    $scope.medicareFlag = null;
-    $scope.patientInfoDate = new Date();
-    if ($scope.noteId) {
-        $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
-        $scope.patientMedical = PatientService.getPatientMedical($scope.note.patientMedicalId);
-        $scope.insuranceName = $scope.patientMedical.insuranceName;
-        $scope.medicareFlag = $scope.patientMedical.medicareFlag;
-    } else {
-        $scope.insuranceName = $scope.patient.insuranceName;
-        $scope.medicareFlag = $scope.patient.medicareFlag;
-    }
-
-    $scope.patientCases = PatientService.getAllPatientCases($scope.patientId);
-
-    $scope.savePatient = function () {
-        PatientService.savePatient($scope.patient);
-        $scope.allPatients = PatientService.getAllPatients();
-        $window.sessionStorage.storedAllPatients = JSON.stringify($scope.allPatients);
-        $location.path("/dashboard");
-    };
-    $scope.cancelPatient = function () {
-        $location.path("/dashboard");
-    };
-    $scope.createCase = function () {
-        $location.path("patients/" + $scope.patientId + "/cases/new");
-    }
-    $scope.editCase = function (patientCase) {
-        $location.path("patients/" + $scope.patientId + "/cases/"+patientCase.id);
-    }
-});
-
-mainApp.controller('CaseController', function ($scope, $location, $routeParams, NoteService, PatientService) {
-    $scope.patientId = $routeParams.patientId;
-    $scope.caseId = $routeParams.caseId;
-    $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
-    $scope.patient = PatientService.getPatient($scope.patientId);
-    $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
-
-    $scope.dateRange = {
-        from: null,
-        to: null
-    }
-    $scope.filterDate = function (note) {
-        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-    $scope.saveCase = function () {
-        if (!$scope.patientCase) {
-            $scope.patientCase = {};
-        }
-        $scope.patientCase.patientId = $scope.patientId;
-        PatientService.savePatientCase($scope.patientCase);
-        $location.path("patients/" + $scope.patientId);
-    };
-    $scope.cancelCase = function () {
-        $location.path("patients/" + $scope.patientId);
-    };
-});
-
-mainApp.controller('NotesController', function ($scope, $location, $routeParams, NoteService, PatientService) {
-    $scope.patientId = $routeParams.patientId;
-    $scope.caseId = $routeParams.caseId;
-    $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
-    $scope.notes = [];
-    if ($scope.caseId != "new") {
-        $scope.notes = NoteService.getAllNotes($scope.patientId);
-    }
-    $scope.patient = PatientService.getPatient($scope.patientId);
-    $scope.dateRange = {
-        from: null,
-        to: null
-    }
-    $scope.filterDate = function (note) {
-        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-    $scope.editNote = function (noteId) {
-        $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
-    }
-});
-
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, NoteService, PatientService, ProfileService, LocationService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, CaseService, NoteService, PatientService, ProfileService, LocationService) {
     if ($routeParams.patientId == null) {
         console.log("PatientId is null");
     }
@@ -257,6 +7,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     }
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
+    $scope.caseId = $routeParams.caseId;
+    $scope.notes = [];
+    if ($scope.caseId != "new") {
+        $scope.notes = NoteService.getAllNotes($scope.patientId);
+    }
     $scope.lastNote = null;
     $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
     if (!$scope.note) {
@@ -276,15 +31,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.initNote = null;
     $scope.visibleTxAreaName = null;
     $scope.patient = PatientService.getPatient($scope.patientId);
-    $scope.patientMedical = PatientService.getPatientMedical($scope.note.patientMedicalId);
-    if (!$scope.patientMedical) {
-        $scope.patientMedical = {};
-    }
     $scope.vitalSignsShow = false;
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
     $scope.availableLocations = LocationService.getAvailableLocation();
-    $scope.patientCase = PatientService.getPatientCase($scope.patientId, $scope.caseId);
+    $scope.patientCase = CaseService.getPatientCase($scope.patientId, $scope.caseId);
     $scope.toggleAuthAlert = function () {
         if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
@@ -510,6 +261,21 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     };
     $scope.availableTherapists = ProfileService.getAllProfiles();
     $scope.availableCoTherapists = ProfileService.getAllProfiles();
+
+    $scope.dateRange = {
+        from: null,
+        to: null
+    }
+    $scope.filterDate = function (note) {
+        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    $scope.editNote = function (noteId) {
+        $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
+    }
 });
 
 mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService) {

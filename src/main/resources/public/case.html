@@ -8,6 +8,44 @@
     <br/>
 
     <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label" for="firstName">First Name:</label>
+        </div>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" ng-model="patient.firstName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label" for="lastName">Last Name:</label>
+        </div>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" ng-model="patient.lastName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label" for="dob">DOB:</label>
+        </div>
+        <div class="col-sm-2">
+            <input type="date" class="form-control" id="dob" placeholder="Enter Date of Birth" ng-model="patient.dob">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label" for="gender">Gender:</label>
+        </div>
+        <div class="col-sm-2">
+            <select id="gender" class="form-control" ng-model="patient.gender">
+                <option></option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
         <div class="col-sm-12 form-inline">
             <label class="control-label">Case #: </label>
             <input class="form-control" ng-model="patientCase.num" type="text"/>

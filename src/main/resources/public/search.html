@@ -9,17 +9,14 @@
 
             <div style="position: fixed; background-color:white;">
                 <div ng-repeat="patient in allPatients | filter:filterOnPatient">
-                    <a href ng-click="addTostoredPatients(patient)">{{patient.firstName}} {{patient.lastName}} ({{patient.dob | date: "MM-dd-yyyy"}})</a>
+                    <a href ng-click="patientSelectedAction(patient)">{{patient.firstName}} {{patient.lastName}} ({{patient.dob | date: "MM-dd-yyyy"}})</a>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-2">
-            <button ng-click="goNewPatient()" class="btn btn-primary btn-sm">NEW PATIENT</button>
         </div>
     </div>
     <br/><br/>
 
-    <div class="row">
+    <div class="row" ng-show="(myCases | filter:criteria).length">
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
@@ -31,18 +28,18 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="patient in myPatients">
-                <td>{{ patient.firstName}}</td>
-                <td>{{patient.lastName}}</td>
-                <td>{{ patient.dob | date: "MM-dd-yyyy"}}</td>
+            <tr ng-repeat="case in myCases">
+                <td>{{ case.firstName}}</td>
+                <td>{{case.lastName}}</td>
+                <td>{{ case.dob | date: "MM-dd-yyyy"}}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm" ng-click="editPatient(patient.id)">Edit Patient</button>
-                    <button class="btn btn-primary btn-sm" ng-click="removeFromstoredPatients(patient)">Cancel Patient</button>
+                    <button class="btn btn-primary btn-sm" ng-click="editPatient(case.id)">Edit Patient</button>
+                    <button class="btn btn-primary btn-sm" ng-click="patientCanceledAction(case)">Cancel Patient</button>
                 </td>
                 <td>
-                    <button class="btn btn-primary btn-sm" ng-click="createTodayNote(patient.id)">Create Today's Note</button>
-                    <button class="btn btn-primary btn-sm" ng-click="viewAllNotes(patient.id)">View All Notes</button>
-                    <button class="btn btn-primary btn-sm" ng-click="viewInitNote(patient.id)">View Init Note</button>
+                    <button class="btn btn-primary btn-sm" ng-click="createTodayNote(case.id)">Create Today's Note</button>
+                    <button class="btn btn-primary btn-sm" ng-click="viewAllNotes(case.id)">View All Notes</button>
+                    <button class="btn btn-primary btn-sm" ng-click="viewInitNote(case.id)">View Init Note</button>
                 </td>
             </tr>
             </tbody>
