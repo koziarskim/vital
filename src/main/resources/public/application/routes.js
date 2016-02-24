@@ -16,6 +16,10 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })
+        .when('/cases/:caseId/notes/:noteId', {
+            templateUrl: 'note.html',
+            controller: 'NoteController'
+        })
         .when('/patients/:patientId/notes', {
             templateUrl: 'notes.html',
             controller: 'NoteController'

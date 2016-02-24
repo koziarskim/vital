@@ -27,4 +27,8 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.cancelCase = function () {
         $location.path("dashboard/");
     };
+
+    $scope.createTodayNote = function () {
+        $location.path("cases/" + $scope.caseId + "/notes/new");
+    }
 });

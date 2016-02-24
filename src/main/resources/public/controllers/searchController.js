@@ -55,8 +55,8 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Cas
         PatientService.deletePatient(patientId);
     }
 
-    $scope.createTodayNote = function (patientId) {
-        $location.path("patients/" + patientId + "/notes/new");
+    $scope.createTodayNote = function (caseId) {
+        $location.path("cases/" + caseId + "/notes/new");
     }
     $scope.closeCase = function (caseId) {
         //TODO: Set case inactive.
