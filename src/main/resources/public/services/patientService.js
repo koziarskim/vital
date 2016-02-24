@@ -443,7 +443,7 @@ mainApp.service('PatientService', function () {
     this.savePatient = function (patient) {
         if (patient != null) {
             if (patient.id == null) {
-                patient.id = patients.length + 1;
+                patient.id = "P00"+patients.length + 1;
                 patients.push(patient);
             } else {
                 patients.forEach(function (it, index) {
@@ -452,10 +452,10 @@ mainApp.service('PatientService', function () {
                     }
                 });
             }
-
         }
-        return patient;
+        return patient.id;
     }
+
     this.deletePatient = function (id) {
         patients.forEach(function (result, index) {
             if (result['id'] == id) {

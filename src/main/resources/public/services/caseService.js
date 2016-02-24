@@ -85,9 +85,22 @@ mainApp.service('CaseService', function (PatientService) {
         return patientCase;
     }
 
+    this.getPatientCase = function (caseId) {
+        var patientCase = null;
+        allCases.forEach(function (it, index) {
+            if (it.id == caseId) {
+                patientCase = angular.copy(it);
+            }
+        });
+        return patientCase;
+    }
+
     this.savePatientCase = function (patientCase) {
         if (patientCase.id == null) {
-            patientCase.id = allCases.length + 1;
+            patientCase.id = "C00"+allCases.length + 1;
+            if(patientCase.num == null){
+                patientCase.num = patientCase.id;
+            }
             allCases.push(angular.copy(patientCase));
         } else {
             var indx = null;
@@ -98,7 +111,7 @@ mainApp.service('CaseService', function (PatientService) {
             });
             allCases[indx] = angular.copy(patientCase);
         }
-
+        return patientCase.id;
     }
 
     this.getAllPatientCases = function (patientId) {

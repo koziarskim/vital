@@ -48,9 +48,9 @@
     <div class="row">
         <div class="col-sm-12 form-inline">
             <label class="control-label">Case #: </label>
-            <input class="form-control" ng-model="patientCase.num" type="text"/>
+            <input class="form-control" ng-model="case.num" type="text"/>
             <label class="control-label">Evaluation Date: </label>
-            <input class="form-control" ng-model="patientCase.evalDate" type="date"/>
+            <input class="form-control" ng-model="case.evalDate" type="date"/>
         </div>
     </div>
     <br/>
@@ -76,10 +76,10 @@
     <div class="row">
         <div class="col-sm-4 form-inline">
             <label class="control-label">Insurance: </label>
-            <mk-dropdown class="space-right-sm" item-value="insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
+            <mk-dropdown class="space-right-sm" item-value="patient.insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
         </div>
         <div class="col-sm-4 form-inline">
-            <label class="control-label">Madicare? <input type="checkbox" class="form-control" ng-model="medicareFlag"></label>
+            <label class="control-label">Madicare? <input type="checkbox" class="form-control" ng-model="patient.medicareFlag"></label>
         </div>
     </div>
     <div class="row">
@@ -100,7 +100,7 @@
         </div>
     </div>
     <br/>
-    <button type="button" class="btn btn-primary btn-sm" ng-click="saveCase()">Save</button>
+    <button type="button" class="btn btn-primary btn-sm" ng-click="saveCase(false)">Save</button>
     <button type="button" class="btn btn-primary btn-sm" ng-click="cancelCase()">Cancel</button>
-    <button type="button" class="btn btn-primary btn-sm" ng-click="createTodayNote()">Create Note</button>
+    <!--<button type="button" class="btn btn-primary btn-sm" ng-click="createTodayNote()">Create Note</button>-->
 </div>

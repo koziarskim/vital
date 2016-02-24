@@ -20,9 +20,9 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })
-        .when('/patients/:patientId/notes', {
+        .when('/cases/:caseId/notes', {
             templateUrl: 'notes.html',
-            controller: 'NoteController'
+            controller: 'NotesController'
         })
         .when('/profiles/:uid?', {
             templateUrl: 'profile.html',

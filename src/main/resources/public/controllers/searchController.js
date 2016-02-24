@@ -1,8 +1,5 @@
 mainApp.controller('SearchController', function ($scope, $window, $location, CaseService, PatientService, NoteService) {
-    if (!$window.sessionStorage.allPatients) {
-        $window.sessionStorage.allPatients = JSON.stringify(PatientService.getAllPatients());
-    }
-    $scope.allPatients = JSON.parse($window.sessionStorage.allPatients);
+    $scope.allPatients = PatientService.getAllPatients()
 
     if (!$window.sessionStorage.myCases) {
         $window.sessionStorage.myCases = JSON.stringify([]);
@@ -13,27 +10,10 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Cas
 
     $scope.patientSelectedAction = function (patient) {
         $scope.myCases = CaseService.getAllPatientCases(patient.id);
-        $scope.allPatients.forEach(function (it, index) {
-            if (it.id == patient.id) {
-                $scope.allPatients.splice(index, 1);
-            }
-        });
         $window.sessionStorage.myCases = JSON.stringify($scope.myCases);
-        $window.sessionStorage.allPatients = JSON.stringify($scope.allPatients);
         $scope.filterPatientNameInput = null;
     }
 
-    $scope.patientCanceledAction = function (patientCase) {
-        $scope.myCases.forEach(function (it, index) {
-            if (it.id == patientCase.id) {
-                $scope.myCases.splice(index, 1);
-            }
-        });
-        PatientService.getAllPatients()
-        $scope.allPatients = PatientService.getAllPatients();
-        $window.sessionStorage.myCases = JSON.stringify($scope.myCases);
-        $window.sessionStorage.allPatients = JSON.stringify($scope.allPatients);
-    }
 
     $scope.filterOnPatient = function (patient) {
         if ($scope.filterPatientNameInput) {
@@ -48,7 +28,7 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Cas
         $location.path("/patients/" + savedPatient.id);
     };
 
-    $scope.editPatient = function (caseId) {
+    $scope.editCase = function (caseId) {
         $location.path("/cases/"+caseId);
     }
     $scope.deletePatient = function (patientId) {
@@ -62,8 +42,8 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Cas
         //TODO: Set case inactive.
         //CaseService.closeCase(caseId);
     }
-    $scope.viewAllNotes = function (patientId) {
-        $location.path("patients/" + patientId + "/notes");
+    $scope.viewAllNotes = function (caseId) {
+        $location.path("cases/" + caseId + "/notes");
     }
     $scope.cancelSearch = function () {
         $location.path("/dashboard");

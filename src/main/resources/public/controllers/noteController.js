@@ -1,4 +1,4 @@
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, CaseService, NoteService, PatientService, ProfileService, LocationService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, $window, CaseService, NoteService, PatientService, ProfileService, LocationService) {
     if ($routeParams.patientId == null) {
         console.log("PatientId is null");
     }
@@ -8,14 +8,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
     $scope.caseId = $routeParams.caseId;
-    $scope.notes = [];
-    if ($scope.caseId != "new") {
-        $scope.notes = NoteService.getAllNotes($scope.patientId);
-    }
     $scope.lastNote = null;
-    $scope.note = NoteService.getNote($scope.patientId, $scope.noteId);
+    $scope.note = NoteService.getNote($scope.noteId);
     if (!$scope.note) {
-        $scope.lastNote = NoteService.getLastNote($scope.patientId);
+        $scope.lastNote = NoteService.getLastNote($scope.caseId);
         if ($scope.lastNote) {
             $scope.note = angular.copy($scope.lastNote);
             $scope.note.id = null;
@@ -60,7 +56,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
 
     $scope.painChange = function () {
         var prevScale = 0;
-        var initNote = NoteService.getInitNote($scope.patientId);
+        var initNote = NoteService.getInitNote($scope.caseId);
         if (initNote != null && initNote.pain != null && initNote.pain.scale != null) {
             prevScale = initNote.pain.scale;
         }
@@ -201,12 +197,12 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
                 $scope.patient.authVisits--;
             }
         }
-        NoteService.saveNote($scope.patientId, $scope.note);
-        $location.path("/patients/" + $scope.patientId);
+        NoteService.saveNote($scope.caseId, $scope.note);
+        $window.history.back();
     };
 
     $scope.cancelNote = function () {
-        $location.path("/patients/" + $scope.patientId);
+        $window.history.back();
     };
 
     $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
@@ -276,24 +272,4 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.editNote = function (noteId) {
         $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
     }
-});
-
-mainApp.controller('ProfileController', function ($scope, $location, $routeParams, ProfileService) {
-    $scope.uid = $routeParams.uid;
-    $scope.changePassword = false;
-    $scope.verifyPassword = null;
-    $scope.profile = ProfileService.getProfile($scope.uid);
-    $scope.saveProfile = function (profile) {
-        if ($scope.changePassword) {
-            if (profile.password != $scope.verifyPassword) {
-                alert("Password and Verify Password don't match");
-                return;
-            }
-        }
-        ProfileService.saveProfile(profile);
-        $location.path("dashboard/");
-    }
-    $scope.cancelProfile = function () {
-        $location.path("/dashboard");
-    };
 });

@@ -1,4 +1,4 @@
-mainApp.service('NoteService', function (PatientService) {
+mainApp.service('NoteService', function (CaseService, PatientService) {
     var allNotes = [
         {
             id: "V001",
@@ -250,37 +250,31 @@ mainApp.service('NoteService', function (PatientService) {
         }
     ];
 
-
-    this.getAllNotes = function (patientId) {
-        var patient = PatientService.getPatient(patientId);
-        if (patient) {
-            return patient.notes;
-        }
-        return null;
-    }
-    this.saveNote = function (patientId, note) {
-        var patient = PatientService.getPatient(patientId);
-        if (patient && note != null) {
-            if (note.id == null) {
-                if (patient.notes == null) {
-                    patient.notes = [];
-                }
-                if (patient.notes.length > 0) {
-                    note.id = patient.notes.length + 1;
-                } else {
-                    note.id = 001;
-                }
-                patient.notes.push(note);
-            } else {
-                patient.notes.forEach(function (it, index) {
-                    if (it.id == note.id) {
-                        patient.notes[index] = it;
-                    }
-                });
+    this.getNotesForCase = function (caseId) {
+        var notes = [];
+        allNotes.forEach(function (note, index) {
+            if (note.caseId == caseId) {
+                notes.push(angular.copy(note));
             }
+        });
+        return notes;
+    }
 
+    this.saveNote = function (caseId, note) {
+        if (note.id == null) {
+            note.id = "C00"+allNotes.length + 1;
+            note.caseId = caseId;
+            allNotes.push(angular.copy(note));
+        } else {
+            var indx = null;
+            allNotes.forEach(function (it, index) {
+                if (it.id == note.id) {
+                    indx = index;
+                }
+            });
+            allNotes[indx] = angular.copy(note);
         }
-        return note;
+        return note.id;
     }
     this.deleteNote = function (patientId, id) {
         var patient = PatientService.getPatient(patientId);
@@ -290,16 +284,13 @@ mainApp.service('NoteService', function (PatientService) {
             }
         });
     }
-    this.getNote = function (patientId, id) {
-        var patient = PatientService.getPatient(patientId);
+    this.getNote = function (noteId) {
         var note = null;
-        if (patient) {
-            patient.notes.forEach(function (it, index) {
-                if (it.id == id) {
-                    note = it;
-                }
-            });
-        }
+        allNotes.forEach(function (it, index) {
+            if (it.id == noteId) {
+                note = it;
+            }
+        });
         return note;
     }
     this.deleteTxArea = function (patientId, noteId, txAreaName) {
@@ -382,31 +373,23 @@ mainApp.service('NoteService', function (PatientService) {
         });
         return foundTxArea;
     }
-    this.getInitNote = function (patientId) {
+
+    this.getInitNote = function (caseId) {
         var note = null;
-        var notes = this.getAllNotes(patientId);
+        var notes = this.getNotesForCase(caseId);
         if (notes != null && notes.length > 0) {
             note = notes[0];
         }
         return note;
     }
 
-    this.getLastNote = function (patientId) {
+    this.getLastNote = function (caseId) {
         var note = null;
-        var notes = this.getAllNotes(patientId);
-        if (notes == null) {
-            var newNote = {
-                id: null,
-                date: new Date(),
-                pain: null,
-                txAreas: []
-            }
-            this.saveNote(patientId, newNote);
-        }
-        notes = this.getAllNotes(patientId);
-        if (notes) {
+        var notes = this.getNotesForCase(caseId);
+        if(notes){
             note = notes[notes.length - 1];
         }
         return note;
     }
+
 });
