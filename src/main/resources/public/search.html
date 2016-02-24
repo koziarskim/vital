@@ -23,23 +23,25 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Date of Birth</th>
-                <th>Patient</th>
-                <th>Note</th>
+                <th>Case #</th>
+                <th>Diagnosis</th>
+                <th>Evaluation Date</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="case in myCases">
                 <td>{{ case.patient.firstName}}</td>
                 <td>{{case.patient.lastName}}</td>
+                <td>{{case.num}}</td>
+                <td><span ng-repeat="dx in case.dxs track by $index">{{$index==0?dx.name:', '+dx.name}}</span></td>
+                <td>{{case.evalDate | date: "MM-dd-yyyy"}}</td>
                 <td>{{ case.patient.dob | date: "MM-dd-yyyy"}}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm" ng-click="editPatient(case.id)">Edit Patient</button>
-                    <button class="btn btn-primary btn-sm" ng-click="patientCanceledAction(case)">Cancel Patient</button>
-                </td>
-                <td>
                     <button class="btn btn-primary btn-sm" ng-click="createTodayNote(case.id)">Create Today's Note</button>
+                    <button class="btn btn-primary btn-sm" ng-click="editPatient(case.id)">Edit Patient</button>
                     <button class="btn btn-primary btn-sm" ng-click="viewAllNotes(case.id)">View All Notes</button>
-                    <button class="btn btn-primary btn-sm" ng-click="viewInitNote(case.id)">View Init Note</button>
+                    <button class="btn btn-primary btn-sm" ng-click="closeCase(case.id)">Discharge</button>
                 </td>
             </tr>
             </tbody>

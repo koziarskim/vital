@@ -58,14 +58,9 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Cas
     $scope.createTodayNote = function (patientId) {
         $location.path("patients/" + patientId + "/notes/new");
     }
-    $scope.viewInitNote = function (patientId) {
-        var note = NoteService.getInitNote(patientId);
-        if (!note) {
-            alert("Patient has no init note created yet." +
-                "\nPlease, create today's note first");
-            return;
-        }
-        $location.path("patients/" + patientId + "/notes/" + note.id);
+    $scope.closeCase = function (caseId) {
+        //TODO: Set case inactive.
+        //CaseService.closeCase(caseId);
     }
     $scope.viewAllNotes = function (patientId) {
         $location.path("patients/" + patientId + "/notes");
