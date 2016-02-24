@@ -5,13 +5,21 @@
             <label class="control-label">Patient: </label>
         </div>
         <div class="col-sm-4">
-            <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput" placeholder="Search First or Last Name"/>
+            <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput"
+                   placeholder="Search First or Last Name"/>
 
             <div style="position: fixed; background-color:white;">
                 <div ng-repeat="patient in allPatients | filter:filterOnPatient">
-                    <a href ng-click="patientSelectedAction(patient)">{{patient.firstName}} {{patient.lastName}} ({{patient.dob | date: "MM-dd-yyyy"}})</a>
+                    <a href ng-click="patientSelectedAction(patient)">{{patient.firstName}} {{patient.lastName}}
+                        ({{patient.dob | date: "MM-dd-yyyy"}})</a>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-4">
+            <label class="control-label">Discipline: </label>
+            <label class="checkbox-inline"><input type="checkbox" ng-model="showPT">PT</label>
+            <label class="checkbox-inline"><input type="checkbox" ng-model="showOT">OT</label>
+            <label class="checkbox-inline"><input type="checkbox" ng-model="showST">ST</label>
         </div>
     </div>
     <br/><br/>
@@ -38,7 +46,8 @@
                 <td>{{case.evalDate | date: "MM-dd-yyyy"}}</td>
                 <td>{{ case.patient.dob | date: "MM-dd-yyyy"}}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm" ng-click="createTodayNote(case.id)">Create Today's Note</button>
+                    <button class="btn btn-primary btn-sm" ng-click="createTodayNote(case.id)">Create Today's Note
+                    </button>
                     <button class="btn btn-primary btn-sm" ng-click="editPatient(case.id)">Edit Patient</button>
                     <button class="btn btn-primary btn-sm" ng-click="viewAllNotes(case.id)">View All Notes</button>
                     <button class="btn btn-primary btn-sm" ng-click="closeCase(case.id)">Discharge</button>
