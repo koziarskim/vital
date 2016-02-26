@@ -14,7 +14,7 @@ mainApp.controller('LoginController', function ($scope, $window, $rootScope, $lo
         if (authenticated) {
             $rootScope.profile = ProfileService.getProfile($scope.login.userName);
             $window.sessionStorage.userContext = JSON.stringify($rootScope.profile);
-            $location.path("/dashboard");
+            $location.path("/search");
         } else {
             alert("Invalid username and/or password");
             $location.path("/login");

@@ -1,4 +1,4 @@
-mainApp.controller('SearchController', function ($scope, $window, $location, CaseService, PatientService, NoteService) {
+mainApp.controller('SearchController', function ($scope, $rootScope, $window, $location, CaseService, PatientService, NoteService) {
     $scope.allPatients = PatientService.getAllPatients()
 
     if (!$window.sessionStorage.myCases) {
@@ -8,6 +8,20 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Cas
 
     $scope.filterPatientNameInput = null;
 
+    $scope.goNewPatient = function () {
+        $location.path("/cases/new/patient/new");
+    }
+    $scope.goReport = function () {
+        $location.path("/report");
+    }
+    $scope.logOut = function () {
+        $window.sessionStorage.clear()
+        $rootScope.profile = null;
+        $location.path("/");
+    }
+    $scope.goProfile = function () {
+        $location.path("/profiles/" + $rootScope.profile.id);
+    }
     $scope.patientSelectedAction = function (patient) {
         $scope.myCases = CaseService.getAllPatientCases(patient.id);
         $window.sessionStorage.myCases = JSON.stringify($scope.myCases);
@@ -45,7 +59,4 @@ mainApp.controller('SearchController', function ($scope, $window, $location, Cas
     $scope.viewAllNotes = function (caseId) {
         $location.path("cases/" + caseId + "/notes");
     }
-    $scope.cancelSearch = function () {
-        $location.path("/dashboard");
-    };
 });

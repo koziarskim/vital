@@ -5,3 +5,8 @@
 .space-right-sm {
     margin-right: 12px;
 }
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #337AB7;
+    color: #FFFFFF;
+}

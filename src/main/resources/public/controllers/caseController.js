@@ -37,7 +37,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
         }
     };
     $scope.cancelCase = function () {
-        $location.path("dashboard/");
+        $location.path("search/");
     };
 
     //$scope.createTodayNote = function () {

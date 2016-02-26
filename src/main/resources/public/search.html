@@ -1,6 +1,16 @@
 <div class="container">
     <br/>
     <div class="row">
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+                <li><a href="" ng-click="goNewPatient()">New Patient</a></li>
+                <li><a href="" ng-click="goReport()">Reports</a></li>
+                <li><a href="" ng-click="goProfile()">Therapist Profile</a></li>
+                <li><a href="" ng-click="logOut()">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="row">
         <div class="col-sm-1">
             <label class="control-label">Patient: </label>
         </div>
@@ -60,5 +70,4 @@
             </tbody>
         </table>
     </div>
-    <button type="submit" class="btn btn-primary btn-sm" ng-click="cancelSearch()">Cancel</button>
 </div>

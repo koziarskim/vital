@@ -8,6 +8,6 @@ mainApp.controller('ReportController', function ($scope, $location, PatientServi
     $scope.caseItems = [{id: 'C001', name: 'C001'}, {id: 'C002', name: 'C002'}, {id: 'C003', name: 'C003'}];
 
     $scope.cancelReport = function () {
-        $location.path("/dashboard");
+        $location.path("/search");
     };
 });
