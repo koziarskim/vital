@@ -1,11 +1,11 @@
 mainApp.controller('SearchController', function ($scope, $rootScope, $window, $location, CaseService, PatientService, NoteService) {
     $scope.allPatients = PatientService.getAllPatients()
-
-    if (!$window.sessionStorage.myCases) {
-        $window.sessionStorage.myCases = JSON.stringify([]);
+    $scope.myCases = null;
+    $scope.selectedPatientId = null;
+    if ($window.sessionStorage.selectedPatientId) {
+        $scope.selectedPatientId = JSON.parse($window.sessionStorage.selectedPatientId);
+        $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
     }
-    $scope.myCases = JSON.parse($window.sessionStorage.myCases);
-
     $scope.filterPatientNameInput = null;
 
     $scope.goNewPatient = function () {
@@ -23,8 +23,9 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
         $location.path("/profiles/" + $rootScope.profile.id);
     }
     $scope.patientSelectedAction = function (patient) {
+        $scope.selectedPatientId = patient.id;
         $scope.myCases = CaseService.getAllPatientCases(patient.id);
-        $window.sessionStorage.myCases = JSON.stringify($scope.myCases);
+        $window.sessionStorage.selectedPatientId = JSON.stringify(patient.id);
         $scope.filterPatientNameInput = null;
     }
 
@@ -58,5 +59,9 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     }
     $scope.viewAllNotes = function (caseId) {
         $location.path("cases/" + caseId + "/notes");
+    }
+
+    $scope.addNewCase = function (patientId) {
+        $location.path("/cases/new/patient/"+$scope.selectedPatientId);
     }
 });

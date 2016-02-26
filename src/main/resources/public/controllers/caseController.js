@@ -1,18 +1,17 @@
 mainApp.controller('CaseController', function ($scope, $location, $routeParams, $window, CaseService, NoteService, PatientService) {
-    $scope.patientId = $routeParams.patientId;
     $scope.caseId = $routeParams.caseId;
+    $scope.case = CaseService.getPatientCase($scope.caseId);
+    $scope.patientId = $routeParams.patientId;
+    if(!$scope.patientId && $scope.case && $scope.case.patient){
+        $scope.patientId = $scope.case.patient.id
+    }
     $scope.patientCase = CaseService.getPatientCase($scope.patientId, $scope.caseId);
     $scope.patient = PatientService.getPatient($scope.patientId);
     $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
-    $scope.case = CaseService.getPatientCase($scope.caseId);
+
     if(!$scope.case){
         $scope.case = {};
     }
-    $scope.patient = {};
-    if($scope.case.patient){
-        $scope.patient = PatientService.getPatient($scope.case.patientId);
-    }
-
     $scope.dateRange = {
         from: null,
         to: null
@@ -39,9 +38,4 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.cancelCase = function () {
         $location.path("search/");
     };
-
-    //$scope.createTodayNote = function () {
-    //    this.saveCase(true);
-    //    $location.path("cases/" + $scope.caseId + "/notes/new");
-    //}
 });
