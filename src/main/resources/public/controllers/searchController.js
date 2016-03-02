@@ -8,6 +8,8 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     }
     $scope.filterPatientNameInput = null;
 
+    $scope.patientCount = 0;
+
     $scope.goNewPatient = function () {
         $location.path("/cases/new/patient/new");
     }
@@ -33,7 +35,7 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.filterOnPatient = function (patient) {
         if ($scope.filterPatientNameInput) {
             var patientName = patient.firstName + patient.lastName;
-            return patientName.toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0;
+            return patientName.toLowerCase().indexOf($scope.filterPatientNameInput.toLowerCase()) >= 0
         } else {
             return false;
         }

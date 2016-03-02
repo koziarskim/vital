@@ -2,6 +2,7 @@ mainApp.service('PatientService', function () {
     var patients = [
         {
             id: "P001",
+            accountNum: "P001",
             firstName: 'Andrzej',
             lastName: 'Duda',
             dob: new Date('2015-11-03T06:00:00.000Z'),
@@ -278,6 +279,7 @@ mainApp.service('PatientService', function () {
         },
         {
             id: "P002",
+            accountNum: "P002",
             firstName: 'Beata',
             lastName: 'Szydlo',
             dob: new Date('2015-11-03T06:00:07.000Z'),
@@ -391,6 +393,7 @@ mainApp.service('PatientService', function () {
         },
         {
             id: "P003",
+            accountNum: "P003",
             firstName: 'Joe',
             lastName: 'Smith',
             dob: new Date('2005-11-03T06:00:10.000Z'),
