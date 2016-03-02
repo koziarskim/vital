@@ -1,15 +1,17 @@
 mainApp.controller('NoteController', function ($scope, $location, $routeParams, $window, CaseService, NoteService, PatientService, ProfileService, LocationService) {
-    if ($routeParams.patientId == null) {
-        console.log("PatientId is null");
-    }
-    if ($routeParams.noteId == null) {
-        console.log("NoteId is null");
-    }
-    $scope.patientId = $routeParams.patientId;
     $scope.noteId = $routeParams.noteId;
-    $scope.caseId = $routeParams.caseId;
-    $scope.lastNote = null;
     $scope.note = NoteService.getNote($scope.noteId);
+    $scope.caseId = $routeParams.caseId;
+    if(!$scope.caseId){
+        $scope.caseId = $scope.note.caseId;
+    }
+    $scope.patientCase = CaseService.getPatientCase($scope.caseId);
+    $scope.patientId = $routeParams.patientId;
+    if(!$scope.patientId){
+        $scope.patientId = $scope.patientCase.patientId;
+    }
+    $scope.patient = PatientService.getPatient($scope.patientCase.patientId);
+    $scope.lastNote = null;
     if (!$scope.note) {
         $scope.lastNote = NoteService.getLastNote($scope.caseId);
         if ($scope.lastNote) {
@@ -30,8 +32,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
     $scope.availableLocations = LocationService.getAvailableLocation();
-    $scope.patientCase = CaseService.getPatientCase($scope.caseId);
-    $scope.patient = PatientService.getPatient($scope.patientCase.patientId);
+
 
     $scope.toggleAuthAlert = function () {
         if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {

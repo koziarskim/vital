@@ -12,7 +12,7 @@
             <label class="control-label" for="firstName">First Name:</label>
         </div>
         <div class="col-sm-7">
-            <input ng-readonly="!isNew" type="text" class="form-control" id="firstName" placeholder="Enter First Name" ng-model="patient.firstName">
+            <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" ng-model="patient.firstName">
         </div>
     </div>
     <div class="row">
@@ -20,7 +20,7 @@
             <label class="control-label" for="lastName">Last Name:</label>
         </div>
         <div class="col-sm-7">
-            <input ng-readonly="!isNew" type="text" class="form-control" id="lastName" placeholder="Enter Last Name" ng-model="patient.lastName">
+            <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" ng-model="patient.lastName">
         </div>
     </div>
     <div class="row">
@@ -28,7 +28,7 @@
             <label class="control-label" for="dob">DOB:</label>
         </div>
         <div class="col-sm-2">
-            <input ng-readonly="!isNew" type="date" class="form-control" id="dob" placeholder="Enter Date of Birth" ng-model="patient.dob">
+            <input type="date" class="form-control" id="dob" placeholder="Enter Date of Birth" ng-model="patient.dob">
         </div>
     </div>
     <div class="row">
@@ -36,7 +36,7 @@
             <label class="control-label" for="gender">Gender:</label>
         </div>
         <div class="col-sm-2">
-            <select ng-readonly="!isNew" id="gender" class="form-control" ng-model="patient.gender">
+            <select id="gender" class="form-control" ng-model="patient.gender">
                 <option></option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -46,7 +46,7 @@
             <label class="control-label" for="dob">Patient Account #:</label>
         </div>
         <div class="col-sm-2">
-            <input ng-readonly="!isNew" type="text" class="form-control" ng-model="patient.accountNum">
+            <input type="text" class="form-control" ng-model="patient.accountNum">
         </div>
     </div>
     <br/>

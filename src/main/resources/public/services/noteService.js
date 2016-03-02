@@ -250,6 +250,64 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
         }
     ];
 
+    this.getReportItems = function (dateFrom, dateTo, locationId, patientId, caseId) {
+        var reportItems = [];
+        if (caseId) {
+            //$scope.caseItems = CaseService.getAll
+        } else if (patientId) {
+            var patient = PatientService.getPatient(patientId);
+            var patientCases = CaseService.getAllPatientCases(patientId);
+            patientCases.forEach(function (patientCase, index) {
+                var caseNotes = getNotesForCase(patientCase.id);
+                caseNotes.forEach(function (note, index){
+                    if ((note.date > dateFrom || dateFrom == null) && (note.date < dateTo || dateTo == null)) {
+                        var reportItem = {};
+                        reportItem.noteId = note.id;
+                        reportItem.noteDate = note.date;
+                        reportItem.caseId = patientCase.id;
+                        reportItem.caseNum = patientCase.num;
+                        reportItem.patientId = patient.id;
+                        reportItem.patientName = patient.firstName + ", " + patient.lastName;
+                        reportItems.push(reportItem);
+                    }
+                });
+
+            });
+        } else if (locationId) {
+            var notes = this.getNotesForLocation(locationId);
+            notes.forEach(function (note, index){
+                var patientCase = CaseService.getPatientCase(note.caseId);
+                var patient = PatientService.getPatient(patientCase.patientId);
+                if ((note.date > dateFrom || dateFrom == null) && (note.date < dateTo || dateTo == null)) {
+                    var reportItem = {};
+                    reportItem.noteId = note.id;
+                    reportItem.noteDate = note.date;
+                    reportItem.caseId = patientCase.id;
+                    reportItem.caseNum = patientCase.num;
+                    reportItem.patientId = patient.id;
+                    reportItem.patientName = patient.firstName + ", " + patient.lastName;
+                    reportItems.push(reportItem);
+                }
+            })
+
+        }
+        return reportItems;
+    };
+
+    this.getNotesForLocation = function (locationId) {
+        return allNotes;
+    };
+
+    getNotesForCase = function (caseId) {
+        var notes = [];
+        allNotes.forEach(function (note, index) {
+            if (note.caseId == caseId) {
+                notes.push(angular.copy(note));
+            }
+        });
+        return notes;
+    };
+
     this.getNotesForCase = function (caseId) {
         var notes = [];
         allNotes.forEach(function (note, index) {
@@ -258,11 +316,11 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             }
         });
         return notes;
-    }
+    };
 
     this.saveNote = function (caseId, note) {
         if (note.id == null) {
-            note.id = "C00"+allNotes.length + 1;
+            note.id = "C00" + allNotes.length + 1;
             note.caseId = caseId;
             allNotes.push(angular.copy(note));
         } else {
@@ -386,7 +444,7 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
     this.getLastNote = function (caseId) {
         var note = null;
         var notes = this.getNotesForCase(caseId);
-        if(notes){
+        if (notes) {
             note = notes[notes.length - 1];
         }
         return note;

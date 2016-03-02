@@ -9,7 +9,12 @@
             <div>Date:</div>
         </div>
         <div class="col-sm-6 form-inline">
-            From: <input class="form-control" ng-model="dateFrom" type="date"/> To: <input class="form-control" ng-model="dateTo" type="date"/>
+            <div class="form-inline">
+                <label class="control-label">From: </label>
+                <input class="form-control" style="width:180px" ng-model="dateRange.from" type="date"/>
+                <label class="control-label">To: </label>
+                <input class="form-control" ng-model="dateRange.to" type="date"/>
+            </div>
         </div>
     </div>
     <br/>
@@ -37,10 +42,33 @@
             <div>Case:</div>
         </div>
         <div class="col-sm-4 form-inline">
-            <mk-dropdown ng-select="setCaseItems()" item='caseItem' items='caseItems' item-label='name' item-id="id" placeholder="All Cases"></mk-dropdown>
+            <mk-dropdown item='caseItem' items='caseItems' item-label='name' item-id="id" placeholder="All Cases"></mk-dropdown>
         </div>
     </div>
     <br/>
-    <a href="reports/sample_01.xlsx" target="_self" class="btn btn-primary btn-primary btn-sm" role="button">Download Report</a>
+    <button type="submit" class="btn btn-primary btn-sm" ng-click="viewReport()">View</button>
     <button type="submit" class="btn btn-primary btn-sm" ng-click="cancelReport()">Cancel</button>
+    <a href="reports/sample_01.xlsx" target="_self" class="btn btn-primary btn-primary btn-sm" role="button">Download Report</a>
+    <br/>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Note Date</th>
+            <th>Patient</th>
+            <th>Case #</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in reportItems">
+            <td>{{ item.noteDate | date: "MM-dd-yyyy"}}</td>
+            <td>{{ item.patientName }}</td>
+            <td>{{ item.caseNum }}</td>
+            <td>
+                <button ng-click="editNote(note.id)" class="btn btn-primary btn-sm">edit</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 </div>

@@ -20,6 +20,10 @@ mainApp.config(function ($routeProvider) {
             templateUrl: 'note.html',
             controller: 'NoteController'
         })
+        .when('/notes/:noteId', {
+            templateUrl: 'note.html',
+            controller: 'NoteController'
+        })
         .when('/cases/:caseId/notes', {
             templateUrl: 'notes.html',
             controller: 'NotesController'
