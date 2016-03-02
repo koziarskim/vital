@@ -2,6 +2,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.caseId = $routeParams.caseId;
     $scope.case = CaseService.getPatientCase($scope.caseId);
     $scope.patientId = $routeParams.patientId;
+    $scope.isNew = $scope.patientId=="new";
     if(!$scope.patientId && $scope.case && $scope.case.patient){
         $scope.patientId = $scope.case.patient.id
     }
@@ -38,4 +39,9 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.cancelCase = function () {
         $location.path("search/");
     };
+
+    $scope.createNote = function () {
+        $scope.saveCase(true);
+        $location.path("cases/" + $scope.case.id + "/notes/new");
+    }
 });

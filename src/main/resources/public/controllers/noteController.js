@@ -198,7 +198,11 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             }
         }
         NoteService.saveNote($scope.caseId, $scope.note);
-        $window.history.back();
+        if($scope.noteId=="new"){
+            $location.path("/search")
+        }else {
+            $window.history.back();
+        }
     };
 
     $scope.cancelNote = function () {

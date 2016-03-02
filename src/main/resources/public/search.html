@@ -18,7 +18,7 @@
             <input class="form-control" id="searchPatientInput" type="text" ng-model="filterPatientNameInput"
                    placeholder="Search First or Last Name"/>
             <div style="position: fixed; background-color:white;">
-                <a href ng-show="filterPatientNameInput && filtered.length==0" ng-click="addNewCase()">Not Found (Add new patient)</a>
+                <a href ng-show="filterPatientNameInput && filtered.length==0" ng-click="goNewPatient()">Not Found (Add new patient)</a>
                 <div ng-repeat="patient in filtered = (allPatients | filter:filterOnPatient)">
                     <a href ng-click="patientSelectedAction(patient)">{{patient.firstName}} {{patient.lastName}}
                         ({{patient.dob | date: "MM-dd-yyyy"}}) - {{patient.accountNum}}</a>
