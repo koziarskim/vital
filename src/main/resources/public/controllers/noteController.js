@@ -26,12 +26,13 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     }
     $scope.initNote = null;
     $scope.visibleTxAreaName = null;
-    $scope.patient = PatientService.getPatient($scope.patientId);
     $scope.vitalSignsShow = false;
     $scope.showNote = false;
     $scope.selectedTxAreaName = null;
     $scope.availableLocations = LocationService.getAvailableLocation();
-    $scope.patientCase = CaseService.getPatientCase($scope.patientId, $scope.caseId);
+    $scope.patientCase = CaseService.getPatientCase($scope.caseId);
+    $scope.patient = PatientService.getPatient($scope.patientCase.patientId);
+
     $scope.toggleAuthAlert = function () {
         if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
             alert("Patient doesn't have any more authorized visits!" +
