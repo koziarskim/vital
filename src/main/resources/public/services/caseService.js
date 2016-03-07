@@ -10,7 +10,7 @@ mainApp.service('CaseService', function (PatientService) {
                 {name: "Lower back"}
             ],
             discipline: "PT",
-            status: "ACT",
+            discharged: false,
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
         {
@@ -22,7 +22,7 @@ mainApp.service('CaseService', function (PatientService) {
                 {name: "Lower back"}
             ],
             discipline: "PT",
-            status: "ACT",
+            discharged: false,
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
         {
@@ -34,7 +34,7 @@ mainApp.service('CaseService', function (PatientService) {
                 {name: "Lower back"}
             ],
             discipline: "OT",
-            status: "ACT",
+            discharged: true,
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
         {
@@ -46,7 +46,7 @@ mainApp.service('CaseService', function (PatientService) {
                 {name: "Lower back"}
             ],
             discipline: "PT",
-            status: "ACT",
+            discharged: false,
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
         {
@@ -58,7 +58,7 @@ mainApp.service('CaseService', function (PatientService) {
                 {name: "Lower back"}
             ],
             discipline: "PT",
-            status: "CSD",
+            discharged: false,
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         },
         {
@@ -70,7 +70,7 @@ mainApp.service('CaseService', function (PatientService) {
                 {name: "Lower back"}
             ],
             discipline: "ST",
-            status: "CSD",
+            discharged: false,
             evalDate: new Date('2005-11-03T06:00:10.000Z')
         }
     ];

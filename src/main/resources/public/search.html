@@ -33,7 +33,7 @@
         </div>
         <div class="col-sm-3">
             <label class="control-label">Case Status: </label>
-            <label class="checkbox-inline"><input type="checkbox" ng-model="showActiveOnly">Active only</label>
+            <label class="checkbox-inline"><input type="checkbox" ng-model="includeDischarged">Include Discharged</label>
         </div>
     </div>
     <br/><br/>
@@ -52,7 +52,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="case in myCases">
+            <tr ng-repeat="case in myCases | filter:filterOnCases">
                 <td>{{ case.patient.firstName}}</td>
                 <td>{{case.patient.lastName}}</td>
                 <td>{{case.num}}</td>

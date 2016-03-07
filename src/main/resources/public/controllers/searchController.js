@@ -2,6 +2,7 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.allPatients = PatientService.getAllPatients()
     $scope.myCases = null;
     $scope.selectedPatientId = null;
+    $scope.includeDischarged = false;
     if ($window.sessionStorage.selectedPatientId) {
         $scope.selectedPatientId = JSON.parse($window.sessionStorage.selectedPatientId);
         $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
@@ -39,6 +40,15 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
             return false;
         }
     };
+
+    $scope.filterOnCases = function (patientCase) {
+        if($scope.includeDischarged){
+            return true;
+        }else{
+            return !patientCase.discharged;
+        }
+    };
+
     $scope.savePatient = function (patient) {
         var savedPatient = PatientService.savePatient(patient);
         $location.path("/patients/" + savedPatient.id);
