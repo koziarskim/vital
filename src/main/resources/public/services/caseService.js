@@ -125,5 +125,13 @@ mainApp.service('CaseService', function (PatientService) {
         });
         return patientCases;
     };
+
+    this.deleteCase = function (caseId) {
+        allCases.forEach(function (patientCase, index) {
+            if (patientCase.id == caseId) {
+                allCases.splice(index, 1);
+            }
+        });
+    }
 })
 ;

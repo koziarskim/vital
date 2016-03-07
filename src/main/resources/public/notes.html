@@ -23,12 +23,13 @@
             <td>{{ notes.length-$index }}</td>
             <td>{{ note.date | date: "MM-dd-yyyy"}}</td>
             <td>
-                <button ng-click="editNote(note.id)" class="btn btn-primary btn-sm">edit</button>
+                <button ng-click="editNote(note.id)" class="btn btn-primary btn-sm">Edit</button>
+                <button ng-click="deleteNote(note.id)" class="btn btn-primary btn-sm">Delete</button>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <button type="submit" class="btn btn-primary btn-sm" ng-click="cancelNotes()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-sm" ng-click="cancelNotes()">Back</button>
 
 </div>

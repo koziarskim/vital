@@ -334,11 +334,10 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
         }
         return note.id;
     }
-    this.deleteNote = function (patientId, id) {
-        var patient = PatientService.getPatient(patientId);
-        patient.notes.forEach(function (result, index) {
-            if (result['id'] == id) {
-                patient.notes.splice(index, 1);
+    this.deleteNote = function (noteId) {
+        allNotes.forEach(function (note, index) {
+            if (note.id == noteId) {
+                allNotes.splice(index, 1);
             }
         });
     }

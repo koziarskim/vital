@@ -31,7 +31,6 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
         $scope.filterPatientNameInput = null;
     }
 
-
     $scope.filterOnPatient = function (patient) {
         if ($scope.filterPatientNameInput) {
             var patientName = patient.firstName + patient.lastName;
@@ -58,6 +57,16 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.closeCase = function (caseId) {
         //TODO: Set case inactive.
         //CaseService.closeCase(caseId);
+    }
+    $scope.deleteCase = function (caseId) {
+        var notes = NoteService.getNotesForCase(caseId);
+        if(notes && notes.length>0){
+            alert("Case case existing notes, please delete all notes before deleting case");
+            return;
+        }
+        CaseService.deleteCase(caseId);
+        $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
+
     }
     $scope.viewAllNotes = function (caseId) {
         $location.path("cases/" + caseId + "/notes");

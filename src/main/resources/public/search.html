@@ -3,7 +3,6 @@
     <div class="row">
         <nav class="navbar navbar-default">
             <ul class="nav navbar-nav">
-                <li><a href="" ng-click="goNewPatient()">New Patient</a></li>
                 <li><a href="" ng-click="goReport()">Reports</a></li>
                 <li><a href="" ng-click="goProfile()">Therapist Profile</a></li>
                 <li><a href="" ng-click="logOut()">Logout</a></li>
@@ -66,6 +65,7 @@
                     <button class="btn btn-primary btn-sm" ng-click="editCase(case.id)">Edit Patient</button>
                     <button class="btn btn-primary btn-sm" ng-click="viewAllNotes(case.id)">View All Notes</button>
                     <button class="btn btn-primary btn-sm" ng-click="closeCase(case.id)">Discharge</button>
+                    <button class="btn btn-primary btn-sm" ng-click="deleteCase(case.id)">Delete Case</button>
                 </td>
             </tr>
             </tbody>
