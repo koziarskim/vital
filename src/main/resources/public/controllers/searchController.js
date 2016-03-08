@@ -2,15 +2,18 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.allPatients = PatientService.getAllPatients()
     $scope.myCases = null;
     $scope.selectedPatientId = null;
-    $scope.includeDischarged = false;
-    if($window.sessionStorage.includeDischarged){
-        $scope.includeDischarged = JSON.parse($window.sessionStorage.includeDischarged);
-    }
 
-    $scope.$watch("includeDischarged", function(newValue, oldValue) {
+    $scope.includeDischarged = $window.sessionStorage.includeDischarged?JSON.parse($window.sessionStorage.includeDischarged):false;;
+    $scope.showPT = $window.sessionStorage.showPT?JSON.parse($window.sessionStorage.showPT):$rootScope.profile.discipline=="PT";
+    $scope.showOT = $window.sessionStorage.showOT?JSON.parse($window.sessionStorage.showOT):$rootScope.profile.discipline=="OT";
+    $scope.showST = $window.sessionStorage.showST?JSON.parse($window.sessionStorage.showST):$rootScope.profile.discipline=="ST";
+
+    $scope.$watchCollection("[includeDischarged,showPT,showOT,showST]", function(newValues, oldValues) {
         $window.sessionStorage.includeDischarged = JSON.stringify($scope.includeDischarged);
+        $window.sessionStorage.showPT = JSON.stringify($scope.showPT);
+        $window.sessionStorage.showOT = JSON.stringify($scope.showOT);
+        $window.sessionStorage.showST = JSON.stringify($scope.showST);
     });
-
     if ($window.sessionStorage.selectedPatientId) {
         $scope.selectedPatientId = JSON.parse($window.sessionStorage.selectedPatientId);
         $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
@@ -35,9 +38,25 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
 
     $scope.filterOnCases = function (patientCase) {
         if($scope.includeDischarged){
-            return true;
-        }else{
-            return !patientCase.discharged;
+            if($scope.showPT && patientCase.discipline == "PT"){
+                return true;
+            }
+            if($scope.showOT && patientCase.discipline == "OT"){
+                return true;
+            }
+            if($scope.showST && patientCase.discipline == "ST"){
+                return true;
+            }
+        }else if(!patientCase.discharged){
+            if($scope.showPT && patientCase.discipline == "PT"){
+                return true;
+            }
+            if($scope.showOT && patientCase.discipline == "OT"){
+                return true;
+            }
+            if($scope.showST && patientCase.discipline == "ST"){
+                return true;
+            }
         }
     };
 

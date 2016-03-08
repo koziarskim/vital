@@ -6,7 +6,7 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     if(!$scope.patientId && $scope.case && $scope.case.patient){
         $scope.patientId = $scope.case.patient.id
     }
-    $scope.patientCase = CaseService.getPatientCase($scope.patientId, $scope.caseId);
+    $scope.patientCase = CaseService.getPatientCase($scope.caseId);
     $scope.patient = PatientService.getPatient($scope.patientId);
     $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
 
@@ -27,10 +27,12 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
     $scope.saveCase = function (skipRedirect) {
         if (!$scope.patientCase) {
             $scope.patientCase = {};
+            $scope.patientCase.patientId = $scope.patientId;
         }
-        $scope.patientCase.patientId = $scope.patientId;
         var patientId = PatientService.savePatient($scope.patient);
-        $scope.case.patientId = patientId;
+        if(!$scope.case.patientId) {
+            $scope.case.patientId = patientId;
+        }
         CaseService.savePatientCase($scope.case);
         if(!skipRedirect) {
             $window.history.back();
