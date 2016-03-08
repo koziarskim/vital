@@ -32,8 +32,9 @@ mainApp.controller('CaseController', function ($scope, $rootScope, $location, $r
             $scope.patientCase.patientId = patientId;
         }
         CaseService.savePatientCase($scope.patientCase);
+        $window.sessionStorage.selectedPatientId = JSON.stringify(patientId);
         if(!skipRedirect) {
-            $window.history.back();
+            $location.path("/search");
         }
     };
     $scope.cancelCase = function () {
