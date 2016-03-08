@@ -3,28 +3,20 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.myCases = null;
     $scope.selectedPatientId = null;
     $scope.includeDischarged = false;
+    if($window.sessionStorage.includeDischarged){
+        $scope.includeDischarged = JSON.parse($window.sessionStorage.includeDischarged);
+    }
+
+    $scope.$watch("includeDischarged", function(newValue, oldValue) {
+        $window.sessionStorage.includeDischarged = JSON.stringify($scope.includeDischarged);
+    });
+
     if ($window.sessionStorage.selectedPatientId) {
         $scope.selectedPatientId = JSON.parse($window.sessionStorage.selectedPatientId);
         $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
     }
     $scope.filterPatientNameInput = null;
-
     $scope.patientCount = 0;
-
-    $scope.goNewPatient = function () {
-        $location.path("/cases/new/patient/new");
-    }
-    $scope.goReport = function () {
-        $location.path("/report");
-    }
-    $scope.logOut = function () {
-        $window.sessionStorage.clear()
-        $rootScope.profile = null;
-        $location.path("/");
-    }
-    $scope.goProfile = function () {
-        $location.path("/profiles/" + $rootScope.profile.id);
-    }
     $scope.patientSelectedAction = function (patient) {
         $scope.selectedPatientId = patient.id;
         $scope.myCases = CaseService.getAllPatientCases(patient.id);
@@ -64,9 +56,9 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.createTodayNote = function (caseId) {
         $location.path("cases/" + caseId + "/notes/new");
     }
-    $scope.closeCase = function (caseId) {
-        //TODO: Set case inactive.
-        //CaseService.closeCase(caseId);
+    $scope.dischargeCase = function (caseId) {
+        CaseService.dischargeCase(caseId);
+        $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
     }
     $scope.deleteCase = function (caseId) {
         var notes = NoteService.getNotesForCase(caseId);

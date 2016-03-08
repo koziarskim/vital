@@ -7,5 +7,18 @@ mainApp.controller('IndexController', function ($scope, $window, $rootScope, $lo
     if($window.sessionStorage.userContext) {
         $rootScope.profile = JSON.parse($window.sessionStorage.userContext)
     }
-
+    $scope.goSearch = function () {
+        $location.path("/search");
+    }
+    $scope.goReport = function () {
+        $location.path("/report");
+    }
+    $scope.logOut = function () {
+        $window.sessionStorage.clear()
+        $rootScope.profile = null;
+        $location.path("/");
+    }
+    $scope.goProfile = function () {
+        $location.path("/profiles/" + $rootScope.profile.id);
+    }
 });

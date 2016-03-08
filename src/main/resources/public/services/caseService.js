@@ -133,5 +133,11 @@ mainApp.service('CaseService', function (PatientService) {
             }
         });
     }
+
+    this.dischargeCase = function (caseId) {
+        var patientCase = this.getPatientCase(caseId);
+        patientCase.discharged = true;
+        this.savePatientCase(patientCase);
+    }
 })
 ;

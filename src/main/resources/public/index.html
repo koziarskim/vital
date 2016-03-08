@@ -32,13 +32,18 @@
 <body>
 <div ng-app="mainApp" ng-controller="IndexController" class="container">
     <br/>
-
-    <div ng-if="profile.uid">
-        <div class="row">
-            <div class="pull-right">
+    <div class="row" ng-if="profile.uid">
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+                <li><a href="" ng-click="goSearch()">Patient Search</a></li>
+                <li><a href="" ng-click="goReport()">Reports</a></li>
+                <li><a href="" ng-click="goProfile()">Therapist Profile</a></li>
+                <li><a href="" ng-click="logOut()">Logout</a></li>
+            </ul>
+            <div class="pull-right" style="padding-top: 15px; padding-right: 35px">
                 <div><a href="" ng-click="editProfile(profile.uid)">{{profile.uid}}</a>{{profile.uid?"@":""}}Vital Rehabilitation</div>
             </div>
-        </div>
+        </nav>
     </div>
     <div>
         <ng-view></ng-view>
