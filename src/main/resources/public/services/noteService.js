@@ -16,145 +16,7 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             plan: {
                 commentsOne: "comments one...",
                 commentsTwo: "comments two..."
-            },
-            txAreas: [
-                {
-                    name: "Back",
-                    wc: {
-                        normalPaceExFlag: false,
-                        normalPaceExReson: null,
-                        slowPaceExFlag: true,
-                        slowPaceExReason: "very tired",
-                        breaksFlag: true,
-                        breaksMinutes: 12,
-                        breaksReason: "tired as hell",
-                        unableWorkFlag: false,
-                        unableWorkReason: null,
-                        stoppedWorkFlag: false,
-                        stoppedWorkMinutes: 11,
-                        stoppedWorkReason: null,
-                        performanceComments: "Overall is doing OK",
-                        observations: [
-                            {
-                                name: "Motivation",
-                                scaleCode: "POOR",
-                                comments: "doing very poor"
-                            },
-                            {
-                                name: "Consistency",
-                                scaleCode: "GOOD",
-                                comments: "doing good"
-                            }
-                        ]
-                    },
-                    modalities: [{
-                        id: "001",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }, {
-                        id: "002",
-                        code: "ELS",
-                        name: "EL. Stim v",
-                        time: 4,
-                        comments: "Repeat every monday"
-                    }],
-                    procedures: [{
-                        id: "001",
-                        code: "TXE",
-                        name: "Stat. bike",
-                        sets: 12,
-                        reps: 2,
-                        time: 15,
-                        weight: 150,
-                        comments: "Stretch"
-                    }, {
-                        id: "002",
-                        code: "WC2",
-                        name: "Knee Extens.",
-                        sets: 12,
-                        reps: 2,
-                        time: 15,
-                        weight: 150,
-                        comments: "Stretch"
-                    },
-                        {
-                            id: "003",
-                            code: "WCA",
-                            name: "SLR",
-                            sets: 12,
-                            reps: 2,
-                            time: 15,
-                            weight: 150,
-                            comments: "Stretch"
-                        }],
-                    motions: [{
-                        id: "001",
-                        code: "RMT",
-                        name: "Flexion",
-                        arom: "text here...",
-                        prom: "text here...",
-                        mmt: "text here...",
-                        promn: "text here...",
-                        aromn: "text here..."
-                    }, {
-                        id: "002",
-                        code: "Extension",
-                        name: "EL. Stim v",
-                        arom: "text here...",
-                        prom: "text here...",
-                        mmt: "text here...",
-                        promn: "text here...",
-                        aromn: "text here..."
-                    }]
-                },
-                {
-                    name: "Up",
-                    wc: {
-                        normalPaceExFlag: false,
-                        normalPaceExReson: null,
-                        slowPaceExFlag: true,
-                        slowPaceExReason: "very tired aa",
-                        breaksFlag: true,
-                        breaksMinutes: 12,
-                        breaksReason: "tired as hell",
-                        unableWorkFlag: false,
-                        unableWorkReason: null,
-                        stoppedWorkFlag: false,
-                        stoppedWorkMinutes: 11,
-                        stoppedWorkReason: null,
-                        performanceComments: "Overall is doing OK",
-                        observations: [
-                            {
-                                name: "Follow Direction",
-                                scaleCode: "GOOD",
-                                comments: "doing very good"
-                            },
-                            {
-                                name: "Cooperation",
-                                scaleCode: "FAIR",
-                                comments: "doing ok"
-                            }
-                        ]
-                    },
-                    modalities: [{
-                        id: "003",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }, {
-                        id: "004",
-                        code: "ELS",
-                        name: "EL. Stim v",
-                        time: 4,
-                        comments: "Repeat every monday"
-                    }],
-                    procedures: [],
-                    motions: []
-                }
-            ]
+            }
         },
         {
             id: "V002",
@@ -184,27 +46,7 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
                 bpl: 120,
                 hr: 60,
                 resp: 40
-            },
-            txAreas: [
-                {
-                    name: "Leg",
-                    modalities: [{
-                        id: "005",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }, {
-                        id: "006",
-                        code: "ELS",
-                        name: "EL. Stim v",
-                        time: 4,
-                        comments: "Repeat every monday"
-                    }],
-                    procedures: [],
-                    motions: []
-                }
-            ]
+            }
         },
         {
             id: "V003",
@@ -213,8 +55,7 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             date: new Date('2015-10-03T06:00:05.000Z'),
             pain: {area: "Back", scale: 0},
             visitLocation: {id: "001", title: "Chicago-Portage Park"},
-            patientMedicalId: "PM001",
-            txAreas: []
+            patientMedicalId: "PM001"
         },
         {
             id: "V004",
@@ -232,21 +73,7 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             plan: {
                 commentsOne: "comments one...",
                 commentsTwo: "comments two..."
-            },
-            txAreas: [
-                {
-                    name: "Leg",
-                    modalities: [{
-                        id: "005",
-                        code: "USA",
-                        name: "US",
-                        time: 12,
-                        comments: "Stretch"
-                    }],
-                    procedures: [],
-                    motions: []
-                }
-            ]
+            }
         }
     ];
 
@@ -320,7 +147,7 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
 
     this.saveNote = function (caseId, note) {
         if (note.id == null) {
-            note.id = "C00" + allNotes.length + 1;
+            note.id = "C00" + (+allNotes.length + 1);
             note.caseId = caseId;
             allNotes.push(angular.copy(note));
         } else {

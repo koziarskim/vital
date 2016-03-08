@@ -446,7 +446,7 @@ mainApp.service('PatientService', function () {
     this.savePatient = function (patient) {
         if (patient != null) {
             if (patient.id == null) {
-                patient.id = "P00"+patients.length + 1;
+                patient.id = "P00"+ (+patients.length + 1);
                 patients.push(patient);
             } else {
                 patients.forEach(function (it, index) {

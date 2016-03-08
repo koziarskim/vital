@@ -97,7 +97,7 @@ mainApp.service('CaseService', function (PatientService) {
 
     this.savePatientCase = function (patientCase) {
         if (patientCase.id == null) {
-            patientCase.id = "C00"+allCases.length + 1;
+            patientCase.id = "C00" + (+allCases.length + 1);
             if(patientCase.num == null){
                 patientCase.num = patientCase.id;
             }
