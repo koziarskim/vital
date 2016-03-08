@@ -7,6 +7,11 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.showPT = $window.sessionStorage.showPT?JSON.parse($window.sessionStorage.showPT):$rootScope.profile.discipline=="PT";
     $scope.showOT = $window.sessionStorage.showOT?JSON.parse($window.sessionStorage.showOT):$rootScope.profile.discipline=="OT";
     $scope.showST = $window.sessionStorage.showST?JSON.parse($window.sessionStorage.showST):$rootScope.profile.discipline=="ST";
+    if($rootScope.profile.isAdmin){
+        $scope.showPT = true;
+        $scope.showOT = true;
+        $scope.showST = true;
+    }
 
     $scope.$watchCollection("[includeDischarged,showPT,showOT,showST]", function(newValues, oldValues) {
         $window.sessionStorage.includeDischarged = JSON.stringify($scope.includeDischarged);

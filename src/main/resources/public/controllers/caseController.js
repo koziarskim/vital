@@ -1,18 +1,19 @@
 mainApp.controller('CaseController', function ($scope, $location, $routeParams, $window, CaseService, NoteService, PatientService) {
     $scope.caseId = $routeParams.caseId;
-    $scope.case = CaseService.getPatientCase($scope.caseId);
     $scope.patientId = $routeParams.patientId;
-    $scope.isNew = $scope.patientId=="new";
-    if(!$scope.patientId && $scope.case && $scope.case.patient){
-        $scope.patientId = $scope.case.patient.id
-    }
     $scope.patientCase = CaseService.getPatientCase($scope.caseId);
+    if(!$scope.patientCase){
+        $scope.patientCase = {};
+    }
+    $scope.isNew = $scope.patientId=="new";
+    if(!$scope.patientId && $scope.patientCase && $scope.patientCase.patient){
+        $scope.patientId = $scope.patientCase.patient.id
+    }
+
     $scope.patient = PatientService.getPatient($scope.patientId);
     $scope.availableInsuranceTypes = ["BCBS", "Aetna", "MyInsurance"];
 
-    if(!$scope.case){
-        $scope.case = {};
-    }
+
     $scope.dateRange = {
         from: null,
         to: null
@@ -25,15 +26,11 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
         }
     };
     $scope.saveCase = function (skipRedirect) {
-        if (!$scope.patientCase) {
-            $scope.patientCase = {};
-            $scope.patientCase.patientId = $scope.patientId;
-        }
         var patientId = PatientService.savePatient($scope.patient);
-        if(!$scope.case.patientId) {
-            $scope.case.patientId = patientId;
+        if(!$scope.patientCase.patientId) {
+            $scope.patientCase.patientId = patientId;
         }
-        CaseService.savePatientCase($scope.case);
+        CaseService.savePatientCase($scope.patientCase);
         if(!skipRedirect) {
             $window.history.back();
         }
@@ -44,6 +41,6 @@ mainApp.controller('CaseController', function ($scope, $location, $routeParams, 
 
     $scope.createNote = function () {
         $scope.saveCase(true);
-        $location.path("cases/" + $scope.case.id + "/notes/new");
+        $location.path("cases/" + $scope.patientCase.id + "/notes/new");
     }
 });

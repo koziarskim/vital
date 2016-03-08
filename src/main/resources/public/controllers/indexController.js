@@ -19,6 +19,6 @@ mainApp.controller('IndexController', function ($scope, $window, $rootScope, $lo
         $location.path("/");
     }
     $scope.goProfile = function () {
-        $location.path("/profiles/" + $rootScope.profile.id);
+        $location.path("/profiles/" + $rootScope.profile.uid);
     }
 });

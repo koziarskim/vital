@@ -1,5 +1,5 @@
 mainApp.service('ProfileService', function () {
-    var profiles = [
+    var allProfiles = [
         {
             id: "P001",
             firstName: "Tom",
@@ -7,10 +7,7 @@ mainApp.service('ProfileService', function () {
             uid: "tom",
             credentials: "PT, DPT, CFCE",
             password: "1234",
-            roles: {
-                admin: true,
-                billing: true
-            },
+            isAdmin: true,
             discipline: "PT"
         },
         {
@@ -20,11 +17,8 @@ mainApp.service('ProfileService', function () {
             uid: "marcin",
             credentials: "Developer",
             password: "1234",
-            roles: {
-                admin: true,
-                billing: true
-            },
-            discipline: "OT"
+            isAdmin: false,
+            discipline: "PT"
         },
         {
             id: "P003",
@@ -33,11 +27,8 @@ mainApp.service('ProfileService', function () {
             uid: "joe",
             credentials: "PT",
             password: "1234",
-            roles: {
-                admin: false,
-                billing: true
-            },
-            discipline: "ST"
+            isAdmin: false,
+            discipline: "OT"
         },
         {
             id: "P004",
@@ -46,35 +37,32 @@ mainApp.service('ProfileService', function () {
             uid: "greg",
             credentials: "PT",
             password: "1234",
-            roles: {
-                admin: false,
-                billing: false
-            },
-            discipline: "PT"
+            isAdmin: false,
+            discipline: "ST"
         }
     ]
     this.getAllProfiles = function () {
-        return profiles;
+        return allProfiles;
     }
     this.saveProfile = function (profile) {
         if (profile == null) {
             return;
         }
         var newProfile = true;
-        profiles.forEach(function (it, index) {
+        allProfiles.forEach(function (it, index) {
             if (it.uid == profile.uid) {
-                profiles[index] = profile;
+                allProfiles[index] = profile;
                 newProfile = false;
             }
         });
         if (newProfile) {
-            profiles.push(profile);
+            allProfiles.push(profile);
         }
         return profile;
     }
     this.getProfile = function (uid) {
         var profile = null;
-        profiles.forEach(function (it, index) {
+        allProfiles.forEach(function (it, index) {
             if (it.uid == uid) {
                 profile = it;
             }

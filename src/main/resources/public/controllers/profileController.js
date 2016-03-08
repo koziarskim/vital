@@ -3,6 +3,7 @@ mainApp.controller('ProfileController', function ($scope, $location, $routeParam
     $scope.changePassword = false;
     $scope.verifyPassword = null;
     $scope.profile = ProfileService.getProfile($scope.uid);
+
     $scope.saveProfile = function (profile) {
         if ($scope.changePassword) {
             if (profile.password != $scope.verifyPassword) {
@@ -13,6 +14,7 @@ mainApp.controller('ProfileController', function ($scope, $location, $routeParam
         ProfileService.saveProfile(profile);
         $location.path("search/");
     }
+
     $scope.cancelProfile = function () {
         $location.path("/search");
     };
