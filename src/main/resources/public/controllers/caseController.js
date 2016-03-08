@@ -1,9 +1,10 @@
-mainApp.controller('CaseController', function ($scope, $location, $routeParams, $window, CaseService, NoteService, PatientService) {
+mainApp.controller('CaseController', function ($scope, $rootScope, $location, $routeParams, $window, CaseService, NoteService, PatientService) {
     $scope.caseId = $routeParams.caseId;
     $scope.patientId = $routeParams.patientId;
     $scope.patientCase = CaseService.getPatientCase($scope.caseId);
     if(!$scope.patientCase){
         $scope.patientCase = {};
+        $scope.patientCase.discipline=$rootScope.profile.discipline;
     }
     $scope.isNew = $scope.patientId=="new";
     if(!$scope.patientId && $scope.patientCase && $scope.patientCase.patient){

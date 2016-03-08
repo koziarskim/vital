@@ -101,4 +101,8 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
     $scope.addNewCase = function (patientId) {
         $location.path("/cases/new/patient/"+$scope.selectedPatientId);
     }
+
+    $scope.goNewPatient = function () {
+        $location.path("/cases/new/patient/new");
+    }
 });
