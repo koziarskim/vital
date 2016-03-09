@@ -5,9 +5,26 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             caseId: "C001",
             billable: true,
             date: new Date('2010-10-03T06:00:03.000Z'),
-            pain: {area: "Back", scale: 2},
+            pain: {
+                area: {id: "001", title: "Back"},
+                scale: 2
+            },
             visitLocation: {id: "001", title: "Chicago-Portage Park"},
             patientMedicalId: "PM001",
+            vitalSigns: {
+                beforeTx: {
+                    bpl: 80,
+                    bph: 120,
+                    hr: 60,
+                    resp: 12
+                },
+                afterTx: {
+                    bpl: 90,
+                    bph: 150,
+                    hr: 50,
+                    resp: 11
+                }
+            },
             assessment: {
                 commentsOne: "comments one...",
                 commentsTwo: "comments two...",
@@ -23,9 +40,25 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             caseId: "C002",
             billable: true,
             date: new Date('2015-10-03T06:00:04.000Z'),
-            pain: {area: "Back", scale: 0},
-            visitLocation: {id: "003", title: "Park Ridge"},
+            pain: {
+                area: {id: "001", title: "Back"},
+                scale: 2
+            },            visitLocation: {id: "003", title: "Park Ridge"},
             patientMedicalId: "PM002",
+            vitalSigns: {
+                beforeTx: {
+                    bpl: 80,
+                    bph: 120,
+                    hr: 60,
+                    resp: 12
+                },
+                afterTx: {
+                    bpl: 90,
+                    bph: 150,
+                    hr: 50,
+                    resp: 11
+                }
+            },
             assessment: {
                 commentsOne: "comments one...",
                 commentsTwo: "comments two...",
@@ -53,18 +86,50 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             caseId: "C003",
             billable: true,
             date: new Date('2015-10-03T06:00:05.000Z'),
-            pain: {area: "Back", scale: 0},
-            visitLocation: {id: "001", title: "Chicago-Portage Park"},
-            patientMedicalId: "PM001"
+            pain: {
+                area: {id: "001", title: "Back"},
+                scale: 2
+            },            visitLocation: {id: "001", title: "Chicago-Portage Park"},
+            patientMedicalId: "PM001",
+            vitalSigns: {
+                beforeTx: {
+                    bpl: 80,
+                    bph: 120,
+                    hr: 60,
+                    resp: 12
+                },
+                afterTx: {
+                    bpl: 90,
+                    bph: 150,
+                    hr: 50,
+                    resp: 11
+                }
+            }
         },
         {
             id: "V004",
             caseId: "C004",
             billable: true,
             date: new Date('2015-11-03T06:00:06.000Z'),
-            pain: {area: "Upper", scale: 10},
-            visitLocation: {id: "003", title: "Park Ridge"},
+            pain: {
+                area: {id: "001", title: "Back"},
+                scale: 2
+            },            visitLocation: {id: "003", title: "Park Ridge"},
             patientMedicalId: "PM001",
+            vitalSigns: {
+                beforeTx: {
+                    bpl: 80,
+                    bph: 120,
+                    hr: 60,
+                    resp: 12
+                },
+                afterTx: {
+                    bpl: 90,
+                    bph: 150,
+                    hr: 50,
+                    resp: 11
+                }
+            },
             assessment: {
                 commentsOne: "comments one...",
                 commentsTwo: "comments two...",
@@ -276,4 +341,13 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
         return note;
     }
 
+    this.getAvailablePainAreas = function(){
+        var availablePainAreas = [
+            {id: "001", title: "Back"},
+            {id: "002", title: "Front"},
+            {id: "003", title: "Bottom"},
+            {id: "004", title: "Upper"}
+        ];
+        return availablePainAreas;
+    }
 });

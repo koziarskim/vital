@@ -1,22 +1,18 @@
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, $window, CaseService, NoteService, PatientService, ProfileService, LocationService) {
+mainApp.controller('NoteController', function ($scope, $location, $routeParams, $window, TxAreaService, CaseService, NoteService, PatientService, ProfileService, LocationService) {
     $scope.noteId = $routeParams.noteId;
-    $scope.note = NoteService.getNote($scope.noteId);
     $scope.caseId = $routeParams.caseId;
+    $scope.note = NoteService.getNote($scope.noteId);
     if(!$scope.caseId){
         $scope.caseId = $scope.note.caseId;
     }
     $scope.patientCase = CaseService.getPatientCase($scope.caseId);
-    $scope.patientId = $routeParams.patientId;
-    if(!$scope.patientId){
-        $scope.patientId = $scope.patientCase.patientId;
-    }
     $scope.patient = PatientService.getPatient($scope.patientCase.patientId);
-    $scope.lastNote = null;
     if (!$scope.note) {
-        $scope.lastNote = NoteService.getLastNote($scope.caseId);
-        if ($scope.lastNote) {
-            $scope.note = angular.copy($scope.lastNote);
+        var lastNote = NoteService.getLastNote($scope.caseId);
+        if (lastNote) {
+            $scope.note = angular.merge(lastNote);
             $scope.note.id = null;
+            $scope.note.caseId = $scope.patientCase.id;
             $scope.note.billable = null;
             $scope.note.date = new Date();
             $scope.note.visitLocation = null;
@@ -26,36 +22,18 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             }
         }
     }
-    $scope.initNote = null;
-    $scope.visibleTxAreaName = null;
     $scope.vitalSignsShow = false;
-    $scope.showNote = false;
-    $scope.selectedTxAreaName = null;
     $scope.availableLocations = LocationService.getAvailableLocation();
+    $scope.selectedTxArea = null;
+    $scope.availableTxAreas = TxAreaService.getAvailableTxAreas();
+    $scope.visibleTxArea = null;
+    $scope.availablePainAreas = NoteService.getAvailablePainAreas();
+    $scope.noteTxAreas = TxAreaService.getTxAreasForNote($scope.note.id);
 
-
-    $scope.toggleAuthAlert = function () {
-        if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
-            alert("Patient doesn't have any more authorized visits!" +
-                "\nPlease update patient's profile!");
-        }
-        $scope.showNote = true;
-    }
     $scope.toggleVitalSigns = function () {
         $scope.vitalSignsShow = !$scope.vitalSignsShow;
     }
-    $scope.toggleTxArea = function (txAreaName) {
-        if ($scope.visibleTxAreaName == txAreaName) {
-            $scope.visibleTxAreaName = null;
-        } else {
-            $scope.visibleTxAreaName = txAreaName;
-        }
-        $scope.selectedTxAreaName = txAreaName;
-    }
-    $scope.editPatient = function (patientId) {
-        $location.path("/patients/" + patientId);
-    }
-
+    //TODO: Fix it.
     $scope.painChange = function () {
         var prevScale = 0;
         var initNote = NoteService.getInitNote($scope.caseId);
@@ -75,7 +53,80 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         scale = ((curScale - prevScale) / prevScale) * 100;
         return scale;
     }
+    $scope.addModality = function (code) {
+        if ($scope.selectedTxArea == null) {
+            alert("Please choose TX Area!");
+            return;
+        }
+        var item = angular.merge($scope.getAvailableExercises(code));
+        item.id= "M00"+ (+$scope.visibleTxArea.modalities.length +1);
+        $scope.visibleTxArea.modalities.push(item);
+    };
+    $scope.deleteModality = function (id) {
+        $scope.visibleTxArea.modalities.forEach(function (it, index) {
+            if (it.id == id) {
+                $scope.visibleTxArea.modalities.splice(index, 1);
+            }
+        });
+    }
+    $scope.addProcedure = function (code) {
+        if ($scope.selectedTxArea == null) {
+            alert("Please choose TX Area!");
+            return;
+        }
+        var item = angular.merge($scope.getAvailableExercises(code));
+        item.id= "M00"+ (+$scope.visibleTxArea.procedures.length +1);
+        $scope.visibleTxArea.procedures.push(item);
+    };
+    $scope.deleteProcedure = function (id) {
+        $scope.visibleTxArea.procedures.forEach(function (it, index) {
+            if (it.id == id) {
+                $scope.visibleTxArea.procedures.splice(index, 1);
+            }
+        });
+    }
+    $scope.addMotion = function (code) {
+        if ($scope.selectedTxArea == null) {
+            alert("Please choose TX Area!");
+            return;
+        }
+        var item = angular.merge($scope.getAvailableExercises(code));
+        item.id= "M00"+ (+$scope.visibleTxArea.motions.length +1);
+        $scope.visibleTxArea.motions.push(item);
+    };
+    $scope.deleteMotion = function (id) {
+        $scope.visibleTxArea.motions.forEach(function (it, index) {
+            if (it.id == id) {
+                $scope.visibleTxArea.motions.splice(index, 1);
+            }
+        });
+    }
+    $scope.addWc = function (code) {
+        if ($scope.selectedTxArea == null) {
+            alert("Please choose TX Area!");
+            return;
+        }
+        if($scope.visibleTxArea.wc){
+            alert("WC already added!");
+            return;
+        }
+        var item = angular.merge($scope.getAvailableExercises(code));
+        $scope.visibleTxArea.wc = item;
+    };
+    $scope.deleteWc = function (txArea) {
+        $scope.visibleTxArea.wc = null;
+    }
 
+
+    $scope.toggleTxArea = function (txArea) {
+        if($scope.visibleTxArea && $scope.visibleTxArea.id==txArea.id){
+            $scope.visibleTxArea=null;
+        }else {
+            $scope.visibleTxArea = txArea;
+        }
+        //TODO: Fix it.
+        $scope.selectedTxArea = TxAreaService.getAvailableTxAreaByName(txArea.name);
+    }
     $scope.getUnits = function (modality) {
         var units = 0;
         if (modality != null) {
@@ -103,6 +154,33 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         return units;
     }
+
+
+
+
+
+
+
+
+
+
+    $scope.showNote = false;
+    $scope.toggleAuthAlert = function () {
+        if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
+            alert("Patient doesn't have any more authorized visits!" +
+                "\nPlease update patient's profile!");
+        }
+        $scope.showNote = true;
+    }
+
+
+    $scope.editPatient = function (patientId) {
+        $location.path("/patients/" + patientId);
+    }
+
+
+
+
     $scope.availableObservationTypes = ["Motivation", "Follows Directions", "Cooperation", "Consistency"];
     $scope.availableObservationScales = ["POOR", "FAIR", "GOOD", "EXCELLENT"];
     $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
@@ -113,76 +191,18 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         time: null,
         comments: null
     }
-    //TODO: Need to add custom txArea from service.
-    $scope.availableTxAreas = ["Back", "Up", "Front", "Leg"];
 
     $scope.dateRange = {
         from: null,
         to: null
     }
 
-    $scope.deleteModality = function (modalityId) {
-        NoteService.deleteModality($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, modalityId);
-    }
+
 
     $scope.deleteTxArea = function (txAreaName) {
         NoteService.deleteTxArea($scope.patientId, $scope.note.id, txAreaName);
     }
-    $scope.saveModality = function (modalityCode) {
-        if ($scope.selectedTxAreaName == null) {
-            alert("Please choose TX Area!");
-            return;
-        }
-        var modality = angular.copy($scope.getAvailableExercises(modalityCode));
-        //TODO: Remove.
-        if (!$scope.note.id) {
-            NoteService.saveNote($scope.patientId, $scope.note);
-        }
-        NoteService.saveModality($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, modality);
-        $scope.visibleTxAreaName = $scope.selectedTxAreaName;
-    };
 
-    $scope.saveProcedure = function (procedureCode) {
-        if ($scope.selectedTxAreaName == null) {
-            alert("Please choose TX Area!");
-            return;
-        }
-        var procedure = angular.copy($scope.getAvailableExercises(procedureCode));
-        //TODO: Remove.
-        if (!$scope.note.id) {
-            NoteService.saveNote($scope.patientId, $scope.note);
-        }
-        NoteService.saveProcedure($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, procedure);
-        $scope.visibleTxAreaName = $scope.selectedTxAreaName;
-    };
-
-    $scope.saveWc = function (exCode) {
-        if ($scope.selectedTxAreaName == null) {
-            alert("Please choose TX Area!");
-            return;
-        }
-        var wc = angular.copy($scope.getAvailableExercises(exCode));
-        //TODO: Remove.
-        if (!$scope.note.id) {
-            NoteService.saveNote($scope.patientId, $scope.note);
-        }
-        NoteService.saveWc($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, wc);
-        $scope.visibleTxAreaName = $scope.selectedTxAreaName;
-    };
-
-    $scope.saveMotion = function (motionCode) {
-        if ($scope.selectedTxAreaName == null) {
-            alert("Please choose TX Area!");
-            return;
-        }
-        var motion = angular.copy($scope.getAvailableExercises(motionCode));
-        //TODO: Remove.
-        if (!$scope.note.id) {
-            NoteService.saveNote($scope.patientId, $scope.note);
-        }
-        NoteService.saveMotion($scope.patientId, $scope.note.id, $scope.selectedTxAreaName, motion);
-        $scope.visibleTxAreaName = $scope.selectedTxAreaName;
-    };
 
     $scope.saveNote = function () {
         if (!$scope.note.visitLocation) {
@@ -211,7 +231,6 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         $window.history.back();
     };
 
-    $scope.availablePainAreas = ["Back", "Front", "Bottom", "Upper"];
 
     $scope.getAvailableExercises = function (modalityCode) {
         var modality = null;

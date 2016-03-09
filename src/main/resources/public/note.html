@@ -1,5 +1,5 @@
 <div class="container" ng-init="toggleAuthAlert()">
-    <!--Patient info-->
+    <!--Patient/Case info-->
     <div class="row">
         <div class="col-sm-3">
             <div style="font-size: 25px; margin-top: 18px">Patient: {{patient.firstName}} {{patient.lastName}}</div>
@@ -9,13 +9,11 @@
             <ul>
                 <li ng-repeat="dx in patientCase.dxs">{{dx.name}}</li>
             </ul>
-            <!--<mk-dropdown item='selectedCase' items='patientCases' item-label='desc' item-id="id"></mk-dropdown>-->
-            <!--<span> {{patient.dx}} </span>-->
         </div>
         <div class="col-sm-4 pull-right text-right">
-            <div>Insurance: {{patient.insuranceName}}, Medicare: {{patient.medicareFlag?"Yes":"No"}}</div>
-            <div>Visit #: {{patient.visitNum}}, Auth Visits Left: {{patient.authVisits}}</div>
-            <div>Tx Time: {{patient.totalTxTime}}, Timed Code: {{patient.totalMinCode}}</div>
+            <div>Insurance: {{patientCase.insuranceName}}, Medicare: {{patientCase.medicareFlag?"Yes":"No"}}</div>
+            <div>Visit #: {{patientCase.visitNum}}, Auth Visits Left: {{patientCase.authVisits}}</div>
+            <div>Tx Time: {{patientCase.totalTxTime}}, Timed Code: {{patientCase.totalMinCode}}</div>
         </div>
 
     </div>
@@ -31,13 +29,13 @@
                 </div>
                 <div class="form-group">
                     <span>BP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.bpl" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.beforeTx.bpl" style="width:65px">
                     <span>/</span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.bph" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.beforeTx.bph" style="width:65px">
                     <span>HR: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.hr" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.beforeTx.hr" style="width:65px">
                     <span>RESP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsBeforeTx.resp" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.beforeTx.resp" style="width:65px">
                 </div>
             </div>
             <div class="form-inline col-sm-5">
@@ -46,13 +44,13 @@
                 </div>
                 <div class="form-group">
                     <span>BP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.bpl" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.afterTx.bpl" style="width:65px">
                     <span>/</span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.bph" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.afterTx.bph" style="width:65px">
                     <span>HR: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.hr" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.afterTx.hr" style="width:65px">
                     <span>RESP: </span>
-                    <input type="number" class="form-control" ng-model="patient.vsAfterTx.resp" style="width:65px">
+                    <input type="number" class="form-control" ng-model="note.vitalSigns.afterTx.resp" style="width:65px">
                 </div>
             </div>
         </div>
@@ -84,10 +82,7 @@
                     <div class="col-sm-5" style="border: 1px solid #ccc; padding-bottom: 20px;">
                         <div class="col-sm-6">
                             <label class="control-label">Area</label>
-                            <input type="text" class="form-control" id="painArea" ng-model="note.pain.area" list="painAreaList">
-                            <datalist id="painAreaList">
-                                <option ng-repeat="painArea in availablePainAreas" value="{{painArea}}">
-                            </datalist>
+                            <mk-dropdown style="width: 150px" item='note.pain.area' items='availablePainAreas' item-label='title' item-id="id"></mk-dropdown>
                         </div>
                         <div class="col-sm-3">
                             <label class="control-label">Scale</label>
@@ -114,16 +109,10 @@
                 <div class="col-sm-offset-3 col-sm-8"><h4>Patient was seen for following skilled therapy</h4></div>
             </div>
             <br/>
-
             <div class="row">
-                <div class="col-sm-4" style="padding-top:5px">
-                    <label class="control-label">Choose modalities or prodedure for treatment plan: </label>
-                </div>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" id="txArea" list="txAreaList" ng-model="selectedTxAreaName" placeholder="TX Area" ng-change="toggleTxArea(selectedTxAreaName)">
-                    <datalist id="txAreaList">
-                        <option ng-repeat="txAreaName in availableTxAreas" value={{txAreaName}}>
-                    </datalist>
+                <div class="col-sm-12 form-inline">
+                    <label class="control-label">Choose TX Area for treatment plan: </label>
+                    <mk-dropdown style="width: 150px" item='selectedTxArea' items='availableTxAreas' item-label='title' item-id="id"></mk-dropdown>
                 </div>
             </div>
             <br/>
@@ -133,14 +122,14 @@
                     <label class="control-label">Modalities: </label>
                 </div>
                 <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('USA')">US</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ELS')">EL. Stim</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('HPC')">HP/CP</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('ION')">Ionto</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MEC')">Mech. Tx</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('INF')">Infrared</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('COP')">Com. Pump</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTM')">Other Mod.</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('USA')">US</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('ELS')">EL. Stim</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('HPC')">HP/CP</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('ION')">Ionto</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('MEC')">Mech. Tx</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('INF')">Infrared</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('COP')">Com. Pump</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('OTM')">Other Mod.</button>
                 </div>
             </div>
             <br/>
@@ -150,13 +139,13 @@
                     <label class="control-label">Procedures: </label>
                 </div>
                 <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MAT')">Man. Tx</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveProcedure('TXE')">TX. Ex</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('NMR')">NM-RE</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('GAI')">Gait</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FUA')">Func. Act</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('AQU')">Aquatic</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveMotion('RMT')">ROM/MMT</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('MAT')">Man. Tx</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addProcedure('TXE')">TX. Ex</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('NMR')">NM-RE</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('GAI')">Gait</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('FUA')">Func. Act</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('AQU')">Aquatic</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addMotion('RMT')">ROM/MMT</button>
                 </div>
             </div>
             <div class="row">
@@ -164,29 +153,29 @@
                     <label class="control-label"></label>
                 </div>
                 <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('IEV')">Init. Ev</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('REV')">Re-ev</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FCE')">FCE</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveWc('WC2')">WC</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('MTE')">Man. Tests</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('FTE')">Funct. Tests</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="saveModality('OTP')">Other Proc.</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('IEV')">Init. Ev</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('REV')">Re-ev</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('FCE')">FCE</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addWc('WC2')">WC</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('MTE')">Man. Tests</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('FTE')">Funct. Tests</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('OTP')">Other Proc.</button>
                 </div>
             </div>
             <br/>
 
-            <div class="panel panel-default" ng-repeat="txArea in note.txAreas track by $index">
+            <div class="panel panel-default" ng-repeat="txArea in noteTxAreas track by $index">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-2">
-                            <a href="" ng-click="toggleTxArea(txArea.name)">Treatment Area: {{txArea.name}}</a>
+                            <a href="" ng-click="toggleTxArea(txArea)">Treatment Area: {{txArea.name}}</a>
                         </div>
                         <div class="col-sm-offset-9 col-sm-1">
-                            <a href="" ng-click="deleteTxArea(txArea.name)">Delete</a>
+                            <a href="" ng-click="deleteTxArea(txArea)">Delete</a>
                         </div>
                     </div>
                 </div>
-                <div class="panel-body" ng-show="visibleTxAreaName==txArea.name">
+                <div class="panel-body" ng-show="visibleTxArea.id==txArea.id">testing
                     <!--//******Modalities***************-->
                     <div class="row" ng-if="txArea.modalities.length>0">
                         <div class="col-sm-1">
@@ -207,7 +196,7 @@
                             <label class="control-label">{{modality.name}}</label>
                         </div>
                         <div class="col-sm-1">
-                            <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time" ng-change="updateUnits(modality)">
+                            <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time">
                         </div>
                         <div class="col-sm-1">
                             <input type="number" class="form-control" id="units" ng-value="getUnits(modality)" readonly>
@@ -263,6 +252,9 @@
                         <div class="col-sm-4">
                             <input type="text" class="form-control" ng-model="procedure.comments">
                         </div>
+                        <div class="col-sm-1">
+                            <a href="" ng-click="deleteProcedure(procedure.id)">Delete</a>
+                        </div>
                         <br/><br/>
                     </div>
                     <!--********Motions*************-->
@@ -302,15 +294,26 @@
                         <div class="col-sm-2">
                             <input type="text" class="form-control" ng-model="motion.promn">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             <input type="text" class="form-control" ng-model="motion.aromn">
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="" ng-click="deleteMotion(motion.id)">Delete</a>
                         </div>
                     </div>
                     <!--******** W C *************-->
                     <div ng-if="txArea.wc">
                         <br/>
-                        <h4>Work Condition Program Performance</h4>
-
+                        <div class="row">
+                            <div class="form-inline">
+                                <div class="col-sm-3">
+                                    <span>Work Condition Program Performance</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a href="" ng-click="deleteWc(txArea)">Delete</a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-2">
                                 <label class="control-label">Normal Pace Exercises</label>
