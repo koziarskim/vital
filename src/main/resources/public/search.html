@@ -47,10 +47,10 @@
             <tr ng-repeat="case in myCases | filter:filterOnCases">
                 <td>{{ case.patient.firstName}}</td>
                 <td>{{case.patient.lastName}}</td>
-                <td>{{case.num}}</td>
-                <td><span ng-repeat="dx in case.dxs track by $index">{{$index==0?dx.name:', '+dx.name}}</span></td>
-                <td>{{case.evalDate | date: "MM-dd-yyyy"}}</td>
                 <td>{{ case.patient.dob | date: "MM-dd-yyyy"}}</td>
+                <td>{{case.num}}</td>
+                <td style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:125px;"><span ng-repeat="dx in case.dxs track by $index">{{$index==0?dx.name:', '+dx.name}}</span></td>
+                <td>{{case.evalDate | date: "MM-dd-yyyy"}}</td>
                 <td>
                     <button class="btn btn-primary btn-sm" ng-click="createTodayNote(case.id)">Create Note
                     </button>
