@@ -45,4 +45,12 @@ mainApp.controller('CaseController', function ($scope, $rootScope, $location, $r
         $scope.saveCase(true);
         $location.path("cases/" + $scope.patientCase.id + "/notes/new");
     }
+
+    $scope.addDx = function(dxName){
+        var dx = {name: dxName}
+        if(!$scope.patientCase.dxs){
+            $scope.patientCase.dxs = [];
+        }
+        $scope.patientCase.dxs.push(dx);
+    }
 });
