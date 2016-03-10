@@ -41,7 +41,7 @@ mainApp.service('TxAreaService', function () {
             }, {
                 id: "002",
                 code: "ELS",
-                name: "EL. Stim v",
+                name: "EL. Stim",
                 time: 4,
                 comments: "Repeat every monday"
             }],
@@ -78,20 +78,20 @@ mainApp.service('TxAreaService', function () {
                 id: "001",
                 code: "RMT",
                 name: "Flexion",
-                arom: "text here...",
-                prom: "text here...",
-                mmt: "text here...",
-                promn: "text here...",
-                aromn: "text here..."
+                arom: 2,
+                prom: 2,
+                mmt: 2,
+                promn: 2,
+                aromn: 2
             }, {
                 id: "002",
                 code: "Extension",
-                name: "EL. Stim v",
-                arom: "text here...",
-                prom: "text here...",
-                mmt: "text here...",
-                promn: "text here...",
-                aromn: "text here..."
+                name: "EL. Stim",
+                arom: 1,
+                prom: 2,
+                mmt: 2,
+                promn: 2,
+                aromn: 2
             }]
         },
         {
@@ -134,7 +134,7 @@ mainApp.service('TxAreaService', function () {
             }, {
                 id: "004",
                 code: "ELS",
-                name: "EL. Stim v",
+                name: "EL. Stim",
                 time: 4,
                 comments: "Repeat every monday"
             }],
@@ -154,7 +154,7 @@ mainApp.service('TxAreaService', function () {
             }, {
                 id: "006",
                 code: "ELS",
-                name: "EL. Stim v",
+                name: "EL. Stim",
                 time: 4,
                 comments: "Repeat every monday"
             }],
@@ -174,7 +174,7 @@ mainApp.service('TxAreaService', function () {
             }, {
                 id: "006",
                 code: "ELS",
-                name: "EL. Stim v",
+                name: "EL. Stim",
                 time: 4,
                 comments: "Repeat every monday"
             }],
@@ -194,7 +194,7 @@ mainApp.service('TxAreaService', function () {
             }, {
                 id: "006",
                 code: "ELS",
-                name: "EL. Stim v",
+                name: "EL. Stim",
                 time: 4,
                 comments: "Repeat every monday"
             }],
