@@ -72,7 +72,7 @@
     <br/>
     <!--Subjective-->
     <div class="panel panel-default">
-        <div class="panel-heading">Subjective</div>
+        <div class="panel-heading" style="color:#337AB7; text-align:center; font-size:21px;">Subjective</div>
         <div class="panel-body">
             <div class="row">
                 <div class="form-group">
@@ -103,7 +103,7 @@
     </div>
     <!--Objective-->
     <div class="panel panel-default">
-        <div class="panel-heading">Objective</div>
+        <div class="panel-heading" style="color:#337AB7; text-align:center; font-size:21px;">Objective</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-offset-3 col-sm-8"><h4>Patient was seen for following skilled therapy</h4></div>
@@ -177,140 +177,145 @@
                 </div>
                 <div class="panel-body" ng-show="visibleTxArea.id==txArea.id">
                     <!--//******Modalities***************-->
-                    <div class="row" ng-if="txArea.modalities.length>0">
-                        <div class="col-sm-1">
-                            <label class="control-label"></label>
+                    <div ng-if="txArea.modalities.length>0">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <label class="control-label"></label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Minutes</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Unit(s)</label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="control-label">Comments</label>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Minutes</label>
+                        <div class="row" ng-repeat="modality in txArea.modalities track by $index">
+                            <div class="col-sm-1">
+                                <label class="control-label">{{modality.name}}</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="units" ng-value="getUnits(modality)" readonly>
+                            </div>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" ng-model="modality.comments" list="commentsList">
+                                <datalist id="commentsList">
+                                    <option ng-repeat="comment in availableComments" value="{{comment}}">
+                                </datalist>
+                            </div>
+                            <div class="col-sm-1">
+                                <a href="" ng-click="deleteModality(modality.id)">Delete</a>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Unit(s)</label>
-                        </div>
-                        <div class="col-sm-8">
-                            <label class="control-label">Comments</label>
-                        </div>
-                    </div>
-                    <div class="row" ng-repeat="modality in txArea.modalities track by $index">
-                        <div class="col-sm-1">
-                            <label class="control-label">{{modality.name}}</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" id="number" min="0" max="98" ng-model="modality.time">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" id="units" ng-value="getUnits(modality)" readonly>
-                        </div>
-                        <div class="col-sm-8">
-                            <input class="form-control" type="text" ng-model="modality.comments" list="commentsList">
-                            <datalist id="commentsList">
-                                <option ng-repeat="comment in availableComments" value="{{comment}}">
-                            </datalist>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="" ng-click="deleteModality(modality.id)">Delete</a>
-                        </div>
-                        <br/><br/>
+                        <hr ng-if="txArea.procedures.length>0 || txArea.motions.length>0 || txArea.wc" style="height: 2px; border-top: 3px solid #D4CECE"/>
                     </div>
                     <!--*******Procedures****************-->
-                    <div class="row" ng-if="txArea.procedures.length>0">
-                        <div class="col-sm-2">
-                            <label class="control-label">Exercise</label>
+                    <div ng-if="txArea.procedures.length>0">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label class="control-label">Exercise</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Sets</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Reps</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Minutes</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">Weight</label>
+                            </div>
+                            <div class="col-sm-5">
+                                <label class="control-label">Comments</label>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Sets</label>
+                        <div class="row" ng-repeat="procedure in txArea.procedures track by $index">
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="procedure.name">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.sets">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.reps">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.time">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="procedure.weight">
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" ng-model="procedure.comments">
+                            </div>
+                            <div class="col-sm-1">
+                                <a href="" ng-click="deleteProcedure(procedure.id)">Delete</a>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Reps</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Minutes</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">Weight</label>
-                        </div>
-                        <div class="col-sm-5">
-                            <label class="control-label">Comments</label>
-                        </div>
-                    </div>
-                    <div class="row" ng-repeat="procedure in txArea.procedures track by $index">
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="procedure.name">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.sets">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.reps">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.time">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="procedure.weight">
-                        </div>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" ng-model="procedure.comments">
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="" ng-click="deleteProcedure(procedure.id)">Delete</a>
-                        </div>
-                        <br/><br/>
+                        <hr ng-if="txArea.motions.length>0 || txArea.wc" style="height: 2px; border-top: 3px solid #D4CECE"/>
                     </div>
                     <!--********Motions*************-->
-                    <div class="row" ng-if="txArea.motions.length>0">
-                        <div class="col-sm-2">
-                            <label class="control-label">Movement</label>
+                    <div ng-if="txArea.motions.length>0">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label class="control-label">Movement</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">AROM</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">PROM</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">MMT</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">PR NO</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="control-label">AR NO</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">Comments</label>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">AROM</label>
+                        <div class="row" ng-repeat="motion in txArea.motions track by $index">
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" ng-model="motion.name">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="motion.arom">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="motion.prom">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="motion.mmt">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="motion.promn">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" ng-model="motion.aromn">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" ng-model="motion.comments">
+                            </div>
+                            <div class="col-sm-1">
+                                <a href="" ng-click="deleteMotion(motion.id)">Delete</a>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">PROM</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">MMT</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">PR NO</label>
-                        </div>
-                        <div class="col-sm-1">
-                            <label class="control-label">AR NO</label>
-                        </div>
-                        <div class="col-sm-4">
-                            <label class="control-label">Comments</label>
-                        </div>
-                    </div>
-                    <div class="row" ng-repeat="motion in txArea.motions track by $index">
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" ng-model="motion.name">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="motion.arom">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="motion.prom">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="motion.mmt">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="motion.promn">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="number" class="form-control" ng-model="motion.aromn">
-                        </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" ng-model="motion.comments">
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="" ng-click="deleteMotion(motion.id)">Delete</a>
-                        </div>
-                        <br/><br/>
+                        <hr ng-if="txArea.wc" style="height: 2px; border-top: 3px solid #D4CECE"/>
                     </div>
                     <!--******** W C *************-->
                     <div ng-if="txArea.wc">
-                        <br/>
                         <div class="row">
                             <div class="form-inline">
                                 <div class="col-sm-11">
@@ -439,7 +444,7 @@
     </div>
     <!--Assessment-->
     <div class="panel panel-default">
-        <div class="panel-heading">Assessment/Functional Progress</div>
+        <div class="panel-heading" style="color:#337AB7; text-align:center; font-size:21px;">Assessment/Functional Progress</div>
         <div class="panel-body">
             <input type="text" class="form-control" ng-model="note.assessment.commentsOne" placeholder="Type here...">
             <input type="text" class="form-control" ng-model="note.assessment.commentsTwo" placeholder="Type here...">
@@ -448,7 +453,7 @@
     </div>
     <!--Plan-->
     <div class="panel panel-default">
-        <div class="panel-heading">Plan</div>
+        <div class="panel-heading" style="color:#337AB7; text-align:center; font-size:21px;">Plan</div>
         <div class="panel-body">
             <input type="text" class="form-control" ng-model="note.plan.commentsOne" placeholder="Type here...">
             <input type="text" class="form-control" ng-model="note.plan.commentsTwo" placeholder="Type here...">
