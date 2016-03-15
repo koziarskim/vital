@@ -119,7 +119,7 @@ mainApp.service('CaseService', function (PatientService) {
         allCases.forEach(function (it, index) {
             if (it.patientId == patientId) {
                 var patient = PatientService.getPatient(it.patientId);
-                it.patient = angular.merge(patient);
+                it.patient = angular.copy(patient);
                 patientCases.push(it);
             }
         });

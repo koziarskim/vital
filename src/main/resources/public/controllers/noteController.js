@@ -10,7 +10,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     if (!$scope.note) {
         var lastNote = NoteService.getLastNote($scope.caseId);
         if (lastNote) {
-            $scope.note = angular.merge(lastNote);
+            $scope.note = angular.copy(lastNote);
             $scope.note.id = null;
             $scope.note.caseId = $scope.patientCase.id;
             $scope.note.billable = null;
@@ -58,7 +58,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             alert("Please choose TX Area!");
             return;
         }
-        var item = angular.merge($scope.getAvailableExercises(code));
+        var item = angular.copy($scope.getAvailableExercises(code));
         item.id= "M00"+ (+$scope.visibleTxArea.modalities.length +1);
         $scope.visibleTxArea.modalities.push(item);
     };
@@ -74,7 +74,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             alert("Please choose TX Area!");
             return;
         }
-        var item = angular.merge($scope.getAvailableExercises(code));
+        var item = angular.copy($scope.getAvailableExercises(code));
         item.id= "M00"+ (+$scope.visibleTxArea.procedures.length +1);
         $scope.visibleTxArea.procedures.push(item);
     };
@@ -90,7 +90,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             alert("Please choose TX Area!");
             return;
         }
-        var item = angular.merge($scope.getAvailableExercises(code));
+        var item = angular.copy($scope.getAvailableExercises(code));
         item.id= "M00"+ (+$scope.visibleTxArea.motions.length +1);
         $scope.visibleTxArea.motions.push(item);
     };
@@ -110,7 +110,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
             alert("WC already added!");
             return;
         }
-        var item = angular.merge($scope.getAvailableExercises(code));
+        var item = angular.copy($scope.getAvailableExercises(code));
         $scope.visibleTxArea.wc = item;
     };
     $scope.deleteWc = function (txArea) {
