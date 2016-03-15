@@ -44,6 +44,17 @@ mainApp.service('ProfileService', function () {
     this.getAllProfiles = function () {
         return allProfiles;
     }
+
+    this.getAvailableProfileNames = function(){
+        var names = [];
+        allProfiles.forEach(function(profile){
+            var name = {}
+            name.id= profile.id;
+            name.title = profile.firstName+" "+profile.lastName+", "+profile.credentials;
+            names.push(name);
+        })
+        return names;
+    }
     this.saveProfile = function (profile) {
         if (profile == null) {
             return;

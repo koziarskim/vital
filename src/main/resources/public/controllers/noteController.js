@@ -1,4 +1,4 @@
-mainApp.controller('NoteController', function ($scope, $location, $routeParams, $window, TxAreaService, CaseService, NoteService, PatientService, ProfileService, LocationService) {
+mainApp.controller('NoteController', function ($scope, $rootScope, $location, $routeParams, $window, TxAreaService, CaseService, NoteService, PatientService, ProfileService, LocationService) {
     $scope.noteId = $routeParams.noteId;
     $scope.caseId = $routeParams.caseId;
     $scope.note = NoteService.getNote($scope.noteId);
@@ -8,19 +8,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.patientCase = CaseService.getPatientCase($scope.caseId);
     $scope.patient = PatientService.getPatient($scope.patientCase.patientId);
     if (!$scope.note) {
-        var lastNote = NoteService.getLastNote($scope.caseId);
-        if (lastNote) {
-            $scope.note = angular.copy(lastNote);
-            $scope.note.id = null;
-            $scope.note.caseId = $scope.patientCase.id;
-            $scope.note.billable = null;
-            $scope.note.date = new Date();
-            $scope.note.visitLocation = null;
-        } else {
-            $scope.note = {
-                date: new Date()
-            }
-        }
+        $scope.note = NoteService.getNewNote($scope.caseId, $rootScope.profile.uid);
     }
     $scope.vitalSignsShow = false;
     $scope.availableLocations = LocationService.getAvailableLocation();
@@ -29,6 +17,10 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     $scope.visibleTxArea = null;
     $scope.availablePainAreas = NoteService.getAvailablePainAreas();
     $scope.noteTxAreas = TxAreaService.getTxAreasForNote($scope.note.id);
+    $scope.availableObservationTypes = ["Motivation", "Follows Directions", "Cooperation", "Consistency"];
+    $scope.availableObservationScales = ["POOR", "FAIR", "GOOD", "EXCELLENT"];
+    $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
+    $scope.availableCoTherapists = ProfileService.getAvailableProfileNames();
 
     $scope.toggleVitalSigns = function () {
         $scope.vitalSignsShow = !$scope.vitalSignsShow;
@@ -154,7 +146,15 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         }
         return units;
     }
-
+    $scope.getAvailableExercises = function (modalityCode) {
+        var modality = null;
+        $scope.availableExercises.forEach(function (mod, index) {
+            if (mod.code == modalityCode) {
+                modality = mod;
+            }
+        });
+        return modality;
+    }
 
 
 
@@ -173,24 +173,6 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         $scope.showNote = true;
     }
 
-
-    $scope.editPatient = function (patientId) {
-        $location.path("/patients/" + patientId);
-    }
-
-
-
-
-    $scope.availableObservationTypes = ["Motivation", "Follows Directions", "Cooperation", "Consistency"];
-    $scope.availableObservationScales = ["POOR", "FAIR", "GOOD", "EXCELLENT"];
-    $scope.availableComments = ["Do what's needed", "Repeat every monday", "Stretch", "Continue your tasks", "Do nothing.."];
-    $scope.selectedModality = {
-        id: null,
-        code: null,
-        name: null,
-        time: null,
-        comments: null
-    }
 
     $scope.dateRange = {
         from: null,
@@ -232,15 +214,7 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
     };
 
 
-    $scope.getAvailableExercises = function (modalityCode) {
-        var modality = null;
-        $scope.availableExercises.forEach(function (mod, index) {
-            if (mod.code == modalityCode) {
-                modality = mod;
-            }
-        });
-        return modality;
-    }
+
 
     $scope.availableExercises = [
         {code: "USA", name: "US"},
@@ -268,33 +242,5 @@ mainApp.controller('NoteController', function ($scope, $location, $routeParams, 
         {code: "RMT", name: null}
     ]
 
-    $scope.signDate = new Date();
-    $scope.coSignDate = new Date();
-    $scope.inputProfile = null;
-    $scope.inputCoProfile = null;
-    $scope.filterOnProfile = function (profile) {
-        if ($scope.inputProfile) {
-            var match = (profile.firstName + profile.lastName).toLowerCase().indexOf($scope.inputProfile.toLowerCase()) >= 0;
-            return match;
-        } else {
-            return true;
-        }
-    };
-    $scope.availableTherapists = ProfileService.getAllProfiles();
-    $scope.availableCoTherapists = ProfileService.getAllProfiles();
 
-    $scope.dateRange = {
-        from: null,
-        to: null
-    }
-    $scope.filterDate = function (note) {
-        if ((note.date > $scope.dateRange.from || $scope.dateRange.from == null) && (note.date < $scope.dateRange.to || $scope.dateRange.to == null)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-    $scope.editNote = function (noteId) {
-        $location.path("patients/" + $scope.patientId + "/notes/" + noteId);
-    }
 });

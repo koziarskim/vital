@@ -465,16 +465,13 @@
             <label class="control-label">Therapist Name:</label>
         </div>
         <div class="col-sm-4">
-            <input class="form-control" type="text" ng-model="inputProfile" list="terapistList">
-            <datalist id="terapistList">
-                <option ng-repeat="profile in availableTherapists | filter:filterOnProfile" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
-            </datalist>
+            <input class="form-control" type="text" ng-model="note.therapistName">
         </div>
         <div class="col-sm-1">
             <label class="control-label">Date</label>
         </div>
         <div class="col-sm-2">
-            <input type="date" class="form-control" ng-model="signDate">
+            <input type="date" class="form-control" ng-model="note.signDate">
         </div>
     </div>
     <!--CoTherapist-->
@@ -483,16 +480,13 @@
             <label class="control-label">Co. Tx Therapist:</label>
         </div>
         <div class="col-sm-4">
-            <input class="form-control" type="text" ng-model="inputCoProfile" list="coTerapistList">
-            <datalist id="coTerapistList">
-                <option ng-repeat="profile in availableCoTherapists" value="{{profile.firstName}} {{profile.lastName}}, {{profile.credentials}}">{{profile.uid}}</option>
-            </datalist>
+            <mk-dropdown item='note.coTherapistName' items='availableCoTherapists' item-label='title' item-id="id"></mk-dropdown>
         </div>
         <div class="col-sm-1">
             <label class="control-label">Date</label>
         </div>
         <div class="col-sm-2">
-            <input type="date" class="form-control" ng-model="coSignDate">
+            <input type="date" class="form-control" ng-model="note.coSignDate">
         </div>
     </div>
     <br/>

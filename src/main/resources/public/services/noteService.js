@@ -1,4 +1,4 @@
-mainApp.service('NoteService', function (CaseService, PatientService) {
+mainApp.service('NoteService', function (CaseService, PatientService, ProfileService) {
     var allNotes = [
         {
             id: "V001",
@@ -349,5 +349,23 @@ mainApp.service('NoteService', function (CaseService, PatientService) {
             {id: "004", title: "Upper"}
         ];
         return availablePainAreas;
+    }
+
+    this.getNewNote = function(caseId, currentUid){
+        var profile = ProfileService.getProfile(currentUid);
+        var lastNote = this.getLastNote(caseId);
+        var note = {};
+        if (lastNote) {
+            note = angular.copy(lastNote);
+            note.id = null;
+            note.caseId = caseId;
+            note.billable = null;
+            note.visitLocation = null;
+        }
+        note.date = new Date();
+        note.therapistName = profile.firstName+" "+profile.lastName+", "+profile.credentials;
+        note.signDate = new Date();
+        note.coSignDate = new Date();
+        return note;
     }
 });
