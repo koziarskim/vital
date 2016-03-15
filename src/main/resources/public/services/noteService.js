@@ -364,6 +364,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
         }
         note.date = new Date();
         note.therapistName = profile.firstName+" "+profile.lastName+", "+profile.credentials;
+        note.coTherapistName = null;
         note.signDate = new Date();
         note.coSignDate = new Date();
         return note;
