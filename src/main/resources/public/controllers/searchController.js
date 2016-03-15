@@ -1,4 +1,4 @@
-mainApp.controller('SearchController', function ($scope, $rootScope, $window, $location, CaseService, PatientService, NoteService) {
+mainApp.controller('SearchController', function ($scope, $timeout, $rootScope, $window, $location, CaseService, PatientService, NoteService) {
     $scope.allPatients = PatientService.getAllPatients()
     $scope.myCases = null;
     $scope.selectedPatientId = null;
@@ -81,18 +81,31 @@ mainApp.controller('SearchController', function ($scope, $rootScope, $window, $l
         $location.path("cases/" + caseId + "/notes/new");
     }
     $scope.dischargeCase = function (caseId) {
-        CaseService.dischargeCase(caseId);
-        $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
+        bootbox.confirm("This case will become inactive. <br/>It will NOT be deleted. <br/>Are you sure you want to proceed?", function(result) {
+            if(result) {
+                $timeout(function() {
+                    CaseService.dischargeCase(caseId);
+                    $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
+                }, 500);
+
+            }
+        });
     }
+
     $scope.deleteCase = function (caseId) {
         var notes = NoteService.getNotesForCase(caseId);
         if(notes && notes.length>0){
-            alert("Case case existing notes, please delete all notes before deleting case");
+            bootbox.alert("This case has existing notes! <br/>Please delete each note individually before closing the case");
             return;
         }
-        CaseService.deleteCase(caseId);
-        $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
-
+        bootbox.confirm("Are you sure you want to delete the case permanently?", function(result) {
+            if(result){
+                $timeout(function() {
+                    CaseService.deleteCase(caseId);
+                    $scope.myCases = CaseService.getAllPatientCases($scope.selectedPatientId);
+                }, 500);
+            }
+        });
     }
     $scope.viewAllNotes = function (caseId) {
         $location.path("cases/" + caseId + "/notes");

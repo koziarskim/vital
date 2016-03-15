@@ -1,4 +1,4 @@
-mainApp.controller('NotesController', function ($scope, $location, $routeParams, $window, NoteService) {
+mainApp.controller('NotesController', function ($scope, $timeout, $location, $routeParams, $window, NoteService) {
     $scope.caseId = $routeParams.caseId;
     $scope.notes = NoteService.getNotesForCase($scope.caseId);
 
@@ -14,7 +14,13 @@ mainApp.controller('NotesController', function ($scope, $location, $routeParams,
         $location.path("/cases/" + $scope.caseId + "/notes/" + noteId);
     };
     $scope.deleteNote = function (noteId) {
-        NoteService.deleteNote(noteId);
-        $scope.notes = NoteService.getNotesForCase($scope.caseId);
+        bootbox.confirm("Are you sure you want to delete the note permanently?", function(result) {
+            if(result){
+                $timeout(function() {
+                    NoteService.deleteNote(noteId);
+                    $scope.notes = NoteService.getNotesForCase($scope.caseId);
+                }, 500);
+            }
+        });
     };
 });
