@@ -6,8 +6,8 @@ mainApp.service('CaseService', function (PatientService) {
             id: "C001",
             num: "C001",
             dxs: [
-                {name: "Upper shoulder"},
-                {name: "Lower back"}
+                {id:"DX001", name: "Upper shoulder"},
+                {id:"DX002",name: "Lower back"}
             ],
             discipline: "PT",
             discharged: false,
@@ -18,8 +18,8 @@ mainApp.service('CaseService', function (PatientService) {
             id: "C002",
             num: "C002",
             dxs: [
-                {name: "Knee Issue"},
-                {name: "Lower back"}
+                {id:"DX001", name: "Knee Issue"},
+                {id:"DX002", name: "Lower back"}
             ],
             discipline: "PT",
             discharged: false,
@@ -30,8 +30,8 @@ mainApp.service('CaseService', function (PatientService) {
             id: "C003",
             num: "C003",
             dxs: [
-                {name: "Head injury"},
-                {name: "Lower back"}
+                {id:"DX001", name: "Head injury"},
+                {id:"DX002", name: "Lower back"}
             ],
             discipline: "OT",
             discharged: true,
@@ -42,8 +42,8 @@ mainApp.service('CaseService', function (PatientService) {
             id: "C004",
             num: "C004",
             dxs: [
-                {name: "Finger issue"},
-                {name: "Lower back"}
+                {id:"DX001", name: "Finger issue"},
+                {id:"DX002", name: "Lower back"}
             ],
             discipline: "PT",
             discharged: false,
@@ -54,8 +54,8 @@ mainApp.service('CaseService', function (PatientService) {
             id: "C005",
             num: "C005",
             dxs: [
-                {name: "Hand issue"},
-                {name: "Lower back"}
+                {id:"DX001", name: "Hand issue"},
+                {id:"DX002", name: "Lower back"}
             ],
             discipline: "PT",
             discharged: false,
@@ -66,8 +66,8 @@ mainApp.service('CaseService', function (PatientService) {
             id: "C006",
             num: "C006",
             dxs: [
-                {name: "Leg issue"},
-                {name: "Lower back"}
+                {id:"DX001", name: "Leg issue"},
+                {id:"DX002", name: "Lower back"}
             ],
             discipline: "ST",
             discharged: false,

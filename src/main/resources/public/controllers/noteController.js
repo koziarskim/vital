@@ -61,7 +61,7 @@ mainApp.controller('NoteController', function ($scope, $rootScope, $location, $r
 
     $scope.addTxArea = function (code, type) {
         if ($scope.selectedTxAreaName == null) {
-            alert("Please choose TX Area!");
+            bootbox.alert("Please choose TX Area!");
             return;
         }
         if($scope.note.txAreas==null){
@@ -75,7 +75,7 @@ mainApp.controller('NoteController', function ($scope, $rootScope, $location, $r
         }
         if(type=="wc"){
             if($scope.visibleTxArea.wc) {
-                alert("WC already added!");
+                bootbox.alert("WC already added!");
                 return;
             }
             var item = angular.copy($scope.getAvailableExercises(code));
@@ -169,8 +169,7 @@ mainApp.controller('NoteController', function ($scope, $rootScope, $location, $r
     $scope.showNote = false;
     $scope.toggleAuthAlert = function () {
         if ($scope.patient && $scope.patient.requireAuth && $scope.patient.authVisits <= 0) {
-            alert("Patient doesn't have any more authorized visits!" +
-                "\nPlease update patient's profile!");
+            bootbox.alert("Patient doesn't have any more authorized visits! <br/>Please update patient's profile!");
         }
         $scope.showNote = true;
     }
@@ -187,11 +186,11 @@ mainApp.controller('NoteController', function ($scope, $rootScope, $location, $r
 
     $scope.saveNote = function () {
         if (!$scope.note.visitLocation) {
-            alert("Please select Location!");
+            bootbox.alert("Please select Location!");
             return;
         }
         if ($scope.note.billable == null) {
-            alert("Please specify if note is billable!");
+            bootbox.alert("Please specify if note is billable!");
             return;
         }
         if ($scope.note.billable) {

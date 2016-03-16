@@ -47,10 +47,21 @@ mainApp.controller('CaseController', function ($scope, $rootScope, $location, $r
     }
 
     $scope.addDx = function(dxName){
-        var dx = {name: dxName}
         if(!$scope.patientCase.dxs){
             $scope.patientCase.dxs = [];
         }
+        var dx = {};
+        dx.name = dxName;
+        dx.id = "DX00"+(+$scope.patientCase.dxs.length+1)
+
         $scope.patientCase.dxs.push(dx);
+    }
+
+    $scope.deleteDx = function(dxId){
+        $scope.patientCase.dxs.forEach(function(dx, index){
+            if(dx.id == dxId){
+                $scope.patientCase.dxs.splice(index, 1);
+            }
+        })
     }
 });

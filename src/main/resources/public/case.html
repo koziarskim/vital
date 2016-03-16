@@ -65,9 +65,9 @@
         <div class="col-sm-12 form-inline">
             <label class="control-label">Diagnosis: </label>
             <input class="form-control" ng-model="dxName" type="text"/>
-            <button type="button" class="btn btn-primary btn-sm" ng-click="addDx(dxName)">Add</button>
+            <button type="button" class="btn btn-primary btn-sm" ng-click="addDx(dxName)"><span class="glyphicon glyphicon-plus"></span></button>
             <ul>
-                <li ng-repeat="dx in patientCase.dxs">{{dx.name}}</li>
+                <li ng-repeat="dx in patientCase.dxs"><span style="padding-right: 15px">{{dx.name}}</span><a href="" ng-click="deleteDx(dx.id)"><span class="glyphicon glyphicon-remove"></span></a></li>
             </ul>
         </div>
     </div>
