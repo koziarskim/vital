@@ -1,4 +1,4 @@
-mainApp.controller('NoteController', function ($scope, $rootScope, $location, $routeParams, $window, TxAreaService, CaseService, NoteService, PatientService, ProfileService, LocationService) {
+mainApp.controller('NoteController', function ($scope, $rootScope, $location, $routeParams, $window, CaseService, NoteService, PatientService, ProfileService, LocationService) {
     $scope.noteId = $routeParams.noteId;
     $scope.caseId = $routeParams.caseId;
     $scope.note = NoteService.getNote($scope.noteId);
@@ -12,7 +12,7 @@ mainApp.controller('NoteController', function ($scope, $rootScope, $location, $r
     }
     $scope.vitalSignsShow = false;
     $scope.availableLocations = LocationService.getAvailableLocation();
-    $scope.availableTxAreas = TxAreaService.getAvailableTxAreas();
+    $scope.availableTxAreas = NoteService.getAvailableTxAreas();
     $scope.selectedTxAreaName = null;
     $scope.visibleTxArea = null;
     $scope.availablePainAreas = NoteService.getAvailablePainAreas();

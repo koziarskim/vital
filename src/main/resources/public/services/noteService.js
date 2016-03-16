@@ -358,6 +358,26 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
         }
     ];
 
+    this.getAvailableTxAreas = function(){
+        var availableTxAreas = [
+            {id: "001", title: "Back"},
+            {id: "002", title: "Up"},
+            {id: "003", title: "Front"},
+            {id: "004", title: "Leg"}
+        ];
+        return availableTxAreas;
+    }
+
+    this.getAvailableTxAreaByName = function(name){
+        var txArea = null;
+        this.getAvailableTxAreas().forEach(function (it, index){
+            if(it.title == name){
+                txArea = angular.copy(it);
+            }
+        })
+        return txArea;
+    }
+
     this.getReportItems = function (dateFrom, dateTo, locationId, patientId, caseId) {
         var reportItems = [];
         if (caseId) {
