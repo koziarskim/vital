@@ -112,7 +112,7 @@
             <div class="row">
                 <div class="col-sm-12 form-inline">
                     <label class="control-label">Choose TX Area for treatment plan: </label>
-                    <mk-dropdown style="width: 150px" item='selectedTxArea' items='availableTxAreas' item-label='title' item-id="id"></mk-dropdown>
+                    <mk-dropdown style="width: 150px" item-value='selectedTxAreaName' items='availableTxAreas' item-label='title' item-id="id"></mk-dropdown>
                 </div>
             </div>
             <br/>
@@ -122,14 +122,14 @@
                     <label class="control-label">Modalities: </label>
                 </div>
                 <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('USA')">US</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('ELS')">EL. Stim</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('HPC')">HP/CP</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('ION')">Ionto</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('MEC')">Mech. Tx</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('INF')">Infrared</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('COP')">Com. Pump</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('OTM')">Other Mod.</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('USA', 'modalities')">US</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('ELS', 'modalities')">EL. Stim</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('HPC', 'modalities')">HP/CP</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('ION', 'modalities')">Ionto</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('MEC', 'modalities')">Mech. Tx</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('INF', 'modalities')">Infrared</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('COP', 'modalities')">Com. Pump</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('OTM', 'modalities')">Other Mod.</button>
                 </div>
             </div>
             <br/>
@@ -139,13 +139,13 @@
                     <label class="control-label">Procedures: </label>
                 </div>
                 <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('MAT')">Man. Tx</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addProcedure('TXE')">TX. Ex</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('NMR')">NM-RE</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('GAI')">Gait</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('FUA')">Func. Act</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('AQU')">Aquatic</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addMotion('RMT')">ROM/MMT</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('MAT', 'modalities')">Man. Tx</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('TXE', 'procedures')">TX. Ex</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('NMR', 'modalities')">NM-RE</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('GAI', 'modalities')">Gait</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('FUA', 'modalities')">Func. Act</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('AQU', 'modalities')">Aquatic</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('RMT', 'motions')">ROM/MMT</button>
                 </div>
             </div>
             <div class="row">
@@ -153,25 +153,25 @@
                     <label class="control-label"></label>
                 </div>
                 <div class="col-sm-11">
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('IEV')">Init. Ev</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('REV')">Re-ev</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('FCE')">FCE</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addWc('WC2')">WC</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('MTE')">Man. Tests</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('FTE')">Funct. Tests</button>
-                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addModality('OTP')">Other Proc.</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('IEV', 'modalities')">Init. Ev</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('REV', 'modalities')">Re-ev</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('FCE', 'modalities')">FCE</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('WC2', 'wc')">WC</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('MTE', 'modalities')">Man. Tests</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('FTE', 'modalities')">Funct. Tests</button>
+                    <button type="submit" class="btn btn-default" style="width:100px" ng-click="addTxArea('OTP', 'modalities')">Other Proc.</button>
                 </div>
             </div>
             <br/>
 
-            <div class="panel panel-default" ng-repeat="txArea in noteTxAreas track by $index">
+            <div class="panel panel-default" ng-repeat="txArea in note.txAreas track by $index">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-2">
                             <a href="" ng-click="toggleTxArea(txArea)">Treatment Area: {{txArea.name}}</a>
                         </div>
                         <div class="col-sm-offset-9 col-sm-1">
-                            <a href="" ng-click="deleteTxArea(txArea)">Delete</a>
+                            <a href="" ng-click="deleteFullTxArea(txArea.id)">Delete</a>
                         </div>
                     </div>
                 </div>
@@ -209,7 +209,7 @@
                                 </datalist>
                             </div>
                             <div class="col-sm-1">
-                                <a href="" ng-click="deleteModality(modality.id)">Delete</a>
+                                <a href="" ng-click="deleteTxArea(modality.id, 'modalities')">Delete</a>
                             </div>
                         </div>
                         <hr ng-if="txArea.procedures.length>0 || txArea.motions.length>0 || txArea.wc" style="height: 2px; border-top: 3px solid #D4CECE"/>
@@ -256,7 +256,7 @@
                                 <input type="text" class="form-control" ng-model="procedure.comments">
                             </div>
                             <div class="col-sm-1">
-                                <a href="" ng-click="deleteProcedure(procedure.id)">Delete</a>
+                                <a href="" ng-click="deleteTxArea(procedure.id, 'procedures')">Delete</a>
                             </div>
                         </div>
                         <hr ng-if="txArea.motions.length>0 || txArea.wc" style="height: 2px; border-top: 3px solid #D4CECE"/>
@@ -309,7 +309,7 @@
                                 <input type="text" class="form-control" ng-model="motion.comments">
                             </div>
                             <div class="col-sm-1">
-                                <a href="" ng-click="deleteMotion(motion.id)">Delete</a>
+                                <a href="" ng-click="deleteTxArea(motion.id, 'motions')">Delete</a>
                             </div>
                         </div>
                         <hr ng-if="txArea.wc" style="height: 2px; border-top: 3px solid #D4CECE"/>
@@ -322,7 +322,7 @@
                                     <label class="control-label">Work Condition Program Performance</label>
                                 </div>
                                 <div class="col-sm-1">
-                                    <a href="" ng-click="deleteWc(txArea)">Delete</a>
+                                    <a href="" ng-click="deleteTxArea(null, 'wc')">Delete</a>
                                 </div>
                             </div>
                         </div>

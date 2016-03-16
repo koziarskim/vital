@@ -33,7 +33,147 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             plan: {
                 commentsOne: "comments one...",
                 commentsTwo: "comments two..."
-            }
+            },
+            txAreas: [
+                {
+                    id: "TX001",
+                    name: "Back",
+                    wc: {
+                        normalPaceExFlag: false,
+                        normalPaceExReson: null,
+                        slowPaceExFlag: true,
+                        slowPaceExReason: "very tired",
+                        breaksFlag: true,
+                        breaksMinutes: 12,
+                        breaksReason: "tired as hell",
+                        unableWorkFlag: false,
+                        unableWorkReason: null,
+                        stoppedWorkFlag: false,
+                        stoppedWorkMinutes: 11,
+                        stoppedWorkReason: null,
+                        performanceComments: "Overall is doing OK",
+                        observations: [
+                            {
+                                name: "Motivation",
+                                scaleCode: "POOR",
+                                comments: "doing very poor"
+                            },
+                            {
+                                name: "Consistency",
+                                scaleCode: "GOOD",
+                                comments: "doing good"
+                            }
+                        ]
+                    },
+                    modalities: [{
+                        id: "001",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "002",
+                        code: "ELS",
+                        name: "EL. Stim",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }],
+                    procedures: [{
+                        id: "001",
+                        code: "TXE",
+                        name: "Stat. bike",
+                        sets: 12,
+                        reps: 2,
+                        time: 15,
+                        weight: 150,
+                        comments: "Stretch"
+                    }, {
+                        id: "002",
+                        code: "WC2",
+                        name: "Knee Extens.",
+                        sets: 12,
+                        reps: 2,
+                        time: 15,
+                        weight: 150,
+                        comments: "Stretch"
+                    },
+                        {
+                            id: "003",
+                            code: "WCA",
+                            name: "SLR",
+                            sets: 12,
+                            reps: 2,
+                            time: 15,
+                            weight: 150,
+                            comments: "Stretch"
+                        }],
+                    motions: [{
+                        id: "001",
+                        code: "RMT",
+                        name: "Flexion",
+                        arom: 2,
+                        prom: 2,
+                        mmt: 2,
+                        promn: 2,
+                        aromn: 2
+                    }, {
+                        id: "002",
+                        code: "Extension",
+                        name: "EL. Stim",
+                        arom: 1,
+                        prom: 2,
+                        mmt: 2,
+                        promn: 2,
+                        aromn: 2
+                    }]
+                },
+                {
+                    id: "TX002",
+                    name: "Up",
+                    wc: {
+                        normalPaceExFlag: false,
+                        normalPaceExReson: null,
+                        slowPaceExFlag: true,
+                        slowPaceExReason: "very tired aa",
+                        breaksFlag: true,
+                        breaksMinutes: 12,
+                        breaksReason: "tired as hell",
+                        unableWorkFlag: false,
+                        unableWorkReason: null,
+                        stoppedWorkFlag: false,
+                        stoppedWorkMinutes: 11,
+                        stoppedWorkReason: null,
+                        performanceComments: "Overall is doing OK",
+                        observations: [
+                            {
+                                name: "Follow Direction",
+                                scaleCode: "GOOD",
+                                comments: "doing very good"
+                            },
+                            {
+                                name: "Cooperation",
+                                scaleCode: "FAIR",
+                                comments: "doing ok"
+                            }
+                        ]
+                    },
+                    modalities: [{
+                        id: "003",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "004",
+                        code: "ELS",
+                        name: "EL. Stim",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }],
+                    procedures: [],
+                    motions: []
+                }
+            ]
         },
         {
             id: "V002",
@@ -43,7 +183,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             pain: {
                 area: {id: "001", title: "Back"},
                 scale: 2
-            },            visitLocation: {id: "003", title: "Park Ridge"},
+            }, visitLocation: {id: "003", title: "Park Ridge"},
             patientMedicalId: "PM002",
             vitalSigns: {
                 beforeTx: {
@@ -79,7 +219,47 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
                 bpl: 120,
                 hr: 60,
                 resp: 40
-            }
+            },
+            txAreas: [
+                {
+                    id: "TX003",
+                    name: "Leg",
+                    modalities: [{
+                        id: "005",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "006",
+                        code: "ELS",
+                        name: "EL. Stim",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }],
+                    procedures: [],
+                    motions: []
+                },
+                {
+                    id: "TX004",
+                    name: "Leg",
+                    modalities: [{
+                        id: "005",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "006",
+                        code: "ELS",
+                        name: "EL. Stim",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }],
+                    procedures: [],
+                    motions: []
+                }
+            ]
         },
         {
             id: "V003",
@@ -89,7 +269,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             pain: {
                 area: {id: "001", title: "Back"},
                 scale: 2
-            },            visitLocation: {id: "001", title: "Chicago-Portage Park"},
+            }, visitLocation: {id: "001", title: "Chicago-Portage Park"},
             patientMedicalId: "PM001",
             vitalSigns: {
                 beforeTx: {
@@ -104,7 +284,28 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
                     hr: 50,
                     resp: 11
                 }
-            }
+            },
+            txAreas: [
+                {
+                    id: "TX005",
+                    name: "Leg",
+                    modalities: [{
+                        id: "005",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }, {
+                        id: "006",
+                        code: "ELS",
+                        name: "EL. Stim",
+                        time: 4,
+                        comments: "Repeat every monday"
+                    }],
+                    procedures: [],
+                    motions: []
+                }
+            ]
         },
         {
             id: "V004",
@@ -114,7 +315,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             pain: {
                 area: {id: "001", title: "Back"},
                 scale: 2
-            },            visitLocation: {id: "003", title: "Park Ridge"},
+            }, visitLocation: {id: "003", title: "Park Ridge"},
             patientMedicalId: "PM001",
             vitalSigns: {
                 beforeTx: {
@@ -138,7 +339,22 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             plan: {
                 commentsOne: "comments one...",
                 commentsTwo: "comments two..."
-            }
+            },
+            txAreas: [
+                {
+                    id: "TX006",
+                    name: "Leg",
+                    modalities: [{
+                        id: "005",
+                        code: "USA",
+                        name: "US",
+                        time: 12,
+                        comments: "Stretch"
+                    }],
+                    procedures: [],
+                    motions: []
+                }
+            ]
         }
     ];
 
@@ -151,7 +367,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             var patientCases = CaseService.getAllPatientCases(patientId);
             patientCases.forEach(function (patientCase, index) {
                 var caseNotes = getNotesForCase(patientCase.id);
-                caseNotes.forEach(function (note, index){
+                caseNotes.forEach(function (note, index) {
                     if ((note.date > dateFrom || dateFrom == null) && (note.date < dateTo || dateTo == null)) {
                         var reportItem = {};
                         reportItem.noteId = note.id;
@@ -167,7 +383,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             });
         } else if (locationId) {
             var notes = this.getNotesForLocation(locationId);
-            notes.forEach(function (note, index){
+            notes.forEach(function (note, index) {
                 var patientCase = CaseService.getPatientCase(note.caseId);
                 var patient = PatientService.getPatient(patientCase.patientId);
                 if ((note.date > dateFrom || dateFrom == null) && (note.date < dateTo || dateTo == null)) {
@@ -341,7 +557,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
         return note;
     }
 
-    this.getAvailablePainAreas = function(){
+    this.getAvailablePainAreas = function () {
         var availablePainAreas = [
             {id: "001", title: "Back"},
             {id: "002", title: "Front"},
@@ -351,7 +567,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
         return availablePainAreas;
     }
 
-    this.getNewNote = function(caseId, currentUid){
+    this.getNewNote = function (caseId, currentUid) {
         var profile = ProfileService.getProfile(currentUid);
         var lastNote = this.getLastNote(caseId);
         var note = {};
@@ -363,7 +579,7 @@ mainApp.service('NoteService', function (CaseService, PatientService, ProfileSer
             note.visitLocation = null;
         }
         note.date = new Date();
-        note.therapistName = profile.firstName+" "+profile.lastName+", "+profile.credentials;
+        note.therapistName = profile.firstName + " " + profile.lastName + ", " + profile.credentials;
         note.coTherapistName = null;
         note.signDate = new Date();
         note.coSignDate = new Date();
