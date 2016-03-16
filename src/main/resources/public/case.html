@@ -83,27 +83,27 @@
     <div class="row">
         <div class="col-sm-4 form-inline">
             <label class="control-label">Insurance: </label>
-            <mk-dropdown class="space-right-sm" item-value="patient.insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
+            <mk-dropdown class="space-right-sm" item-value="patientCase.insuranceName" items="availableInsuranceTypes" placeholder="Enter Insurance Provider Name"></mk-dropdown>
         </div>
         <div class="col-sm-4 form-inline">
-            <label class="control-label">Madicare? <input type="checkbox" class="form-control" ng-model="patient.medicareFlag"></label>
+            <label class="control-label">Madicare? <input type="checkbox" class="form-control" ng-model="patientCase.medicareFlag"></label>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4 form-inline">
             <label class="control-label">Authorized Visits Left:</label>
-            <input type="number" min="0" style="width:65px" class="form-control space-right-sm" ng-model="patient.authVisits">
+            <input type="number" min="0" style="width:65px" class="form-control space-right-sm" ng-model="patientCase.authVisits">
         </div>
         <div class="col-sm-5 form-inline">
             <label class="control-label">Visit Range:</label>
-            <input type="date" min="0" class="form-control" ng-model="patient.visitFrom">
-            <input type="date" min="0" class="form-control" ng-model="patient.visitTo">
+            <input type="date" min="0" class="form-control" ng-model="patientCase.visitFrom">
+            <input type="date" min="0" class="form-control" ng-model="patientCase.visitTo">
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4 form-inline">
             <label class="control-label">Requires Authorization?</label>
-            <input type="checkbox" class="form-control" ng-model="patient.requireAuth">
+            <input type="checkbox" class="form-control" ng-model="patientCase.requireAuth">
         </div>
     </div>
     <br/>

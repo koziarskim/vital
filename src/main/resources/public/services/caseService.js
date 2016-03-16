@@ -11,7 +11,14 @@ mainApp.service('CaseService', function (PatientService) {
             ],
             discipline: "PT",
             discharged: false,
-            evalDate: new Date('2005-11-03T06:00:10.000Z')
+            evalDate: new Date('2005-11-03T06:00:10.000Z'),
+            insuranceName: "BCBC",
+            medicareFlag: true,
+            authVisits: 13,
+            visitNum: 12,
+            totalTxTime: 12,
+            totalMinCode: "DEC",
+            requireAuth: true
         },
         {
             patientId: "P002",
@@ -23,7 +30,14 @@ mainApp.service('CaseService', function (PatientService) {
             ],
             discipline: "PT",
             discharged: false,
-            evalDate: new Date('2005-11-03T06:00:10.000Z')
+            evalDate: new Date('2005-11-03T06:00:10.000Z'),
+            insuranceName: "BCBC",
+            medicareFlag: true,
+            authVisits: 13,
+            visitNum: 12,
+            totalTxTime: 12,
+            totalMinCode: "DEC",
+            requireAuth: true
         },
         {
             patientId: "P002",
@@ -35,7 +49,14 @@ mainApp.service('CaseService', function (PatientService) {
             ],
             discipline: "OT",
             discharged: true,
-            evalDate: new Date('2005-11-03T06:00:10.000Z')
+            evalDate: new Date('2005-11-03T06:00:10.000Z'),
+            insuranceName: "BCBC",
+            medicareFlag: true,
+            authVisits: 13,
+            visitNum: 12,
+            totalTxTime: 12,
+            totalMinCode: "DEC",
+            requireAuth: true
         },
         {
             patientId: "P003",
@@ -47,7 +68,14 @@ mainApp.service('CaseService', function (PatientService) {
             ],
             discipline: "PT",
             discharged: false,
-            evalDate: new Date('2005-11-03T06:00:10.000Z')
+            evalDate: new Date('2005-11-03T06:00:10.000Z'),
+            insuranceName: "BCBC",
+            medicareFlag: true,
+            authVisits: 13,
+            visitNum: 12,
+            totalTxTime: 12,
+            totalMinCode: "DEC",
+            requireAuth: true
         },
         {
             patientId: "P003",
@@ -71,7 +99,14 @@ mainApp.service('CaseService', function (PatientService) {
             ],
             discipline: "ST",
             discharged: false,
-            evalDate: new Date('2005-11-03T06:00:10.000Z')
+            evalDate: new Date('2005-11-03T06:00:10.000Z'),
+            insuranceName: "BCBC",
+            medicareFlag: true,
+            authVisits: 13,
+            visitNum: 12,
+            totalTxTime: 12,
+            totalMinCode: "DEC",
+            requireAuth: true
         }
     ];
 
