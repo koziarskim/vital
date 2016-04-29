@@ -409,7 +409,47 @@ mainApp.service('PatientService', function () {
             totalMinCode: null,
             requireAuth: false,
             notes: []
+        },
+        {
+            id: "P004",
+            accountNum: "P004",
+            firstName: 'John',
+            lastName: 'Doe',
+            dob: new Date('1977-11-03T06:00:10.000Z'),
+            gender: "female",
+            insuranceName: "BCBC",
+            medicareFlag: null,
+            authVisits: 1,
+            visitNum: 1,
+            visitFrom: null,
+            visitTo: null,
+            dx: null,
+            totalTxTime: null,
+            totalMinCode: null,
+            requireAuth: false,
+            notes: []
+        },
+        {
+            id: "P005",
+            accountNum: "P005",
+            firstName: 'Jason',
+            lastName: 'Hansen',
+            dob: new Date('1988-11-03T06:00:10.000Z'),
+            gender: "female",
+            insuranceName: "BCBC",
+            medicareFlag: null,
+            authVisits: 1,
+            visitNum: 1,
+            visitFrom: null,
+            visitTo: null,
+            dx: null,
+            totalTxTime: null,
+            totalMinCode: null,
+            requireAuth: false,
+            notes: []
         }
+
+
     ];
 
     this.getTotalVisits = function (patientId, date) {
